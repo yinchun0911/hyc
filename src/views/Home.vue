@@ -4,11 +4,13 @@
     <div class="banner">
       <div class="swiper-container" id="gallery">
         <div class="swiper-wrapper">
-          <div class="swiper-slide item_1"></div>
-          <div class="swiper-slide item_2"></div>
-          <div class="swiper-slide item_1"></div>
-          <div class="swiper-slide item_2"></div>
-          <div class="swiper-slide item_1"></div>
+          <div class="swiper-slide">
+            <img src="../assets/images/banner.png" alt="">
+          </div>
+          <div class="swiper-slide"><img src="../assets/images/banner.png" alt=""></div>
+          <div class="swiper-slide"><img src="../assets/images/banner.png" alt=""></div>
+          <div class="swiper-slide"><img src="../assets/images/banner.png" alt=""></div>
+          <div class="swiper-slide"><img src="../assets/images/banner.png" alt=""></div>
         </div>
         <!-- 如果需要分页器 -->
         <div class="swiper-pagination"></div>
@@ -144,6 +146,9 @@ export default {
         display: block;
         width: 7.1rem;
         height: 3rem;
+        img{
+          width: 100%;
+        }
       }
       .item_1{
         background: url('../assets/images/banner.png') no-repeat center 0;

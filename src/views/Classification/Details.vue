@@ -5,11 +5,11 @@
             <div class="banner">
                 <div class="swiper-container" id="gallery">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide item_1"></div>
-                        <div class="swiper-slide item_2"></div>
-                        <div class="swiper-slide item_1"></div>
-                        <div class="swiper-slide item_2"></div>
-                        <div class="swiper-slide item_1"></div>
+                        <div class="swiper-slide"><img src="../../assets/images/classIfication/box-01.png" alt=""></div>
+                        <div class="swiper-slide"><img src="../../assets/images/classIfication/box-01.png" alt=""></div>
+                        <div class="swiper-slide"><img src="../../assets/images/classIfication/box-01.png" alt=""></div>
+                        <div class="swiper-slide"><img src="../../assets/images/classIfication/box-01.png" alt=""></div>
+                        <div class="swiper-slide"><img src="../../assets/images/classIfication/box-01.png" alt=""></div>
                     </div>
                     <!-- 如果需要分页器 -->
                     <!--        <div class="swiper-pagination"></div>-->
@@ -173,11 +173,14 @@
             margin-bottom: 1.1rem;
             .banner{
                 width: 100%;
-                padding: 0 .2rem;
-                margin-top: 1.68rem;
+                background-color: #fff;
                 .swiper-slide{
                     display: block;
                     height: 3.98rem;
+                    img{
+                        width: 100%;
+                        height: 100%;
+                    }
                 }
                 .item_1{
                     background: url('../../assets/images/classIfication/box-01.png') no-repeat center 0;
