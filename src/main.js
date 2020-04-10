@@ -8,10 +8,13 @@ import common from '@/js/common.js'
 import cookie from '@/js/cookie.js'
 /**jquery及相关**/
 import  '@/assets/libs/jQuery.forceCache.js'
+import Vant from 'vant';
+import 'vant/lib/index.css';
 
 Vue.config.productionTip = false
 Vue.prototype.cookie = cookie
 
+Vue.use(Vant);
 Vue.use(ElementUI);
 Vue.use(common);
 

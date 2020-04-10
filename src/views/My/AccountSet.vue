@@ -1,7 +1,39 @@
 <template>
     <div class="accountSet">
         <ListHeader :title="title" :showHeadFr="false"></ListHeader>
-        <div class="content"></div>
+        <div class="content">
+            <div class="top">
+                <label>头像设置</label>
+                <div class="user_pic">
+                    <el-upload
+                            class="head_img"
+                            action="https://jsonplaceholder.typicode.com/posts/"
+                            :show-file-list="false"
+                            :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload">
+                        <img :src="userInfo.avatar" class="avatar">
+                        <i class="el-icon-arrow-right"></i>
+                    </el-upload>
+                </div>
+            </div>
+            <div class="user-form">
+                <ul>
+                    <li><label>昵称设置</label><input type="text" placeholder="请输入您的昵称"></li>
+                    <li><label>手机号码</label><input type="text" placeholder="请输入您的手机号码"></li>
+                    <li><label>出生日期</label><input type="text" placeholder="请输入您的出生年月日"></li>
+                    <li>
+                        <label class="w2">性    别</label>
+                        <div class="radio-box">
+                            <el-radio v-model="radio" label="1">男</el-radio>
+                            <el-radio v-model="radio" label="2">女</el-radio>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="btns">
+                <button>保 存</button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -11,7 +43,28 @@
         name: "accountSet",
         data(){
             return{
-                title:'账户设置'
+                title:'账户设置',
+                userInfo: {
+                    avatar: require('../../assets/images/my/user-pic.png')
+                },
+                radio:'1'
+            }
+        },
+        methods:{
+            handleAvatarSuccess(res, file) {
+                this.userInfo.avatar = URL.createObjectURL(file.raw);
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
             }
         },
         components: {
@@ -20,6 +73,88 @@
     }
 </script>
 
-<style scoped>
+<style lang="less">
+    .accountSet{
+        .content{
+            margin-top: 1.02rem;
+            .top{
+                width: 100%;
+                height: 1.6rem;
+                line-height: 1.6rem;
+                background-color: #fff;
+                padding: 0 .2rem;
+                .user_pic{
+                    width: 1.88rem;
+                    height: 1.6rem;
+                    float: right;
+                    .head_img{
+                        width: 100%;
+                        height: 100%;
+                        .el-upload{
+                            width: 100%;
+                            height: 100%;
+                            img{
+                                width: 1.1rem;
+                                height: 1.1rem;
+                            }
+                            .el-icon-arrow-right{
+                                font-size: 20px;
+                                padding-left: .2rem;
+                            }
+                        }
+                    }
+                }
+            }
+            .user-form{
+                background-color: #fff;
+                overflow: hidden;
+                padding: 0 .2rem;
+                margin-top: .2rem;
+                ul{
+                    li{
+                        height: .8rem;
+                        line-height: .8rem;
+                        border-bottom: .02rem solid #f0f3fa;
+                        font-size: .26rem;
+                        label{
+                            width: 1.37rem;
+                            display: inline-block;
+                            color: #4c4c4c;
+                        }
+                        .w2{
+                            letter-spacing: .2rem;
+                        }
+                        .radio-box{
+                            width:5.7rem;
+                            height: .8rem;
+                            display: inline-block;
+                        }
+                        input[type=text]{
+                            width:5.7rem;
+                            height: .8rem;
+                            line-height: .8rem;
+                            border: 0;
+                        }
+                    }
+                }
+            }
+            .btns{
+                padding: 0 .2rem;
+                margin-top: .6rem;
+                button{
+                    width: 100%;
+                    height: .8rem;
+                    line-height: .8rem;
+                    text-align: center;
+                    font-size: .3rem;
+                    background-color: #83b7ff;
+                    color: #fff;
+                    margin-bottom: .45rem;
+                    border-color: #83b7ff;
+                    border-radius: .4rem;
+                }
+            }
+        }
 
+    }
 </style>
