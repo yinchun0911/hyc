@@ -1,0 +1,269 @@
+<template>
+    <div class="selectCardRoll">
+        <ListHeader :title="title" :showHeadFr="false"></ListHeader>
+        <div class="content">
+            <div class="timetime">
+                请在
+                <img :src="minute1" alt="">
+                <img :src="minute2" alt="">
+                <span>:</span>
+                <img :src="second1" alt="">
+                <img :src="second2" alt="">
+                内完成支付
+            </div>
+            <div class="orderMsg">
+                <ul>
+                    <li><label>订单编号：</label>2003261055591580</li>
+                    <li><label>下单时间：</label>2020-03-26  12:00:00</li>
+                    <li><label>合计：</label><span>198.00</span>（含运费：<span>0.00</span>）</li>
+                </ul>
+                <div class="checkbox">
+                    <el-checkbox v-model="checked"></el-checkbox><span>阅读并同意XXX <i>服务协议</i></span>
+                </div>
+            </div>
+            <div class="cardRoll">
+                <div>
+                    <span>剩余点数：315.2点</span>
+                    <p>VS-100196</p>
+                </div>
+            </div>
+            <div class="btns">
+                <button @click="dialogTableVisible = true">+添加卡片</button>
+                <button class="backBtn">立即支付<span>198.00</span></button>
+            </div>
+            <!--添加卡片-->
+            <el-dialog title="" :visible.sync="dialogTableVisible" top="40vh" :close-on-click-modal="false">
+                <ul>
+                    <li><label>您的卡号：</label><span>点击扫码获得卡号</span></li>
+                    <li><label>激  活  码：</label><input type="text" placeholder="请输入激活码"></li>
+                </ul>
+                <div class="footBtn">
+                    <button class="backBtn">确 定</button>
+                    <button @click="dialogTableVisible = false">取 消</button>
+                </div>
+            </el-dialog>
+
+        </div>
+    </div>
+</template>
+
+<script>
+    import ListHeader from '@/components/ListHeader.vue'
+    export default {
+        name: "selectCardRoll",
+        data(){
+            return{
+                title:'选择卡卷',
+                minute1:require('../../assets/images/time/0.png'),
+                minute2:require('../../assets/images/time/0.png'),
+                second1:require('../../assets/images/time/0.png'),
+                second2:require('../../assets/images/time/0.png'),
+                checked:false,
+                dialogTableVisible:false
+            }
+        },
+        methods:{
+            //添零函数
+             setNum(num){
+                if(num<10){
+                    num="0"+num;
+                }
+                return num;
+             },
+             getTime(){
+                 var time=1800;//30分钟换算成1800秒
+                 var that = this
+                 setInterval(function(){
+                     time=time-1;
+                     var minute=parseInt(time/60);
+                     var second=parseInt(time%60);
+                     minute=that.setNum(minute);
+                     second=that.setNum(second)
+                     // 双位数变成单位数
+                     var m1=minute%10;
+                     var m2=parseInt(minute/10);
+                     var s1=second%10;
+                     var s2=parseInt(second/10);
+                     that.minute1=require('../../assets/images/time/'+m2+'.png');
+                     that.minute2=require('../../assets/images/time/'+m1+'.png');
+                     that.second1=require('../../assets/images/time/'+s2+'.png');
+                     that.second2=require('../../assets/images/time/'+s1+'.png');
+                 },1000);
+
+             }
+        },
+        mounted() {
+            this.getTime()
+
+        },
+        components: {
+            ListHeader
+        },
+    }
+</script>
+
+<style lang="less">
+    .selectCardRoll{
+        .content{
+            margin-top: .88rem;
+            margin-bottom: 1.1rem;
+            .time{
+                height: 1.7rem;
+                line-height: 1.7rem;
+                text-align: center;
+                font-size: .3rem;
+                color: #4c4c4c;
+                img{
+                    width: .3rem;
+                    height: .48rem;
+                    +img{
+                        margin-left: .08rem;
+                    }
+                }
+                span{
+                    color: #ff5644;
+                    font-size: .4rem;
+                    font-weight: bolder;
+                }
+            }
+            .orderMsg{
+                background-color: #fff;
+                padding: .2rem;
+                ul{
+                    li{
+                        font-size: .26rem;
+                        color: #4c4c4c;
+                        line-height: .5rem;
+                        span{
+                            font-size: .3rem;
+                            color: #ff5644;
+                            position: relative;
+                            padding-left: .25rem;
+                            &:before{
+                                content: '';
+                                position: absolute;
+                                left: 0;
+                                top: 50%;
+                                margin-top: -.1rem;
+                                width: .19rem;
+                                height: .21rem;
+                                background: url("../../assets/images/classIfication/money.png") no-repeat;
+                                background-size: 100% 100%;
+                            }
+                        }
+                    }
+                }
+                .checkbox{
+                    margin-top: .4rem;
+                    span{
+                        padding-left: .1rem;
+                        font-size: .26rem;
+                        color: #808080;
+                        i{
+                            color: #83b7ff;
+                            text-decoration:underline
+                        }
+                    }
+                }
+            }
+            .cardRoll{
+                padding: .35rem 0;
+                div{
+                    position: relative;
+                    margin: 0 auto;
+                    width: 7.26rem;
+                    height: 2.15rem;
+                    background: url("../../assets/images/classIfication/cardRoll-01.png") no-repeat;
+                    background-size: 100% 100%;
+                    span{
+                        position: absolute;
+                        bottom: .52rem;
+                        left: 2rem;
+                        font-size: .28rem;
+                        color: #fff;
+                    }
+                    p{
+                        font-size: .26rem;
+                        color: #fff;
+                        position: absolute;
+                        right: .28rem;
+                        top: .5rem;
+                    }
+                }
+            }
+            .btns{
+                padding: 0 .2rem;
+                button{
+                    width: 100%;
+                    height: .8rem;
+                    line-height: .8rem;
+                    text-align: center;
+                    font-size: .3rem;
+                    color: #83b7ff;
+                    margin-bottom: .45rem;
+                    border-color: #83b7ff;
+                    border-radius: .4rem;
+                }
+                .backBtn{
+                    background-color: #83b7ff;
+                    color: #fff;
+                    span{
+                        position: relative;
+                        padding-left: .3rem;
+                        &:before{
+                            content: '';
+                            position: absolute;
+                            left: .1rem;
+                            top: 50%;
+                            margin-top: -.1rem;
+                            width: .19rem;
+                            height: .21rem;
+                            background: url("../../assets/images/classIfication/money-01.png") no-repeat;
+                            background-size: 100% 100%;
+                        }
+                    }
+                }
+            }
+        }
+        .el-dialog{
+            width: 6rem;
+            border-radius: .2rem;
+            .el-dialog__body{
+                padding: .2rem .5rem;
+                ul{
+                    li{
+                        height: .8rem;
+                        line-height: .8rem;
+                        border-bottom: .02rem solid #e6e6e6;
+                        font-size: .3rem;
+                        color: #4c4c4c;
+                        &:first-child{
+                            margin-bottom: .3rem;
+                        }
+                        input{
+                            border: 0;
+                            margin-bottom: .08rem;
+                        }
+                    }
+                }
+                .footBtn{
+                    button{
+                        width: 100%;
+                        height: .8rem;
+                        line-height: .8rem;
+                        text-align: center;
+                        font-size: .3rem;
+                        color: #83b7ff;
+                        margin-top: .3rem;
+                        border-color: #83b7ff;
+                        border-radius: .4rem;
+                    }
+                    .backBtn{
+                        background-color: #83b7ff;
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+</style>

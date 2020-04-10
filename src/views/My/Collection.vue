@@ -1,0 +1,347 @@
+<template>
+    <div class="collection">
+        <ListHeader :title="title" :text="text" :showHeadFr="false" :showMyHeadFr="true" @clickBtn="succseClick(text)"></ListHeader>
+        <div class="content">
+            <div class="listBox">
+                <h2>3月26日</h2>
+                <div class="list">
+                    <div class="list-fl fl">
+                        <el-checkbox v-model="checked" v-if="showChecked"></el-checkbox>
+                        <div class="img">
+                            <img src="../../assets/images/classIfication/list-11.png" alt="">
+                        </div>
+                    </div>
+                    <div class="list-fr" :class="{marLeft:showChecked}">
+                        <h3>皇家香雪大米4kg礼盒装</h3>
+                        <i class="tag">4kg礼盒装</i>
+                        <div class="prices">
+                            <span class="jg">60.00</span>
+                            <el-button type="primary" round icon="el-icon-plus"></el-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="list">
+                    <div class="list-fl fl">
+                        <el-checkbox v-model="checked" v-if="showChecked"></el-checkbox>
+                        <div class="img">
+                            <img src="../../assets/images/classIfication/list-11.png" alt="">
+                        </div>
+                    </div>
+                    <div class="list-fr" :class="{marLeft:showChecked}">
+                        <h3>皇家香雪大米4kg礼盒装</h3>
+                        <i class="tag">4kg礼盒装</i>
+                        <div class="prices">
+                            <span class="jg">60.00</span>
+                            <el-button type="primary" round icon="el-icon-plus"></el-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="list">
+                    <div class="list-fl fl">
+                        <el-checkbox v-model="checked" v-if="showChecked"></el-checkbox>
+                        <div class="img">
+                            <img src="../../assets/images/classIfication/list-11.png" alt="">
+                        </div>
+                    </div>
+                    <div class="list-fr" :class="{marLeft:showChecked}">
+                        <h3>皇家香雪大米4kg礼盒装</h3>
+                        <i class="tag">4kg礼盒装</i>
+                        <div class="prices">
+                            <span class="jg">60.00</span>
+                            <el-button type="primary" round icon="el-icon-plus"></el-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="list">
+                    <div class="list-fl fl">
+                        <el-checkbox v-model="checked" v-if="showChecked"></el-checkbox>
+                        <div class="img">
+                            <img src="../../assets/images/classIfication/list-11.png" alt="">
+                        </div>
+                    </div>
+                    <div class="list-fr" :class="{marLeft:showChecked}">
+                        <h3>皇家香雪大米4kg礼盒装</h3>
+                        <i class="tag">4kg礼盒装</i>
+                        <div class="prices">
+                            <span class="jg">60.00</span>
+                            <el-button type="primary" round icon="el-icon-plus"></el-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="list">
+                    <div class="list-fl fl">
+                        <el-checkbox v-model="checked" v-if="showChecked"></el-checkbox>
+                        <div class="img">
+                            <img src="../../assets/images/classIfication/list-11.png" alt="">
+                        </div>
+                    </div>
+                    <div class="list-fr" :class="{marLeft:showChecked}">
+                        <h3>皇家香雪大米4kg礼盒装</h3>
+                        <i class="tag">4kg礼盒装</i>
+                        <div class="prices">
+                            <span class="jg">60.00</span>
+                            <el-button type="primary" round icon="el-icon-plus"></el-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="listBox">
+                <h2>3月25日</h2>
+                <div class="list">
+                    <div class="list-fl fl">
+                        <el-checkbox v-model="checked" v-if="showChecked"></el-checkbox>
+                        <div class="img">
+                            <img src="../../assets/images/classIfication/list-11.png" alt="">
+                        </div>
+                    </div>
+                    <div class="list-fr" :class="{marLeft:showChecked}">
+                        <h3>皇家香雪大米4kg礼盒装</h3>
+                        <i class="tag">4kg礼盒装</i>
+                        <div class="prices">
+                            <span class="jg">60.00</span>
+                            <el-button type="primary" round icon="el-icon-plus"></el-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="list">
+                    <div class="list-fl fl">
+                        <el-checkbox v-model="checked" v-if="showChecked"></el-checkbox>
+                        <div class="img">
+                            <img src="../../assets/images/classIfication/list-11.png" alt="">
+                        </div>
+                    </div>
+                    <div class="list-fr" :class="{marLeft:showChecked}">
+                        <h3>皇家香雪大米4kg礼盒装</h3>
+                        <i class="tag">4kg礼盒装</i>
+                        <div class="prices">
+                            <span class="jg">60.00</span>
+                            <el-button type="primary" round icon="el-icon-plus"></el-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="list">
+                    <div class="list-fl fl">
+                        <el-checkbox v-model="checked" v-if="showChecked"></el-checkbox>
+                        <div class="img">
+                            <img src="../../assets/images/classIfication/list-11.png" alt="">
+                        </div>
+                    </div>
+                    <div class="list-fr" :class="{marLeft:showChecked}">
+                        <h3>皇家香雪大米4kg礼盒装</h3>
+                        <i class="tag">4kg礼盒装</i>
+                        <div class="prices">
+                            <span class="jg">60.00</span>
+                            <el-button type="primary" round icon="el-icon-plus"></el-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="list">
+                    <div class="list-fl fl">
+                        <el-checkbox v-model="checked" v-if="showChecked"></el-checkbox>
+                        <div class="img">
+                            <img src="../../assets/images/classIfication/list-11.png" alt="">
+                        </div>
+                    </div>
+                    <div class="list-fr" :class="{marLeft:showChecked}">
+                        <h3>皇家香雪大米4kg礼盒装</h3>
+                        <i class="tag">4kg礼盒装</i>
+                        <div class="prices">
+                            <span class="jg">60.00</span>
+                            <el-button type="primary" round icon="el-icon-plus"></el-button>
+                        </div>
+                    </div>
+                </div>
+                <div class="list">
+                    <div class="list-fl fl">
+                        <el-checkbox v-model="checked" v-if="showChecked"></el-checkbox>
+                        <div class="img">
+                            <img src="../../assets/images/classIfication/list-11.png" alt="">
+                        </div>
+                    </div>
+                    <div class="list-fr" :class="{marLeft:showChecked}">
+                        <h3>皇家香雪大米4kg礼盒装</h3>
+                        <i class="tag">4kg礼盒装</i>
+                        <div class="prices">
+                            <span class="jg">60.00</span>
+                            <el-button type="primary" round icon="el-icon-plus"></el-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="collection-foot" v-if="showChecked">
+            <div class="warp">
+                <el-checkbox v-model="checked">全选</el-checkbox>
+                <button>删 除</button>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    import ListHeader from '@/components/ListHeader.vue'
+    export default {
+        name: "collection",
+        data(){
+            return{
+                title:'我的收藏',
+                text:'管理',
+                checked:false,
+                showChecked:false
+            }
+        },
+        methods:{
+            succseClick(text){
+                if(text=='管理'){
+                    this.showChecked = true
+                    this.text = '完成'
+                }else{
+                    this.showChecked = false
+                    this.text = '管理'
+                }
+
+            }
+        },
+        components: {
+            ListHeader,
+        },
+    }
+</script>
+
+<style lang="less">
+    .collection{
+        .content{
+            margin-top: 1.08rem;
+            margin-bottom: 1rem;
+            .listBox{
+                background-color: #fff;
+                overflow: hidden;
+                border-radius: .2rem;
+                margin: .2rem;
+                padding: 0 .3rem .3rem;
+                h2{
+                    height: .8rem;
+                    line-height: .8rem;
+                    font-size: .24rem;
+                    font-weight: normal;
+                    border-bottom: .02rem solid #f0f3fa;
+                }
+                .list{
+                    margin-top: .25rem;
+                    .el-checkbox{
+                        line-height: 1.53rem;
+                        margin-right: .2rem;
+                    }
+                    .el-checkbox__inner{
+                        width: .4rem;
+                        height: .4rem;
+                        border-radius: 50%;
+                        &:after{
+                            left: 7px;
+                            top:3px;
+                        }
+                    }
+                    .list-fl{
+                        width: 2.08rem;
+                        height: 1.53rem;
+                        font-size:0;
+                        display:table;
+                        .img{
+                            display:table-cell;
+                            text-align: center;
+                            vertical-align:middle;
+                            width: 100%;
+                            height: 1.53rem;
+                            border: .02rem solid #e6e6e6;
+                            img{
+                                max-width: 2.08rem;
+                                max-height: 1.53rem;
+                            }
+                        }
+                    }
+                    .list-fr{
+                        margin-left: 2.44rem;
+                        h3{
+                            font-size: .24rem;
+                            color: #4c4c4c;
+                        }
+                        i.tag{
+                            display: inline-block;
+                            margin-top: .1rem;
+                            color: #83b7ff;
+                            font-size: .22rem;
+                            border: .02rem solid #83b7ff;
+                            padding: .02rem .1rem;
+                            border-radius: .2rem;
+                        }
+                        .prices{
+                            margin-top: .4rem;
+                            span.jg{
+                                font-size: .3rem;
+                                color: #ff5644;
+                                position: relative;
+                                font-weight: bolder;
+                                padding-left: .25rem;
+                                &:before{
+                                    content: '';
+                                    position: absolute;
+                                    left: 0;
+                                    top: 50%;
+                                    margin-top: -.1rem;
+                                    width: .19rem;
+                                    height: .21rem;
+                                    background: url("../../assets/images/classIfication/money.png") no-repeat;
+                                    background-size: 100% 100%;
+                                }
+                            }
+                            .el-button{
+                                float: right;
+                                width: .4rem;
+                                height: .4rem;
+                                line-height: .4rem;
+                                padding: 0;
+                            }
+                        }
+                    }
+                    .marLeft{
+                        margin-left: 2.84rem;
+                    }
+                }
+            }
+        }
+        .collection-foot{
+            width: 100%;
+            height: .8rem;
+            line-height: .8rem;
+            background-color: #fff;
+            overflow: hidden;
+            padding: 0 .2rem;
+            position: fixed;
+            bottom:0;
+            z-index: 1000;
+            .warp{
+                .el-checkbox__inner{
+                    width: .4rem;
+                    height: .4rem;
+                    border-radius: 50%;
+                    &:after{
+                        left: 7px;
+                        top:3px;
+                    }
+                }
+                button{
+                    float: right;
+                    width: 2rem;
+                    height: .6rem;
+                    line-height: .6rem;
+                    background-color: #83b7ff;
+                    color: #fff;
+                    font-size: .3rem;
+                    border-radius: .4rem;
+                    margin-top: .1rem;
+                    border: 0;
+                }
+            }
+        }
+    }
+</style>

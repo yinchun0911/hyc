@@ -1,0 +1,100 @@
+<template>
+    <div class="foot">
+        <ul>
+            <li v-for="(item,index) in footerNavList" :key='index' @click="liclick(item.path)">
+                <template v-if="index==2">
+                    <el-badge :value="0" class="item">
+                        <img :src="$route.path === item.path ? item.icon : item.normal" alt="">
+                    </el-badge>
+                    <p :class="$route.path === item.path ? 'active' : ''">{{item.value}}</p>
+                </template>
+                <template v-else>
+                    <img :src="$route.path === item.path ? item.icon : item.normal" alt="">
+                    <p :class="$route.path === item.path ? 'active' : ''">{{item.value}}</p>
+                </template>
+            </li>
+        </ul>
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "Footer",
+        data(){
+            return{
+                // current:0,
+                footerNavList:[
+                    {
+                        value:'首页',
+                        path:'/',
+                        normal:require('../assets/images/footer-01.png'),
+                        icon:require('../assets/images/footer-active-01.png'),
+                    },
+                    {
+                        value:'分类',
+                        path:'/classification',
+                        normal:require('../assets/images/footer-02.png'),
+                        icon:require('../assets/images/footer-active-02.png'),
+                    },
+                    {
+                        value:'购物车',
+                        path:'/Shopping',
+                        normal:require('../assets/images/footer-03.png'),
+                        icon:require('../assets/images/footer-active-03.png'),
+                    },
+                    {
+                        value:'我的',
+                        path:'/my',
+                        normal:require('../assets/images/footer-04.png'),
+                        icon:require('../assets/images/footer-active-04.png'),
+                    }
+                ]
+            }
+        },
+        methods:{
+            liclick(path){
+                this.$router.replace(path);
+            }
+        }
+    }
+</script>
+
+<style lang="less">
+    .foot{
+        width: 100%;
+        background-color: #fff;
+        position: fixed;
+        bottom: 0;
+        ul{
+            display: flex;
+            justify-content: space-between;
+            li{
+                padding-top: .15rem;
+                width: 25%;
+                text-align: center;
+                .el-badge__content{
+                    width: .3rem;
+                    height: .3rem;
+                    line-height: .3rem;
+                    padding: 0;
+                    font-size: .16rem;
+                    border-radius: 50%;
+                    border: 0;
+                }
+                img{
+                    width:.42rem;
+                    height:.44rem;
+                }
+                p{
+                    text-align: center;
+                    font-size: .24rem;
+                    color: #808080;
+                    padding: .1rem 0;
+                }
+                .active{
+                    color: #83b7ff;
+                }
+            }
+        }
+    }
+</style>
