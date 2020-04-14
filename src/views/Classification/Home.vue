@@ -2,95 +2,142 @@
     <div class="classHome">
         <ClassHeader @sweepCodeClick="sweepCodeClick" @searchClick="searchClick" @shopClick="shopClick"></ClassHeader>
         <div class="content">
-            <el-tabs tab-position="left">
-                <el-tab-pane label="食品饮料">
-                    <div class="box">
-                        <h2>食品饮料</h2>
-                        <ul>
-                            <li>
-                                <div class="img">
-                                    <div class="tgd">
-                                        <img src="../../assets/images/classIfication/list-01.png" alt="">
-                                    </div>
-                                </div>
-                                <p>米</p>
-                            </li>
-                            <li>
-                                <div class="img">
-                                    <div class="tgd">
-                                        <img src="../../assets/images/classIfication/list-02.png" alt="">
-                                    </div>
-                                </div>
-                                <p>食用油</p>
-                            </li>
-                            <li>
-                                <div class="img">
-                                    <div class="tgd">
-                                        <img src="../../assets/images/classIfication/list-03.png" alt="">
-                                    </div>
-                                </div>
-                                <p>调味品</p>
-                            </li>
-                            <li>
-                                <div class="img">
-                                    <div class="tgd">
-                                        <img src="../../assets/images/classIfication/list-04.png" alt="">
-                                    </div>
-                                </div>
-                                <p>烘培原料</p>
-                            </li>
-                            <li>
-                                <div class="img">
-                                    <div class="tgd">
-                                        <img src="../../assets/images/classIfication/list-05.png" alt="">
-                                    </div>
-                                </div>
-                                <p>南北干货</p>
-                            </li>
-                        </ul>
-                        <h2>优选礼包</h2>
-                        <ul>
-                            <li>
-                                <div class="img">
-                                    <div class="tgd">
-                                        <img src="../../assets/images/classIfication/list-06.png" alt="">
-                                    </div>
-                                </div>
-                                <p>坚果礼包</p>
-                            </li>
-                            <li>
-                                <div class="img">
-                                    <div class="tgd">
-                                        <img src="../../assets/images/classIfication/list-07.png" alt="">
-                                    </div>
-                                </div>
-                                <p>营养礼包</p>
-                            </li>
-                        </ul>
-                        <h2>优选礼包</h2>
-                        <ul>
-                            <li>
-                                <div class="img">
-                                    <div class="tgd">
-                                        <img src="../../assets/images/classIfication/list-08.png" alt="">
-                                    </div>
-                                </div>
-                                <p>可口可乐</p>
-                            </li>
-                        </ul>
-                    </div>
-                </el-tab-pane>
-                <el-tab-pane label="鲜花蛋糕">鲜花蛋糕</el-tab-pane>
-                <el-tab-pane label="时令水果">时令水果</el-tab-pane>
-                <el-tab-pane label="书店">书店</el-tab-pane>
-                <el-tab-pane label="美妆护肤">美妆护肤</el-tab-pane>
-                <el-tab-pane label="生活服务">生活服务</el-tab-pane>
-                <el-tab-pane label="卫生服务">卫生服务</el-tab-pane>
-                <el-tab-pane label="个人护理">个人护理</el-tab-pane>
-                <el-tab-pane label="厨房用具">厨房用具</el-tab-pane>
-                <el-tab-pane label="亲子母婴">亲子母婴</el-tab-pane>
-            </el-tabs>
-
+            <van-sidebar v-model="activeKey" @change="onChange">
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+                <van-sidebar-item title="标签名称" />
+            </van-sidebar>
+            <div class="box">
+                <h2>食品饮料</h2>
+                <ul>
+                    <li>
+                        <div class="img">
+                            <div class="tgd">
+                                <img src="../../assets/images/classIfication/list-01.png" alt="">
+                            </div>
+                        </div>
+                        <p>米</p>
+                    </li>
+                    <li>
+                        <div class="img">
+                            <div class="tgd">
+                                <img src="../../assets/images/classIfication/list-02.png" alt="">
+                            </div>
+                        </div>
+                        <p>食用油</p>
+                    </li>
+                    <li>
+                        <div class="img">
+                            <div class="tgd">
+                                <img src="../../assets/images/classIfication/list-03.png" alt="">
+                            </div>
+                        </div>
+                        <p>调味品</p>
+                    </li>
+                    <li>
+                        <div class="img">
+                            <div class="tgd">
+                                <img src="../../assets/images/classIfication/list-04.png" alt="">
+                            </div>
+                        </div>
+                        <p>烘培原料</p>
+                    </li>
+                    <li>
+                        <div class="img">
+                            <div class="tgd">
+                                <img src="../../assets/images/classIfication/list-05.png" alt="">
+                            </div>
+                        </div>
+                        <p>南北干货</p>
+                    </li>
+                </ul>
+                <h2>优选礼包</h2>
+                <ul>
+                    <li>
+                        <div class="img">
+                            <div class="tgd">
+                                <img src="../../assets/images/classIfication/list-06.png" alt="">
+                            </div>
+                        </div>
+                        <p>坚果礼包</p>
+                    </li>
+                    <li>
+                        <div class="img">
+                            <div class="tgd">
+                                <img src="../../assets/images/classIfication/list-07.png" alt="">
+                            </div>
+                        </div>
+                        <p>营养礼包</p>
+                    </li>
+                </ul>
+                <h2>优选礼包</h2>
+                <ul>
+                    <li>
+                        <div class="img">
+                            <div class="tgd">
+                                <img src="../../assets/images/classIfication/list-08.png" alt="">
+                            </div>
+                        </div>
+                        <p>可口可乐</p>
+                    </li>
+                </ul>
+                <h2>优选礼包</h2>
+                <ul>
+                    <li>
+                        <div class="img">
+                            <div class="tgd">
+                                <img src="../../assets/images/classIfication/list-08.png" alt="">
+                            </div>
+                        </div>
+                        <p>可口可乐</p>
+                    </li>
+                </ul>
+                <h2>优选礼包</h2>
+                <ul>
+                    <li>
+                        <div class="img">
+                            <div class="tgd">
+                                <img src="../../assets/images/classIfication/list-08.png" alt="">
+                            </div>
+                        </div>
+                        <p>可口可乐</p>
+                    </li>
+                </ul>
+            </div>
         </div>
           <Footer></Footer>
     </div>
@@ -102,7 +149,15 @@
     import Footer from '@/components/Footer.vue'
     export default {
         name: "home",
+        data(){
+            return{
+                activeKey:0
+            }
+        },
         methods:{
+            onChange(val){
+                console.log(val)
+            },
             // 扫一扫
             sweepCodeClick(){
                 console.log('扫一扫')
@@ -125,26 +180,32 @@
 
 <style lang="less">
     .classHome{
-        .el-tabs{
-            background-color: #f0f3fa;
+        .van-sidebar{
+            width: 1.52rem;
+            height: calc(100vh - 2.05rem);
+            float: left;
+            .van-sidebar-item{
+                background-color: #f0f3fa;
+            }
+            .van-sidebar-item__text{
+                font-size: .22rem;
+                color: #b2b2b2;
+            }
+            .van-sidebar-item--select{
+                border-color: #83b7ff;
+                background-color: #fff;
+                .van-sidebar-item__text{
+                    color: #83b7ff;
+
+                }
+            }
         }
-        .el-tabs__header{
-            /*background-color: #f0f3fa;*/
-        }
-        .el-tabs__item{
-            font-size: .22rem;
-            color: #b2b2b2;
-            height: 1rem;
-            line-height: 1rem;
-        }
-        .el-tabs__item.is-active{
+        .box{
             background-color: #fff;
-        }
-        .el-tabs__active-bar{
-            height: 1rem !important;
-        }
-        .el-tabs__content{
-            background-color: #fff;
+            margin-left: 1.52rem;
+            height: calc(100vh - 2.05rem);
+            overflow-y: auto;
+            overflow-x: hidden;
             h2{
                 width: 100%;
                 height: 1rem;
@@ -188,16 +249,5 @@
                 }
             }
         }
-    }
-    .classHome .el-tabs--left .el-tabs__active-bar.is-left, .el-tabs--left .el-tabs__nav-wrap.is-left::after{
-        left: 0;
-        right: auto;
-    }
-    .classHome .el-tabs--left .el-tabs__header.is-left{
-        margin-right: 0;
-    }
-    .classHome .el-tabs__nav-wrap:after{
-        content: '';
-        display: none;
     }
 </style>
