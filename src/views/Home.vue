@@ -1,16 +1,15 @@
 <template>
   <div class="home">
-    <SearchHeader @sweepCodeClick="sweepCodeClick" @msgEventClick="msgEventClick" @searchClick="searchClick"></SearchHeader>
+    <SearchHeader @sweepCodeClick="sweepCodeClick" @msgEventClick="msgEventClick" :badgeNum="msgNum" @searchClick="searchClick"></SearchHeader>
     <div class="banner">
       <div class="swiper-container" id="gallery">
         <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <img src="../assets/images/banner.png" alt="">
+
+        <template v-for="(swiper,index) in swiperList">
+          <div class="swiper-slide" :data-url="swiper.jumpUrl">
+            <img :src="swiper.carouselPic" alt="">
           </div>
-          <div class="swiper-slide"><img src="../assets/images/banner.png" alt=""></div>
-          <div class="swiper-slide"><img src="../assets/images/banner.png" alt=""></div>
-          <div class="swiper-slide"><img src="../assets/images/banner.png" alt=""></div>
-          <div class="swiper-slide"><img src="../assets/images/banner.png" alt=""></div>
+       </template>
         </div>
         <!-- 如果需要分页器 -->
         <div class="swiper-pagination"></div>
@@ -20,7 +19,7 @@
       <h2>惠原仓政企职工生活服务平台</h2>
       <div class="nav">
         <ul>
-          <li v-for="item in navList"><img :src="item.src" alt="">{{item.name}}</li>
+          <li v-for="item in navList" :data-link="item.menuLink"><img :src="item.menuIcon" alt="">{{item.menuName}}</li>
         </ul>
       </div>
       <div class="main">
@@ -30,36 +29,34 @@
       <div class="more-box">
         <img src="../assets/images/main-03.png" alt="">
       </div>
-      <div class="specialArea">
-        <h3>电影专区<span>更多&gt;</span></h3>
-        <div class="areaBanner">
-          <img src="../assets/images/specialArea-01.jpg" alt="">
-        </div>
-        <ul>
-          <li>
-            <img src="../assets/images/specialArea-list-01.jpg" alt="">
-            <p class="title">福冈</p>
-            <p class="introduce">海骁和宰文大学时海骁和宰文大学时海骁和宰文大学时</p>
-          </li>
-          <li>
-            <img src="../assets/images/specialArea-list-02.jpg" alt="">
-            <p class="title">北京女子图鉴</p>
-            <p class="introduce">讲述了整容医生陈讲述了整容医生陈讲述了整容医生陈</p>
-          </li>
-          <li>
-            <img src="../assets/images/specialArea-list-03.jpg" alt="">
-            <p class="title">优点</p>
-            <p class="introduce">暂无简述</p>
-          </li>
-        </ul>
-      </div>
-      <div class="specialArea">
-        <h3 class="recharge">充值专区<span>更多&gt;</span></h3>
-        <div class="areaBanner">
-          <img src="../assets/images/specialArea-02.jpg" alt="">
-        </div>
-      </div>
+
+
+<template v-for="(special,index) in specialArea">
+    <div class="specialArea" :id="special.activityAreaID">
+            <h3>{{ special.activityAreaName }}<span>更多&gt;</span></h3>
+            <div class="areaBanner">
+              <img :src="special.activityAreaPic" alt="">
+            </div>
+            <ul>
+              <li>
+                <img src="../assets/images/specialArea-list-01.jpg" alt="">
+                <p class="title">福冈</p>
+                <p class="introduce">海骁和宰文大学时海骁和宰文大学时海骁和宰文大学时</p>
+              </li>
+              <li>
+                <img src="../assets/images/specialArea-list-02.jpg" alt="">
+                <p class="title">北京女子图鉴</p>
+                <p class="introduce">讲述了整容医生陈讲述了整容医生陈讲述了整容医生陈</p>
+              </li>
+              <li>
+                <img src="../assets/images/specialArea-list-03.jpg" alt="">
+                <p class="title">优点</p>
+                <p class="introduce">暂无简述</p>
+              </li>
+            </ul>
     </div>
+</template>
+</div>
     <Footer></Footer>
   </div>
 </template>
@@ -70,41 +67,59 @@ import SearchHeader from '@/components/SearchHeader.vue'
 import Footer from '@/components/Footer.vue'
 import Swiper from 'swiper';
 import 'swiper/css/swiper.min.css';
+import { request, userRequest} from '@/js/request.js'
 export default {
   name: 'Home',
   data(){
+    this.getSwiperData();
+    this.getNavData();
+    this.getSpecialArea();
     return{
-      navList:[
-        {
-          src:require('../assets/images/nav-icon-01.png'),
-          name:'优选商城'
-        },
-        {
-          src:require('../assets/images/nav-icon-02.png'),
-          name:'惊喜礼包'
-        },
-        {
-          src:require('../assets/images/nav-icon-03.png'),
-          name:'蛋糕甜点'
-        },
-        {
-          src:require('../assets/images/nav-icon-04.png'),
-          name:'文娱热映'
-        },
-        {
-          src:require('../assets/images/nav-icon-05.png'),
-          name:'快乐阅读'
-        }
-      ]
+      swiperList:[],
+      navList:[],
+      specialArea:[],
+      specialTop:[],
+      msgNum:0
     }
   },
+
   methods:{
+
+    getSwiperData(){
+       //获取轮播图
+      var page=this;
+      request("/shopIndex/queryIndexCarousel",null).then(function (response) {
+        page.swiperList=response;
+
+       })
+    },
+    getNavData(){
+        //导航
+        var page=this;
+         request("/shopIndex/queryIndexMenu",null).then(function (response) {
+            page.navList=response;
+           })
+    },
+      getSpecialArea(){
+            var page=this;
+             request("/shopIndex/queryIndexActivityArea",null).then(function (response) {
+                page.specialArea=response;
+               })
+        },
+    getMsgNum(){
+            //导航
+            var page=this;
+             userRequest("/shopIndex/queryIndexMessageCount",null).then(function (response) {
+                page.msgNum=response;
+               })
+        },
     // 扫一扫
     sweepCodeClick(){
       console.log('扫一扫')
     },
     // 信息按钮
     msgEventClick(){
+
       console.log('信息按钮')
     },
     //搜索按钮
@@ -112,6 +127,8 @@ export default {
       console.log(val)
     }
   },
+
+
   mounted() {
     var gallerySwiper = new Swiper('#gallery', {
       spaceBetween: 10,

@@ -90,12 +90,16 @@
                 <el-tab-pane label="厨房用具">厨房用具</el-tab-pane>
                 <el-tab-pane label="亲子母婴">亲子母婴</el-tab-pane>
             </el-tabs>
+
         </div>
+          <Footer></Footer>
     </div>
+
 </template>
 
 <script>
     import ClassHeader from '@/components/ClassHeader.vue'
+    import Footer from '@/components/Footer.vue'
     export default {
         name: "home",
         methods:{
@@ -114,6 +118,7 @@
         },
         components: {
             ClassHeader,
+            Footer
         }
     }
 </script>

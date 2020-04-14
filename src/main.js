@@ -10,6 +10,11 @@ import cookie from '@/js/cookie.js'
 import  '@/assets/libs/jQuery.forceCache.js'
 import Vant from 'vant';
 import 'vant/lib/index.css';
+import axios from 'axios'
+import wx from 'weixin-js-sdk'
+
+Vue.prototype.wx = wx
+Vue.prototype.axios=axios;
 
 Vue.config.productionTip = false
 Vue.prototype.cookie = cookie
@@ -18,7 +23,7 @@ Vue.use(Vant);
 Vue.use(ElementUI);
 Vue.use(common);
 
-Vue.prototype.APIHOST = process.env.NODE_ENV === 'production' ? '//10.1.3.239:12315' : '/apis'
+Vue.prototype.APIHOST = process.env.NODE_ENV != 'production' ? '//39.98.82.142:9096' : '/apis'
 
 new Vue({
   router,
