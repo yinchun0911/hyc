@@ -3,73 +3,26 @@
         <ClassHeader @sweepCodeClick="sweepCodeClick" @searchClick="searchClick" @shopClick="shopClick"></ClassHeader>
         <div class="content">
             <el-tabs tab-position="left">
-                <el-tab-pane label="食品饮料">
-                    <div class="box">
-                        <h2>食品饮料</h2>
-                        <ul>
-                            <li>
-                                <div class="img">
-                                    <div class="tgd">
-                                        <img src="../../assets/images/classIfication/list-01.png" alt="">
-                                    </div>
-                                </div>
-                                <p>米</p>
-                            </li>
-                            <li>
-                                <div class="img">
-                                    <div class="tgd">
-                                        <img src="../../assets/images/classIfication/list-02.png" alt="">
-                                    </div>
-                                </div>
-                                <p>食用油</p>
-                            </li>
-                            <li>
-                                <div class="img">
-                                    <div class="tgd">
-                                        <img src="../../assets/images/classIfication/list-03.png" alt="">
-                                    </div>
-                                </div>
-                                <p>调味品</p>
-                            </li>
-                            <li>
-                                <div class="img">
-                                    <div class="tgd">
-                                        <img src="../../assets/images/classIfication/list-04.png" alt="">
-                                    </div>
-                                </div>
-                                <p>烘培原料</p>
-                            </li>
-                            <li>
-                                <div class="img">
-                                    <div class="tgd">
-                                        <img src="../../assets/images/classIfication/list-05.png" alt="">
-                                    </div>
-                                </div>
-                                <p>南北干货</p>
-                            </li>
-                        </ul>
+                <template v-for="(left,index) in leftList">
+                    <el-tab-pane :label="left.typeName">
+                        <div class="box">
+                          <template v-for="(item,index2) in comtentList[left.typeName]">
+                            <h2>{{item.typeName}}</h2>
+                            <ul>
+                                  <li @click="goTo('list',{typeId:item.typeId})">
+                                     <div class="img">
+                                         <div class="tgd">
+                                             <img src="../../assets/images/classIfication/list-01.png" alt="">
+                                         </div>
+                                     </div>
+                                     <p>米</p>
+                                 </li>
+                             </ul>
+                          </template>
+                        <h2>优选礼包</h2>
                         <h2>优选礼包</h2>
                         <ul>
-                            <li>
-                                <div class="img">
-                                    <div class="tgd">
-                                        <img src="../../assets/images/classIfication/list-06.png" alt="">
-                                    </div>
-                                </div>
-                                <p>坚果礼包</p>
-                            </li>
-                            <li>
-                                <div class="img">
-                                    <div class="tgd">
-                                        <img src="../../assets/images/classIfication/list-07.png" alt="">
-                                    </div>
-                                </div>
-                                <p>营养礼包</p>
-                            </li>
-                        </ul>
-                        <h2>优选礼包</h2>
-                        <ul>
-                            <li>
+                            <li @click="goTo('list',{typeId:11})">
                                 <div class="img">
                                     <div class="tgd">
                                         <img src="../../assets/images/classIfication/list-08.png" alt="">
@@ -79,16 +32,9 @@
                             </li>
                         </ul>
                     </div>
-                </el-tab-pane>
-                <el-tab-pane label="鲜花蛋糕">鲜花蛋糕</el-tab-pane>
-                <el-tab-pane label="时令水果">时令水果</el-tab-pane>
-                <el-tab-pane label="书店">书店</el-tab-pane>
-                <el-tab-pane label="美妆护肤">美妆护肤</el-tab-pane>
-                <el-tab-pane label="生活服务">生活服务</el-tab-pane>
-                <el-tab-pane label="卫生服务">卫生服务</el-tab-pane>
-                <el-tab-pane label="个人护理">个人护理</el-tab-pane>
-                <el-tab-pane label="厨房用具">厨房用具</el-tab-pane>
-                <el-tab-pane label="亲子母婴">亲子母婴</el-tab-pane>
+                    </el-tab-pane>
+                </template>
+
             </el-tabs>
 
         </div>
@@ -100,9 +46,39 @@
 <script>
     import ClassHeader from '@/components/ClassHeader.vue'
     import Footer from '@/components/Footer.vue'
+    import { request, userRequest} from '@/js/request.js'
     export default {
         name: "home",
+        data(){
+            this.initTopList();
+            return {
+                leftList:[],
+                comtentList:[]
+            }
+        },
         methods:{
+            goTo(path,params){
+                this.$router.push({name:path,params:params});
+            },
+            loadSubList(data){
+                var page=this;
+                var typeID=data.typeID;
+                request("/shopProduct/queryProductTypeLevelOtherList",{typeID:typeID}).then(function (response) {
+                    page.comtentList[data.typeName]=response;
+              })
+
+            },
+            initTopList(){
+              var page=this;
+                 request("/shopProduct/queryProductTypeLevelOneList",null).then(function (response) {
+                      page.leftList=response;
+                      for(var i in response){
+                        page.loadSubList(response[i])
+                      }
+
+                  })
+            },
+
             // 扫一扫
             sweepCodeClick(){
                 console.log('扫一扫')

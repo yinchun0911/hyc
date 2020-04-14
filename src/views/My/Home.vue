@@ -13,49 +13,49 @@
                 </div>
             </div>
             <div class="myOrder">
-                <h2>我的订单<span>查看全部订单</span><i class="el-icon-arrow-right"></i></h2>
+                <h2>我的订单 <span @click="goTo('order',{status:0})">查看全部订单</span><i @click="goTo('order',{status:0})" class="el-icon-arrow-right"></i> </h2>
                 <ul class="orderNav">
-                    <li>
+                    <li @click="goTo('order',{status:1})">
                         <img src="../../assets/images/my/icon-01.png" alt="">
                         <p>待支付</p>
                     </li>
-                    <li>
+                    <li  @click="goTo('order',{status:2})">
                         <img src="../../assets/images/my/icon-02.png" alt="">
                         <p>待发货</p>
                     </li>
-                    <li>
+                    <li  @click="goTo('order',{status:3})">
                         <img src="../../assets/images/my/icon-03.png" alt="">
                         <p>待收货</p>
                     </li>
-                    <li>
-                        <img src="../../assets/images/my/icon-04.png" alt="">
-                        <p>已完成</p>
+                    <li  @click="goTo('order',{status:4})">
+                           <img src="../../assets/images/my/icon-04.png" alt="">
+                           <p>已完成</p>
                     </li>
                 </ul>
             </div>
             <div class="nav">
                 <ul>
-                    <li>
-                        <img src="../../assets/images/my/icon-05.png" alt="">
-                        <p>我的点券</p>
+                    <li @click="goTo('Ticket')">
+                            <img src="../../assets/images/my/icon-05.png" alt="">
+                            <p>我的点券</p>
                     </li>
-                    <li>
+                    <li @click="goTo('Ticket')">
                         <img src="../../assets/images/my/icon-06.png" alt="">
                         <p>在线客服</p>
                     </li>
-                    <li>
+                    <li @click="goTo('paymentHistory')">
                         <img src="../../assets/images/my/icon-07.png" alt="">
                         <p>支付记录</p>
                     </li>
-                    <li>
+                    <li @click="goTo('collection')">
                         <img src="../../assets/images/my/icon-08.png" alt="">
                         <p>我的收藏</p>
                     </li>
-                    <li>
+                    <li @click="goTo('setup')">
                         <img src="../../assets/images/my/icon-09.png" alt="">
                         <p>基本设置</p>
                     </li>
-                    <li>
+                    <li @click="goTo('problem')">
                         <img src="../../assets/images/my/icon-10.png" alt="">
                         <p>常见问题</p>
                     </li>
@@ -76,7 +76,7 @@
             }
         },
         methods:{
-            
+
         },
         components: {
             Footer,

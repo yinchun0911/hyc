@@ -18,7 +18,12 @@
 <script>
     export default {
         name: "classHeader",
-        props: ['badgeNum'] ,
+        data(){
+            return{
+                serchTxt:'',
+                badgeNum:3
+            }
+        },
         methods:{
             sweepCode(){
                 this.$emit('sweepCodeClick');

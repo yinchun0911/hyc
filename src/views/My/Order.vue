@@ -70,9 +70,13 @@
     export default {
         name: "order",
         data(){
+            var current = this.$route.params.status
+            if(!current){
+            current=0;
+            }
             return{
                 title:'我的订单',
-                current:0,
+                current:current,
                 timeShow:false,
                 navList:[
                     {value:'全部'},
@@ -88,6 +92,11 @@
             }
         },
         methods:{
+            init(){
+
+             console.log(this.current);
+            },
+
             liclick(index){
                 this.current = index
             },
@@ -112,10 +121,10 @@
                     var m2=parseInt(minute/10);
                     var s1=second%10;
                     var s2=parseInt(second/10);
-                    that.minute1=require('../../assets/images/time/mini-'+m2+'.png');
-                    that.minute2=require('../../assets/images/time/mini-'+m1+'.png');
-                    that.second1=require('../../assets/images/time/mini-'+s2+'.png');
-                    that.second2=require('../../assets/images/time/mini-'+s1+'.png');
+                    //that.minute1=require('../../assets/images/time/mini-'+m2+'.png');
+                    //that.minute2=require('../../assets/images/time/mini-'+m1+'.png');
+                    //that.second1=require('../../assets/images/time/mini-'+s2+'.png');
+                    //that.second2=require('../../assets/images/time/mini-'+s1+'.png');
                 },1000);
 
             }

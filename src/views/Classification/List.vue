@@ -9,6 +9,7 @@
             </ul>
             <div class="list-box">
                 <ul>
+                    <template v-for="(item,index) in goodsList" >
                     <li>
                         <img class="Recommend" src="../../assets/images/classIfication/Recommend.png" alt="">
                         <div class="img">
@@ -23,97 +24,7 @@
                             <el-button type="primary" round icon="el-icon-plus"></el-button>
                         </div>
                     </li>
-                    <li>
-                        <div class="img">
-                            <div class="tgd">
-                                <img src="../../assets/images/classIfication/list-10.png" alt="">
-                            </div>
-                        </div>
-                        <p>欧利莱特级初榨橄榄油750ml</p>
-                        <div class="price">
-                            <span>198.00</span>
-                            <s>(228.00)</s>
-                            <el-button type="primary" round icon="el-icon-plus"></el-button>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="img">
-                            <div class="tgd">
-                                <img src="../../assets/images/classIfication/list-09.png" alt="">
-                            </div>
-                        </div>
-                        <p>皇家粮仓香雪大米4kg礼盒装</p>
-                        <div class="price">
-                            <span>198.00</span>
-                            <s>(228.00)</s>
-                            <el-button type="primary" round icon="el-icon-plus"></el-button>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="img">
-                            <div class="tgd">
-                                <img src="../../assets/images/classIfication/list-10.png" alt="">
-                            </div>
-                        </div>
-                        <p>欧利莱特级初榨橄榄油750ml</p>
-                        <div class="price">
-                            <span>198.00</span>
-                            <s>(228.00)</s>
-                            <el-button type="primary" round icon="el-icon-plus"></el-button>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="img">
-                            <div class="tgd">
-                                <img src="../../assets/images/classIfication/list-10.png" alt="">
-                            </div>
-                        </div>
-                        <p>欧利莱特级初榨橄榄油750ml</p>
-                        <div class="price">
-                            <span>198.00</span>
-                            <s>(228.00)</s>
-                            <el-button type="primary" round icon="el-icon-plus"></el-button>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="img">
-                            <div class="tgd">
-                                <img src="../../assets/images/classIfication/list-10.png" alt="">
-                            </div>
-                        </div>
-                        <p>欧利莱特级初榨橄榄油750ml</p>
-                        <div class="price">
-                            <span>198.00</span>
-                            <s>(228.00)</s>
-                            <el-button type="primary" round icon="el-icon-plus"></el-button>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="img">
-                            <div class="tgd">
-                                <img src="../../assets/images/classIfication/list-10.png" alt="">
-                            </div>
-                        </div>
-                        <p>欧利莱特级初榨橄榄油750ml</p>
-                        <div class="price">
-                            <span>198.00</span>
-                            <s>(228.00)</s>
-                            <el-button type="primary" round icon="el-icon-plus"></el-button>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="img">
-                            <div class="tgd">
-                                <img src="../../assets/images/classIfication/list-10.png" alt="">
-                            </div>
-                        </div>
-                        <p>欧利莱特级初榨橄榄油750ml</p>
-                        <div class="price">
-                            <span>198.00</span>
-                            <s>(228.00)</s>
-                            <el-button type="primary" round icon="el-icon-plus"></el-button>
-                        </div>
-                    </li>
+                    </template>
                 </ul>
             </div>
         </div>
@@ -122,9 +33,12 @@
 
 <script>
     import ListHeader from '@/components/ListHeader.vue'
+    import { request, userRequest} from '@/js/request.js'
     export default {
         name: "List",
         data(){
+            var typeId = this.$route.params.typeId
+            loadData(1,typeId);
             return{
                 title:'商品列表',
                 current:0,
@@ -134,10 +48,19 @@
                     {value:'价格'},
                     {value:'销量'},
                     {value:'筛选'},
-                ]
+                ],
+                goodsList:[]
             }
         },
         methods:{
+            // 加载分类商品
+            loadData(page,typeId){
+                var page=this;
+                       var typeID=data.typeID;
+                       request("//shopProduct/queryProductList",{spu:typeID}).then(function (response) {
+                       page.comtentList[data.typeName]=response;
+                 })
+            },
             // 购物车按钮
             shopClick(val){
                 console.log(val)
