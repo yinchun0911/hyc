@@ -33,7 +33,7 @@
 
 <template v-for="(special,index) in specialArea">
     <div class="specialArea" :id="special.activityAreaID">
-            <h3>{{ special.activityAreaName }}<span>更多&gt;</span></h3>
+            <h3><img src="../assets/images/icon-04.png" alt="">{{ special.activityAreaName }}<span>更多&gt;</span></h3>
             <div class="areaBanner">
               <img :src="special.activityAreaPic" alt="">
             </div>
@@ -256,29 +256,34 @@ export default {
           color: #4c4c4c;
           border-bottom: .02rem solid #f0f3fa;
           position: relative;
-          &:before{
-            content: '';
-            position: absolute;
-            left: 35%;
-            top: 50%;
-            width: .41rem;
-            height: .40rem;
-            margin-top: -.2rem;
-            background: url("../assets/images/icon-04.png") no-repeat;
-            background-size: 100% 100%;
-          }
+          /*&:before{*/
+          /*  content: '';*/
+          /*  position: absolute;*/
+          /*  left: 35%;*/
+          /*  top: 50%;*/
+          /*  width: .41rem;*/
+          /*  height: .40rem;*/
+          /*  margin-top: -.2rem;*/
+          /*  background: url("../assets/images/icon-04.png") no-repeat;*/
+          /*  background-size: 100% 100%;*/
+          /*}*/
+            img{
+                width: .41rem;
+                height: .40rem;
+                margin-right: .15rem;
+            }
           span{
             float: right;
             font-size: .24rem;
             color:#83b7ff;
           }
         }
-        .recharge{
-          &:before{
-            background: url("../assets/images/icon-05.png") no-repeat;
-            background-size: 100% 100%;
-          }
-        }
+        /*.recharge{*/
+        /*  &:before{*/
+        /*    background: url("../assets/images/icon-05.png") no-repeat;*/
+        /*    background-size: 100% 100%;*/
+        /*  }*/
+        /*}*/
         .areaBanner{
           padding: .2rem;
           img{

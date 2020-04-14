@@ -2,7 +2,7 @@
     <div class="my">
         <div class="top"></div>
         <div class="content">
-            <div class="user-msg">
+            <div class="user-msg" @click="goTo('accountSet')">
                 <div class="user-fl fl">
                     <img src="../../assets/images/my/user-pic.png" alt="">
                 </div>
@@ -39,7 +39,7 @@
                             <img src="../../assets/images/my/icon-05.png" alt="">
                             <p>我的点券</p>
                     </li>
-                    <li @click="goTo('Ticket')">
+                    <li >
                         <img src="../../assets/images/my/icon-06.png" alt="">
                         <p>在线客服</p>
                     </li>
@@ -76,7 +76,14 @@
             }
         },
         methods:{
+            goTo(path,params){
+                if(params){
+                    this.$router.push({name:path,params:params});
+                }else{
+                    this.$router.push(path);
+                }
 
+            }
         },
         components: {
             Footer,
