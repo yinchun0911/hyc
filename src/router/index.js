@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Home from '../views/Home.vue'
 import Classification from '../views/Classification/Home.vue'
+import Notice from '../views/Notice.vue'
+import Information from '../views/Information.vue'
 import List from '../views/Classification/List.vue'
 import Details from '../views/Classification/Details.vue'
 import ConfirmOrder from '../views/Classification/ConfirmOrder.vue'
@@ -21,6 +23,7 @@ import Setup from '../views/My/Setup.vue'
 import SetAddress from '../views/My/SetAddress.vue'
 import AddAddress from '../views/My/AddAddress.vue'
 import AccountSet from '../views/My/AccountSet.vue'
+import AccountSecurity from '../views/My/AccountSecurity.vue'
 
 Vue.use(VueRouter)
 
@@ -32,8 +35,18 @@ const routes = [
   },
   {
     path:'/login',
-    name:'Login',
+    name:'login',
     component:Login
+  },
+  {
+    path:'/notice',
+    name:'notice',
+    component:Notice
+  },
+  {
+    path:'/information',
+    name:'information',
+    component:Information
   },
     //分类
   {
@@ -132,6 +145,11 @@ const routes = [
     path: '/accountSet',
     name: 'accountSet',
     component: AccountSet
+  },
+  {
+    path: '/accountSecurity',
+    name: 'accountSecurity',
+    component: AccountSecurity
   }
 ]
 
