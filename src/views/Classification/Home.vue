@@ -2,28 +2,33 @@
     <div class="classHome">
         <ClassHeader @sweepCodeClick="sweepCodeClick" @searchClick="searchClick" @shopClick="shopClick"></ClassHeader>
         <div class="content">
-            <van-sidebar v-model="activeKey" @change="onChange">
+            <van-sidebar  v-model="activeKey" @change="onChange">
                 <template v-for="(left,index) in leftList">
                     <van-sidebar-item   :title="left.typeName" />
                 </template>
             </van-sidebar>
-            <div class="box">
+             <template v-for="(list,index) in comtentList">
+                 <div class="box" v-if="activeKey == index">
+                    <template   v-for="(item,index2) in comtentList[index]">
 
+                        <h2>{{item.typeName}}</h2>
+                        <ul>
+                            <template v-for="(sub,index3) in item.subList">
+                                <li @click="goTo('list',{typeId:11})">
+                                    <div class="img">
+                                        <div class="tgd">
+                                            <img :src="sub.typePic" alt="">
+                                        </div>
+                                    </div>
+                                    <p>{{sub.typeName}}</p>
+                                </li>
+                             </template>
+                        </ul>
 
-             <template v-for="(tiem,index) in comtentList">
-                <h2>食品饮料</h2>
-                <ul>
-                    <li @click="goTo('list',{typeId:11})">
-                        <div class="img">
-                            <div class="tgd">
-                                <img src="../../assets/images/classIfication/list-01.png" alt="">
-                            </div>
-                        </div>
-                        <p>米</p>
-                    </li>
-                </ul>
-                </template>
-            </div>
+                    </template>
+                  </div>
+            </template>
+
         </div>
           <Footer></Footer>
     </div>
@@ -41,18 +46,20 @@
             return {
                 leftList:[],
                 comtentList:[],
-                 activeKey:0
+                activeKey:-1
+
             }
         },
         methods:{
             goTo(path,params){
                 this.$router.push({name:path,params:params});
             },
-            loadSubList(data){
+            loadSubList(data,index){
                 var page=this;
                 var typeID=data.typeID;
-                request("/shopProduct/queryProductTypeLevelOtherList",{typeID:typeID}).then(function (response) {
-                    page.comtentList=response;
+                var postData={current:0,pageSize:0,token:"string",typeID:typeID}
+                request("/shopProduct/queryProductTypeLevelOtherList",postData).then(function (response) {
+                    page.comtentList[index]=response;
               })
 
             },
@@ -60,13 +67,17 @@
               var page=this;
                  request("/shopProduct/queryProductTypeLevelOneList",null).then(function (response) {
                       page.leftList=response;
-                       page.loadSubList(response[0])
+                      for(let it in response){
+                       page.loadSubList(response[it],it)
+                      }
+
                 })
             },
 
             onChange(val){
                  var page=this;
-                 page.loadSubList(this.leftList[val].typeID);
+                 page.activeKey=val
+               //  page.loadSubList(this.leftList[val].typeID);
 
             },
 
@@ -81,7 +92,17 @@
             //搜索按钮
             searchClick(val){
                 console.log(val)
+            },
+            checkInitEd(){
+
+                if(this.comtentList.length==0){
+                    setTimeout(this.checkInitEd,300);
+                }else{
+                    this.activeKey=0;
+                }
             }
+        },mounted() {
+           this.checkInitEd()
         },
         components: {
             ClassHeader,

@@ -10,17 +10,17 @@
             <div class="list-box">
                 <ul>
                     <template v-for="(item,index) in goodsList" >
-                    <li>
-                        <img class="Recommend" src="../../assets/images/classIfication/Recommend.png" alt="">
+                     <li :id="item.goodsid" @click="goTo('detail',{productID:item.goodsid})">
+                        <img v-if="item.isPush !=null" class="Recommend" src="../../assets/images/classIfication/Recommend.png" alt="">
                         <div class="img">
                             <div class="tgd">
-                                <img src="../../assets/images/classIfication/list-09.png" alt="">
+                                <img :src="item.productPic" alt="">
                             </div>
                         </div>
-                        <p>皇家粮仓香雪大米4kg礼盒装</p>
+                        <p>{{item.productName}}</p>
                         <div class="price">
-                            <span>198.00</span>
-                            <s>(228.00)</s>
+                            <span>{{item.productPrice}}</span>
+                            <s v-if="item.productPrice!=null">({{item.productPrice}})</s>
                             <el-button type="primary" round icon="el-icon-plus"></el-button>
                         </div>
                     </li>
@@ -37,8 +37,6 @@
     export default {
         name: "List",
         data(){
-            var typeId = this.$route.params.typeId
-            loadData(1,typeId);
             return{
                 title:'商品列表',
                 current:0,
@@ -49,16 +47,48 @@
                     {value:'销量'},
                     {value:'筛选'},
                 ],
+                postData:{
+                    current:0,
+                    pageSize:30,
+                    sortType:"1",
+                    sortMethod:"1",
+                    keyWords: "",
+                    token:""
+
+
+                },
                 goodsList:[]
             }
         },
         methods:{
             // 加载分类商品
-            loadData(page,typeId){
-                var page=this;
-                       var typeID=data.typeID;
-                       request("//shopProduct/queryProductList",{spu:typeID}).then(function (response) {
-                       page.comtentList[data.typeName]=response;
+            loadData(op,page){
+                   var typeId = op.$route.params.typeId;
+                   var areaID = op.$route.params.areaID;
+                   if(typeId){
+                    op.postData.typeId=typeId+"";
+                   }
+                    if(areaID){
+                        op.postData.areaID=areaID+"";
+                    }
+                  op.postData.current=page;
+
+                  if(!op.postData.sortType){
+                    op.postData.sortType="1";
+                  }
+                  if(!op.postData.sortMethod){
+                      op.postData.sortMethod="1";
+                   }
+
+                   if(page==0||page==1){
+                    op.goodsList=[];
+                   }
+
+                  var typeID=typeId;
+                  request("/shopProduct/queryProductList",op.postData).then(function (response) {
+                        for(var i in response.list){
+                            op.goodsList.push(response.list[i])
+                        }
                  })
             },
             // 购物车按钮
@@ -67,7 +97,18 @@
             },
             liclick(index){
                 this.current = index
+            },
+            goTo(path,params){
+                if(params){
+                    this.$router.push({name:path,params:params});
+                }else{
+                    this.$router.push(path);
+                }
             }
+        },
+        mounted(){
+
+             this.loadData(this,1);
         },
         components: {
             ListHeader

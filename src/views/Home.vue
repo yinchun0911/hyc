@@ -23,36 +23,28 @@
         </ul>
       </div>
       <div class="main">
-        <img src="../assets/images/main-01.png" alt="">
-        <img src="../assets/images/main-02.png" alt="">
+        <img @click="goTo('list',{areaID:special1.activityAreaID})" :src="special1.activityAreaPic" alt="">
+        <img @click="goTo('list',{areaID:special2.activityAreaID})" :src="special2.activityAreaPic"alt="">
       </div>
       <div class="more-box">
-        <img src="../assets/images/main-03.png" alt="">
+        <img @click="goTo('list',{areaID:special3.activityAreaID})" :src="special3.activityAreaPic" alt="">
       </div>
 
 
 <template v-for="(special,index) in specialArea">
     <div class="specialArea" :id="special.activityAreaID">
-            <h3><img src="../assets/images/icon-04.png" alt="">{{ special.activityAreaName }}<span>更多&gt;</span></h3>
+            <h3><img src="../assets/images/icon-04.png" alt="">{{ special.activityAreaName }}<span  @click="goTo('list',{areaID:special.activityAreaID})">更多&gt;</span></h3>
             <div class="areaBanner">
-              <img :src="special.activityAreaPic" alt="">
+              <img @click="goTo('list',{areaID:special.activityAreaID})" :src="special.activityAreaPic" alt="">
             </div>
             <ul>
-              <li>
-                <img src="../assets/images/specialArea-list-01.jpg" alt="">
-                <p class="title">福冈</p>
-                <p class="introduce">海骁和宰文大学时海骁和宰文大学时海骁和宰文大学时</p>
+            <template v-for="(item,index) in special.indexActivityAreaDataList">
+              <li @click="goTo('detail',{productID:item.productID})">
+                <img :src="item.activityAreaProductPic" alt="">
+                <p class="title">{{item.activityAreaProductName}}</p>
+                <p class="introduce">{{item.activityAreaProductRemark}}</p>
               </li>
-              <li>
-                <img src="../assets/images/specialArea-list-02.jpg" alt="">
-                <p class="title">北京女子图鉴</p>
-                <p class="introduce">讲述了整容医生陈讲述了整容医生陈讲述了整容医生陈</p>
-              </li>
-              <li>
-                <img src="../assets/images/specialArea-list-03.jpg" alt="">
-                <p class="title">优点</p>
-                <p class="introduce">暂无简述</p>
-              </li>
+              </template>
             </ul>
     </div>
 </template>
@@ -77,6 +69,9 @@ export default {
     return{
       swiperList:[],
       navList:[],
+      special1:{},
+      special2:{},
+      special3:{},
       specialArea:[],
       specialTop:[],
       msgNum:0
@@ -103,7 +98,15 @@ export default {
       getSpecialArea(){
             var page=this;
              request("/shopIndex/queryIndexActivityArea",null).then(function (response) {
-                page.specialArea=response;
+                page.special1=response[0];
+                page.special2=response[1];
+                page.special3=response[2];
+                var area=[]
+                for(var i=3;i<response.length;i++){
+                    area.push(response[i]);
+                }
+                console.log(area)
+                page.specialArea=area;
                })
         },
     getMsgNum(){
@@ -125,6 +128,13 @@ export default {
     //搜索按钮
     searchClick(val){
       console.log(val)
+    },
+     goTo(path,params){
+        if(params){
+            this.$router.push({name:path,params:params});
+        }else{
+            this.$router.push(path);
+        }
     }
   },
 

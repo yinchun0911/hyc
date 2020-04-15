@@ -101,17 +101,30 @@
     import ListHeader from '@/components/ListHeader.vue'
     import Swiper from 'swiper';
     import 'swiper/css/swiper.min.css';
+    import { request, userRequest} from '@/js/request.js'
     export default {
         name: "detail",
         data(){
+            this.getProductInfo();
             return{
                 title:'商品详情',
                 btnFlag:false,
                 drawer:false,
-                num:0
+                num:0,
+                product:{}
             }
         },
         methods: {
+            getProductInfo(){
+                 var productID = this.$route.params.productID+"";
+                var postData={
+                  "productID": productID,
+                  "token": "string"
+                };
+                request("/shopProduct/queryProductInfo",postData).then(function (response) {
+                       product=response
+                 })
+            },
             // 购物车按钮
             shopClick(val){
                 console.log(val)
