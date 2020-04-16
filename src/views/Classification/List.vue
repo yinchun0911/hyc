@@ -10,7 +10,7 @@
             <div class="list-box">
                 <ul>
                     <template v-for="(item,index) in goodsList" >
-                     <li :id="item.goodsid" @click="goTo('detail',{productID:item.goodsid})">
+                     <li :id="item.goodsid" @click="goTo('detail',{productID:item.productID,goodsid:item.goodsid})">
                         <img v-if="item.isPush !=null" class="Recommend" src="../../assets/images/classIfication/Recommend.png" alt="">
                         <div class="img">
                             <div class="tgd">
@@ -47,6 +47,7 @@
                     {value:'销量'},
                     {value:'筛选'},
                 ],
+                currentPage:0,
                 postData:{
                     current:0,
                     pageSize:30,
@@ -100,7 +101,7 @@
             },
             goTo(path,params){
                 if(params){
-                    this.$router.push({name:path,params:params});
+                    this.$router.push({name:path,query:params});
                 }else{
                     this.$router.push(path);
                 }

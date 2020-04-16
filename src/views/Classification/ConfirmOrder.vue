@@ -7,32 +7,35 @@
                     <i class="el-icon-map-location"></i>
                 </div>
                 <div class="msg">
-                    <h3>Car Walker <span>15022021331</span></h3>
-                    <p>重庆市渝北城XXXXXXXXX</p>
+                    <h3>{{address.linkMan}} <span>{{address.linkPhone}}</span></h3>
+                    <p>{{address.address}}</p>
                     <i class="el-icon-arrow-right"></i>
                 </div>
             </div>
-            <div class="orderMsg">
-                <div class="warp-fl fl">
-                    <div class="img">
-                        <img src="../../assets/images/classIfication/list-11.png" alt="">
+            <template v-for=" product in tempOrder.producList">
+
+                <div class="orderMsg">
+                    <div class="warp-fl fl">
+                        <div class="img">
+                            <img :src="product.productPic" alt="">
+                        </div>
+                    </div>
+                    <div class="warp-fr">
+                        <p>{{product.productName}}</p>
+                        <div class="price">
+                            <span>{{product.productPrice}}</span>
+                            <i>X {{product.saleNum}}</i>
+                        </div>
                     </div>
                 </div>
-                <div class="warp-fr">
-                    <p>皇家粮仓香雪大米4kg礼盒装</p>
-                    <div class="price">
-                        <span>198.00</span>
-                        <i>X 1</i>
-                    </div>
-                </div>
-            </div>
+            </template>
             <div class="type">
                 <p>配送方式<span>快递</span><i class="el-icon-arrow-right"></i></p>
             </div>
             <div class="price-box">
                 <ul>
-                    <li>商品金额<span>198.00</span></li>
-                    <li>运费（重量：0.00kg）<span>0.00</span></li>
+                    <li>商品金额<span>{{tempOrder.totleProduct}}</span></li>
+                    <li>运费（重量：{{tempOrder.totleWeght}} kg）<span>{{tempOrder.totleFreight}}</span></li>
                 </ul>
             </div>
             <div class="message">
@@ -40,7 +43,7 @@
                 <el-input type="textarea" :rows="2" placeholder="选填：请先和商家协商一致" v-model="textarea"></el-input>
             </div>
             <div class="orderFooter">
-                <p>合计：<span>198.00</span><button>提 交</button></p>
+                <p>合计：<span>{{tempOrder.totleMoney}}</span><button @click="subOrder">提 交</button></p>
             </div>
         </div>
     </div>
@@ -48,13 +51,57 @@
 
 <script>
     import ListHeader from '@/components/ListHeader.vue'
+    import { request, userRequest} from '@/js/request.js'
     export default {
         name: "confirmOrder",
         data(){
+            this.createTempOrder();
+            this.loadAddress();
             return{
                 title:'确认订单',
-                textarea:''
+                textarea:'',
+                tempOrder:{},
+                address:{},
+
             }
+        },methods: {
+            loadAddress(){
+                var page=this;
+               userRequest("/userAddress/queryUserAddressList",{current: 0, pageSize: 0}).then(function (response) {
+                                page.address=response[0];
+                                console.log(response)
+                })
+
+            },
+            createTempOrder(){
+                 var page=this;
+                 var productID =page.$route.query.productID+"";
+                 var goodsid=page.$route.query.goodsid;
+                 var num=page.$route.query.num;
+                var  goodsparm=[{ goodsid: goodsid, num: num,token: "string"}];
+                var params={
+                    productCarList:goodsparm
+                }
+
+                userRequest("/shopOrder/addTmpOrder",params).then(function (response) {
+                    page.tempOrder=response;
+                    console.log(response)
+                 })
+            },
+            subOrder(){
+                var page=this;
+                var postData={
+                   "addressId": page.address.id,
+                  "orderNo":page.tempOrder.orderNo,
+                  "remark": page.textarea
+                };
+                userRequest("/shopOrder/addOrder",postData).then(function (response) {
+                    console.log(response)
+                 })
+
+            }
+
+
         },
         components: {
             ListHeader

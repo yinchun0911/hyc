@@ -5,32 +5,31 @@
             <div class="banner">
                 <div class="swiper-container" id="gallery">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide"><img src="../../assets/images/classIfication/box-01.png" alt=""></div>
-                        <div class="swiper-slide"><img src="../../assets/images/classIfication/box-01.png" alt=""></div>
-                        <div class="swiper-slide"><img src="../../assets/images/classIfication/box-01.png" alt=""></div>
-                        <div class="swiper-slide"><img src="../../assets/images/classIfication/box-01.png" alt=""></div>
-                        <div class="swiper-slide"><img src="../../assets/images/classIfication/box-01.png" alt=""></div>
+
+                       <template v-for="(item,index) in product.imageList" >
+                        <div v-if="item.picType==1" class="swiper-slide"><img :src="item.picUrl" alt=""></div>
+                       </template>
                     </div>
                     <!-- 如果需要分页器 -->
                     <!--        <div class="swiper-pagination"></div>-->
                 </div>
             </div>
             <div class="hite">
-                <p>皇家粮仓香雪大米4kg礼盒装</p>
+                <p>{{product.productName}}</p>
                 <div class="price">
-                    <span>198.00</span>
-                    <s>(228.00)</s>
-                    <i>倾情推荐</i>
-                    <b>已售6810件</b>
+                    <span>{{product.productPrice}}</span>
+                    <s v-if="product.productOldPrice!=null">{{product.productOldPrice}}</s>
+                    <i v-if="product.isPush == 1">倾情推荐</i>
+                    <b>已售{{product.saleNum}}件</b>
                 </div>
-                <p class="foot-word">S5782P31311</p>
-                <p class="foot-word">满150店铺免邮（如有赠品，赠完为止）</p>
+                <p class="foot-word">{{product.productID}}</p>
+                <p class="foot-word">{{product.postInfo}}</p>
             </div>
             <div class="select-box">
                 <ul>
                     <li>
                         <label>规格</label>
-                        <span>皇家香雪大米4kg礼盒装</span>
+                        <span>{{product.standrdsName}}</span>
                         <i class="el-icon-arrow-right"></i>
                     </li>
                     <li>
@@ -43,8 +42,10 @@
             <div class="warp">
                 <h2>商品详情</h2>
                 <div class="img-box">
-                    <img src="../../assets/images/classIfication/box-02.png" alt="">
-                    <img src="../../assets/images/classIfication/box-03.png" alt="">
+                  <template v-for="(item,index) in product.imageList" >
+                            <div v-if="item.picType==0" class="swiper-slide"><img :src="item.picUrl" alt=""></div>
+                   </template>
+
                 </div>
             </div>
             <div class="detail-foot">
@@ -54,7 +55,7 @@
                     <img src="../../assets/images/classIfication/icon-03.png" alt="">
                 </div>
                 <div class="foot-fr fr">
-                    <span>加入推车</span>
+                    <span @click="shopClick">加入推车</span>
                     <span @click="drawer = true">立即够买</span>
                 </div>
             </div>
@@ -63,7 +64,7 @@
                 <i class="el-icon-arrow-up"></i>
             </div>
             <!--立即够买-->
-            <div class="drawer-box">
+            <div class="drawer-box" >
                 <el-drawer :visible.sync="drawer" direction="btt" :wrapperClosable="false">
                     <div class="drawer-warp">
                         <div class="warp-fl fl">
@@ -72,23 +73,24 @@
                             </div>
                         </div>
                         <div class="warp-fr">
-                            <p>皇家粮仓香雪大米4kg礼盒装</p>
+                            <p>{{product.productName}}</p>
                             <div class="price">
-                                <span>198.00</span>
-                                <s>(228.00)</s>
+                             <span>{{product.productPrice}}</span>
+                              <s v-if="product.productOldPrice!=null">{{product.productOldPrice}}</s>
                             </div>
                         </div>
                     </div>
                     <div class="specifications">
                         <p>规格</p>
                         <ul>
-                            <li class="active">皇家香雪大米4kg礼盒装</li>
-                            <li>皇家香雪大米8kg礼盒装</li>
+                            <template v-for="item in standrds">
+                                <li @click="clickType" :data-id="item.id" :class="['bottom-btn',{'active':product.goodsid==item.id}]">{{item.standrdsName}}</li>
+                            </template>
                         </ul>
                     </div>
                     <div class="specifications">
                         <p>数量<el-input-number v-model="num" :min="1" :max="10" size="mini"></el-input-number></p>
-                        <button>立即够买</button>
+                        <button @click="buy">立即够买</button>
                     </div>
                 </el-drawer>
             </div>
@@ -111,23 +113,62 @@
                 btnFlag:false,
                 drawer:false,
                 num:0,
-                product:{}
+                product:{},
+                products:[],
+                standrds:[]
+
             }
         },
         methods: {
             getProductInfo(){
-                 var productID = this.$route.params.productID+"";
+                var page=this;
+                var productID =page.$route.query.productID+"";
+                var goodsid=page.$route.query.goodsid
+                console.log(goodsid,productID)
                 var postData={
                   "productID": productID,
                   "token": "string"
                 };
                 request("/shopProduct/queryProductInfo",postData).then(function (response) {
-                       product=response
+                        if(goodsid==null){
+                                page.product=response[0];
+                        }
+                       for(var i in response){
+                            var id=response[i].goodsid;
+                            var standrdsName=response[i].standrdsName;
+                            page.standrds.push({id:id,standrdsName:standrdsName});
+                            page.products[id]=response[i];
+                            if(goodsid!=null&&goodsid==id){
+                                page.product=response[i];
+                            }
+                       }
                  })
             },
             // 购物车按钮
             shopClick(val){
-                console.log(val)
+                var page=this;
+                var postData={
+                    goodsid: page.product.goodsid,
+                    num: 1
+                };
+                userRequest("/shopCar/addCarGoods",postData).then(function(response){
+                    console.log(response)
+                });
+
+
+            },
+            clickType(e){
+
+                var page=this;
+                var changeId=e.target.dataset.id;
+                page.product=page.products[changeId]
+            },
+            buy(){
+               var page=this;
+               var goodsId=page.product.goodsid;
+               var productId=page.product.productID;
+               var num=page.num;
+                this.$router.push({name:"confirmOrder",query:{productId:productId,goodsid:goodsId,num:num}});
             },
             // 点击图片回到顶部方法，加计时器是为了过渡顺滑
             backTop () {

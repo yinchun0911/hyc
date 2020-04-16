@@ -39,7 +39,7 @@
             </div>
             <ul>
             <template v-for="(item,index) in special.indexActivityAreaDataList">
-              <li @click="goTo('detail',{productID:item.productID})">
+              <li @click="goByPathTo('detail',{productID:item.productID})">
                 <img :src="item.activityAreaProductPic" alt="">
                 <p class="title">{{item.activityAreaProductName}}</p>
                 <p class="introduce">{{item.activityAreaProductRemark}}</p>
@@ -128,6 +128,13 @@ export default {
     //搜索按钮
     searchClick(val){
       console.log(val)
+    },
+    goByPathTo(path,params){
+            if(params){
+                this.$router.push({name:path,query:params});
+            }else{
+                this.$router.push(path);
+            }
     },
      goTo(path,params){
         if(params){

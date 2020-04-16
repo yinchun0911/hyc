@@ -2,6 +2,8 @@ import axios from 'axios'
 import Vue from 'vue'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 export function userRequest(url, params){
+     params.appUserId=1;
+     params.token="string";
     return request(url, params);
 }
 export function request(url, params) {
