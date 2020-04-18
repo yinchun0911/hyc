@@ -66,6 +66,7 @@ export default {
     this.getSwiperData();
     this.getNavData();
     this.getSpecialArea();
+    this.getMsgNum();
     return{
       swiperList:[],
       navList:[],
@@ -80,6 +81,18 @@ export default {
 
   methods:{
 
+    getMsgNum(){
+        var page=this;
+        var postData={noError:true,defaultFn:function(){
+                 console.log("defaultProcess")
+                 page.msgNum=0;
+            }
+        }
+        userRequest("/shopIndex/queryIndexMessageCount",postData).then(function (response) {
+              page.msgNum=response;
+        })
+    },
+
     getSwiperData(){
        //获取轮播图
       var page=this;
@@ -93,7 +106,7 @@ export default {
         var page=this;
          request("/shopIndex/queryIndexMenu",null).then(function (response) {
             page.navList=response;
-           })
+         })
     },
       getSpecialArea(){
             var page=this;
@@ -109,25 +122,19 @@ export default {
                 page.specialArea=area;
                })
         },
-    getMsgNum(){
-            //导航
-            var page=this;
-             userRequest("/shopIndex/queryIndexMessageCount",null).then(function (response) {
-                page.msgNum=response;
-               })
-        },
+
     // 扫一扫
     sweepCodeClick(){
       console.log('扫一扫')
     },
     // 信息按钮
     msgEventClick(){
-
-      console.log('信息按钮')
+       this.goTo("information")
     },
     //搜索按钮
     searchClick(val){
       console.log(val)
+      this.goTo('list',{keyword:val})
     },
     goByPathTo(path,params){
             if(params){

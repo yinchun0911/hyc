@@ -12,10 +12,10 @@
                             <div class="check fl">
                                 <el-checkbox :data-id="item.goodsid" v-model="checked"></el-checkbox>
                             </div>
-                            <div class="img fl">
+                            <div class="img fl"  @click="goByPathTo('detail',{productID:item.productID ,goodsid:item.goodsid})">
                                 <img :src="item.productPic" alt="">
                             </div>
-                            <div class="msg">
+                            <div class="msg"  @click="goByPathTo('detail',{productID:item.productID})">
                                 <h3>{{item.productName}}</h3>
                                 <i class="tag">{{item.standrdsName}}</i>
                                 <div class="prices">
@@ -31,8 +31,8 @@
                     <el-checkbox v-model="checked">全选</el-checkbox>
                 </div>
                 <div class="sum">
-                    <label for="">合计：<span>60.00</span></label>
-                    <button>去结算（1）</button>
+                    <label for="">合计：<span>0.00</span></label>
+                    <button>去结算</button>
                 </div>
             </div>
         </div>
@@ -55,6 +55,13 @@
                 num:0
             }
         },  methods:{
+             goByPathTo(path,params){
+                        if(params){
+                            this.$router.push({name:path,query:params});
+                        }else{
+                            this.$router.push(path);
+                        }
+                },
             loadData(current){
                 var page=this;
                 var postData={

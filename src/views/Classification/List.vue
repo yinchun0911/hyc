@@ -55,8 +55,6 @@
                     sortMethod:"1",
                     keyWords: "",
                     token:""
-
-
                 },
                 goodsList:[]
             }
@@ -66,11 +64,15 @@
             loadData(op,page){
                    var typeId = op.$route.params.typeId;
                    var areaID = op.$route.params.areaID;
+                    var keyWords=  op.$route.params.keyword;
                    if(typeId){
                     op.postData.typeId=typeId+"";
                    }
                     if(areaID){
                         op.postData.areaID=areaID+"";
+                    }
+                    if(keyWords){
+                        op.postData.keyWords=keyWords;
                     }
                   op.postData.current=page;
 

@@ -2,48 +2,51 @@
     <div class="orderDetails">
         <ListHeader :title="title" :showHeadFr="false"></ListHeader>
         <div class="content">
+
+        <template v-for="product in orderDetail.producList">
             <div class="orderMsg">
                 <div class="warp-fl fl">
                     <div class="img">
-                        <img src="../../assets/images/classIfication/list-11.png" alt="">
+                        <img src="product.productPic" alt="">
                     </div>
                 </div>
                 <div class="warp-fr">
-                    <p>皇家粮仓香雪大米4kg礼盒装</p>
+                    <p>{{product.productName}}</p>
                     <div class="price">
-                        <span>198.00</span>
-                        <i>X 1</i>
+                        <span>{{product.productPrice}}</span>
+                        <i>X {{product.saleNum}}</i>
                     </div>
                 </div>
             </div>
+        </template>
             <div class="orderStatus">
-                <h3 class="title">订单状态：<span>已取消</span></h3>
+                <h3 class="title">订单状态：<span>{{orderDetail.orderStarusMsg  }}</span></h3>
                 <van-steps direction="vertical" :active="1" active-color="#38f">
-                    <van-step>
+                    <van-step v-for="log  in orderDetail.orderLogInfoList">
                         <h3>创建订单</h3>
                         <p>2016-07-11 10:00</p>
                     </van-step>
                     <van-step>
-                        <h3>订单超时，已自动取消</h3>
-                        <p>2016-07-12 12:40</p>
+                        <h3>订单创建</h3>
+                        <p>{{orderDetail.orderTime}}</p>
                     </van-step>
                 </van-steps>
             </div>
             <div class="orderBox">
                 <ul>
-                    <li>订单单号：<span>231234567894</span></li>
-                    <li>下单时间：<span>2016-07-11 10:00</span></li>
-                    <li>支付方式：<span>未支付</span></li>
-                    <li>配送方式：<span>快递</span></li>
+                    <li>订单单号：<span>{{orderDetail.orderNo}}</span></li>
+                    <li>下单时间：<span>{{orderDetail.orderTime}}</span></li>
+                    <li>支付方式：<span>{{orderDetail.payMethod}}</span></li>
+                    <li>配送方式：<span>{{orderDetail.postMethod}}</span></li>
                 </ul>
             </div>
             <div class="userMsg">
-                <h4>小粉 <span>13012345678</span></h4>
-                <p>重庆市渝北区</p>
+                <h4>{{orderDetail.address.linkMan}} <span>{{orderDetail.address.linkPhone}}</span></h4>
+                <p>{{ orderDetail.address.fullAddress}}</p>
             </div>
             <div class="orderFooter">
-                <p>合计：<span>198.00</span></p>
-                <p>运费：<span>8.00</span></p>
+                <p>合计：<span>{{orderDetail.totleProduct}}</span></p>
+                <p>运费：<span>{{orderDetail.totleFreight}}</span></p>
             </div>
         </div>
 
@@ -52,11 +55,23 @@
 
 <script>
     import ListHeader from '@/components/ListHeader.vue'
+      import { request, userRequest} from '@/js/request.js'
     export default {
         name: "orderDetails",
         data(){
+            var orderNo =this.$route.query.orderNo+"";
+            this.loadData(orderNo);
             return{
-                title:'订单详情'
+                title:'订单详情',
+                orderDetail:{}
+            }
+        },
+        methods:{
+            loadData(orderNo){
+                var page=this;
+                userRequest("/shopOrder/orderInfo",{orderNo:orderNo}).then(function (response) {
+                    page.orderDetail=response;
+               })
             }
         },
         mounted() {

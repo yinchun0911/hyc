@@ -129,6 +129,20 @@
             // 点击收藏
             isActive(){
                 this.imgShow = !this.imgShow
+                var page=this;
+                if(this.imgShow){
+                    //取消收藏
+
+                     //收藏
+                     userRequest("/shopProduct/addProductCollectInfo",{goodsid:page.product.goodsid}).then(function(response){
+                        console.log(response)
+                    });
+                }else{
+                      userRequest("/shopProduct/delProductCollectInfo",{goodsid:page.product.goodsid}).then(function(response){
+                            console.log(response)
+                    });
+                }
+
             },
             getProductInfo(){
                 var page=this;
@@ -152,6 +166,7 @@
                                 page.product=response[i];
                             }
                        }
+                       page.queryCollect();
                  })
             },
             // 购物车按钮
@@ -164,11 +179,8 @@
                 userRequest("/shopCar/addCarGoods",postData).then(function(response){
                     console.log(response)
                 });
-
-
             },
             clickType(e){
-
                 var page=this;
                 var changeId=e.target.dataset.id;
                 page.product=page.products[changeId]
@@ -190,6 +202,18 @@
                         clearInterval(timer)
                     }
                 }, 16)
+            },
+            queryCollect(){
+                 var page=this;
+                 var goodsId=page.product.goodsid;
+                 var productId=page.product.productID;
+                   userRequest("/shopProduct/queryProductCollectInfo",{goodsid:goodsId}).then(function(response){
+                             if(response==1){
+                                page.imgShow=true;
+                             }else{
+                                page.imgShow=false;
+                             }
+                     });
             },
 
             // 为了计算距离顶部的高度，当高度大于60显示回顶部图标，小于60则隐藏

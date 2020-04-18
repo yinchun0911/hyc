@@ -5,89 +5,29 @@
             <div class="list">
                 <h3><img src="../assets/images/information-03.png" alt="">最新消息</h3>
                 <ul>
-                    <li>
-                        <div class="badge fl">
-                            <img src="../assets/images/information-02.png" alt="">
-                            <i class="dot"></i>
-                        </div>
-                        <div class="msg">
-                            <h4>系统客服<span>20分钟前</span></h4>
-                            <p>你的好友给您一个赞</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="badge fl">
-                            <img src="../assets/images/information-05.png" alt="">
-                            <i class="dot"></i>
-                        </div>
-                        <div class="msg">
-                            <h4>系统通知<span>星期一</span></h4>
-                            <p>又有新版本更新咯！！</p>
-                        </div>
-                    </li>
-                    <li>
+                     <li v-for="item in list" @click="markRead(item.messageID,item.isRead)">
                         <div class="badge fl">
                             <img src="../assets/images/information-01.png" alt="">
-                            <i class="dot"></i>
+                            <i v-if="item.isRead != 1" class="dot"></i>
                         </div>
                         <div class="msg">
-                            <h4>店铺头条<span>6月3日</span></h4>
-                            <p>满100送200，超值划算</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="badge fl">
-                            <img src="../assets/images/information-01.png" alt="">
-                            <i class="dot"></i>
-                        </div>
-                        <div class="msg">
-                            <h4>木木<span>5月31日</span></h4>
-                            <p>你最近怎么了</p>
+                            <h4>{{item.messageTitle}}<span>{{item.messageTime}}</span></h4>
+                            <p>{{item.messageContext}}</p>
                         </div>
                     </li>
                 </ul>
             </div>
-            <div class="list">
+            <div class="list" v-if="earlyList.length>0" >
                 <h3><img src="../assets/images/information-04.png" alt="">两周前消息</h3>
                 <ul>
-                    <li>
-                        <div class="badge fl">
-                            <img src="../assets/images/information-02.png" alt="">
-                            <i class="dot"></i>
-                        </div>
-                        <div class="msg">
-                            <h4>系统客服<span>20分钟前</span></h4>
-                            <p>你的好友给您一个赞</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="badge fl">
-                            <img src="../assets/images/information-05.png" alt="">
-                            <i class="dot"></i>
-                        </div>
-                        <div class="msg">
-                            <h4>系统通知<span>星期一</span></h4>
-                            <p>又有新版本更新咯！！</p>
-                        </div>
-                    </li>
-                    <li>
+                     <li v-for="item in earlyList" @click="markRead(item.messageID,item.isRead)">
                         <div class="badge fl">
                             <img src="../assets/images/information-01.png" alt="">
-                            <i class="dot"></i>
+                            <i v-if="item.isRead !=  1" class="dot"></i>
                         </div>
                         <div class="msg">
-                            <h4>店铺头条<span>6月3日</span></h4>
-                            <p>满100送200，超值划算</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="badge fl">
-                            <img src="../assets/images/information-01.png" alt="">
-                            <i class="dot"></i>
-                        </div>
-                        <div class="msg">
-                            <h4>木木<span>5月31日</span></h4>
-                            <p>你最近怎么了</p>
+                            <h4>{{item.messageTitle}}<span>{{item.messageTime.split(" ")[0]}} </span></h4>
+                            <p>{{item.messageContext}}</p>
                         </div>
                     </li>
                 </ul>
@@ -98,13 +38,65 @@
 
 <script>
     import ListHeader from '@/components/ListHeader.vue'
-    var num = 5;
+    import { request, userRequest} from '@/js/request.js'
+    var moment = require('moment');
     export default {
         name: "information",
-
         data(){
+            this.loadMsg(0);
+
             return{
-                title:'消息'+'('+num+')',
+                num:0,
+                list:[],
+                earlyList:[],
+                title:'消息'
+            }
+        },
+        methods:{
+            markRead(id,isRead,item){
+                if(isRead==0){
+                  userRequest("/shopIndex/indexMessageRead",{messageID:id}).then(function (response) {
+                    item.isRead=1;
+                  });
+                }
+            },
+            loadMsg(pageNo){
+               var page=this;
+               var postData={
+                 current: pageNo,
+                 pageSize: 20,
+               }
+               var date=new Date();
+               userRequest("/shopIndex/queryIndexMessageList",postData).then(function (response) {
+                       var title="消息"+response.totle;
+                        page.title=title;
+                        var list=response.pageInfo.list;
+                        for(var i in list){
+                            var data=list[i];
+                            var day = moment(data.messageTime);
+                           if(2>=0-day.diff(date, 'w')){
+                                var passDay=0-parseInt(day.diff(date, 'H')/24);
+                                var min=day.diff(date, 'm');
+                               var passTime="";
+                               if(passDay>=7){
+                                    passTime=1+"周前";
+                               }else if(passDay>=7){
+                                     passTime=passDay+"天前";
+                                }else if (day.diff(date, 'm') >60){
+                                    passTime=(0-day.diff(date, 'H'))+"小时前";
+                               }else if(day.diff(date, 'm') >1){
+                                    passTime=(0-day.diff(date, 'm'))+"分钟前";
+                               }else{
+                                    passTime="刚刚"
+                               }
+                               data.messageTime=passTime;
+                               page.list.push(data);
+                            }else{
+                              page.earlyList.push(data);
+                            }
+                        }
+               });
+
             }
         },
         components: {

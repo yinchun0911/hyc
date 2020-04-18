@@ -8,7 +8,7 @@
             <el-button type="primary" icon="el-icon-search" circle @click="search(serchTxt)"></el-button>
         </div>
         <div class="head-fr fr" @click="msgEvent">
-            <el-badge :value="3" class="item">
+            <el-badge :value="badgeNum" class="item">
                 <img src="../assets/images/icon-02.png" alt="">
             </el-badge>
         </div>
@@ -18,9 +18,7 @@
 <script>
     export default {
         name: "searchHeader",
-        props:{
-
-        },
+         props:['badgeNum'],
         data(){
             return{
                 serchTxt:''

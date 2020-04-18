@@ -9,10 +9,10 @@
             </ul>
 
             <template v-for="order in orderList">
-                <div class="listWarp">
+                <div @click="goByPathTo('orderDetails',{orderNo:order.orderNo})" class="listWarp">
                                 <h2>
                                     <span>订单号：{{order.orderNo}}</span>
-                                    <div v-if="order.leftTime!=0" :data-leftTime="order.leftTime" class="time" >
+                                    <div v-if="order.leftTime!=0 && order.orderStatus==1" :data-leftTime="order.leftTime" class="time" >
                                         请在
                                         <img :src="order.left.m2" alt="">
                                         <img :src="order.left.m1" alt="">
@@ -161,11 +161,17 @@
                 setTimeout(function(){
                     op.timeOut()
                  },1000);
+            },
+             goByPathTo(path,params){
+                        if(params){
+                            this.$router.push({name:path,query:params});
+                        }else{
+                            this.$router.push(path);
+                        }
             }
         },
         mounted() {
            this.timeOut()
-
         },
         components: {
             ListHeader,

@@ -82,7 +82,6 @@
                 }else{
                     this.$router.push(path);
                 }
-
             }
         },
         components: {

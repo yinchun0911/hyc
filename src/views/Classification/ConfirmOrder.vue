@@ -91,12 +91,13 @@
             subOrder(){
                 var page=this;
                 var postData={
-                   "addressId": page.address.id,
-                  "orderNo":page.tempOrder.orderNo,
-                  "remark": page.textarea
+                   addressId: page.address.id,
+                  orderNo:page.tempOrder.orderNo,
+                  remark: page.textarea
                 };
                 userRequest("/shopOrder/addOrder",postData).then(function (response) {
                     console.log(response)
+                     this.$router.push({name:"selectCardRoll",query:{orderNo:postData.orderNo}});
                  })
 
             }
