@@ -4,7 +4,7 @@
         <div class="content">
             <ul class="nav">
                 <li v-for="(item,index) in navList" :class="current==index?'active':''"  @click="liclick(index)">
-                    <span>{{item.value}}<template v-if="index==2"><i class="el-icon-d-caret"></i></template></span>
+                    <span>{{item.value}}<template v-if="current==index"><i class="el-icon-d-caret"></i></template></span>
                 </li>
             </ul>
             <div class="list-box">
@@ -52,7 +52,7 @@
                     current:0,
                     pageSize:30,
                     sortType:"1",
-                    sortMethod:"1",
+                    sortMethod:'1',
                     keyWords: "",
                     token:""
                 },
@@ -80,7 +80,7 @@
                     op.postData.sortType="1";
                   }
                   if(!op.postData.sortMethod){
-                      op.postData.sortMethod="1";
+                      op.postData.sortMethod='1';
                    }
 
                    if(page==0||page==1){
@@ -110,7 +110,21 @@
                 this.$router.push({path:"/Shopping"});
             },
             liclick(index){
-                this.current = index
+                console.log(1111,this.current,index,this.postData.sortMethod);
+                if( this.current == index){
+                    if(this.postData.sortMethod=='1'){
+                        this.postData.sortMethod='0';
+                     }else{
+                        this.postData.sortMethod='1';
+                     }
+                }else{
+                    this.current = index;
+                    this.postData.sortType=index+1;
+                    this.postData.sortMethod='1'
+                }
+                console.log(2222,this.current,index,this.postData.sortMethod);
+                this.goodsList=[];
+                this.loadData(this,0)
             },
             goTo(path,params){
                 if(params){
@@ -167,6 +181,7 @@
             }
         }
         .content{
+            margin-top: .88rem;
             background-color: #f0f3fa;
             ul.nav{
                 padding: 0 .2rem;
