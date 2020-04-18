@@ -4,8 +4,8 @@
             <i class="el-icon-arrow-left" @click="$router.go(-1)"></i>
         </div>
         {{title}}
-        <div class="header-fr fr" v-if="showHeadFr" @click="shopClick(badgeNum)">
-            <el-badge :value="badgeNum" class="item">
+        <div class="header-fr fr" v-if="showHeadFr" @click="shopClick(shoppingNum)">
+            <el-badge :value="shoppingNum" class="item">
                 <img src="@/assets/images/header-gw.png" alt="">
             </el-badge>
         </div>
@@ -16,11 +16,13 @@
 </template>
 
 <script>
+import { request, userRequest} from '@/js/request.js'
     export default {
         name: "listHeader",
         data(){
+            this.getShoppingCarNum();
             return{
-                badgeNum:3
+                shoppingNum:0
             }
         },
         props:{
@@ -40,6 +42,17 @@
             }
         },
         methods:{
+            getShoppingCarNum(){
+                var page=this;
+                var postData={noError:true,defaultFn:function(){
+                         console.log("defaultProcess")
+                         page.shoppingNum=0;
+                    }
+                }
+                userRequest("/shopCar/getCarGoodsNum",postData).then(function (response) {
+                      page.shoppingNum=response;
+                })
+            },
             shopClick(val){
                 this.$emit('shopClick',val);
             },

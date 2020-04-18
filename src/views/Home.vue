@@ -49,7 +49,7 @@
     </div>
 </template>
 </div>
-    <Footer></Footer>
+    <Footer :shoppingNum="shoppingNum"></Footer>
   </div>
 </template>
 
@@ -75,7 +75,8 @@ export default {
       special3:{},
       specialArea:[],
       specialTop:[],
-      msgNum:0
+      msgNum:0,
+      shoppingNum:0
     }
   },
 
@@ -92,6 +93,7 @@ export default {
               page.msgNum=response;
         })
     },
+
 
     getSwiperData(){
        //获取轮播图

@@ -3,7 +3,7 @@
         <ul>
             <li v-for="(item,index) in footerNavList" :key='index' @click="liclick(item.path)">
                 <template v-if="index==2">
-                    <el-badge :value="0" class="item">
+                    <el-badge :value="shoppingNum" class="item">
                         <img :src="$route.path === item.path ? item.icon : item.normal" alt="">
                     </el-badge>
                     <p :class="$route.path === item.path ? 'active' : ''">{{item.value}}</p>
@@ -18,9 +18,11 @@
 </template>
 
 <script>
+    import { request, userRequest} from '@/js/request.js'
     export default {
         name: "Footer",
         data(){
+            this.getShoppingCarNum();
             return{
                 // current:0,
                 footerNavList:[
@@ -48,13 +50,25 @@
                         normal:require('../assets/images/footer-04.png'),
                         icon:require('../assets/images/footer-active-04.png'),
                     }
-                ]
+                ],shoppingNum:0
             }
         },
         methods:{
+            getShoppingCarNum(){
+                        var page=this;
+                        var postData={noError:true,defaultFn:function(){
+                                 console.log("defaultProcess")
+                                 page.shoppingNum=0;
+                            }
+                        }
+                        userRequest("/shopCar/getCarGoodsNum",postData).then(function (response) {
+                              page.shoppingNum=response;
+                        })
+            },
             liclick(path){
                 this.$router.replace(path);
             }
+
         }
     }
 </script>

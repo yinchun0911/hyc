@@ -10,18 +10,18 @@
             <div class="list-box">
                 <ul>
                     <template v-for="(item,index) in goodsList" >
-                     <li :id="item.goodsid" @click="goTo('detail',{productID:item.productID,goodsid:item.goodsid})">
+                     <li :id="item.goodsid" >
                         <img v-if="item.isPush !=null" class="Recommend" src="../../assets/images/classIfication/Recommend.png" alt="">
-                        <div class="img">
+                        <div @click="goTo('detail',{productID:item.productID,goodsid:item.goodsid})" class="img">
                             <div class="tgd">
                                 <img :src="item.productPic" alt="">
                             </div>
                         </div>
-                        <p>{{item.productName}}</p>
-                        <div class="price">
-                            <span>{{item.productPrice}}</span>
-                            <s v-if="item.productPrice!=null">({{item.productPrice}})</s>
-                            <el-button type="primary" round icon="el-icon-plus"></el-button>
+                        <p @click="goTo('detail',{productID:item.productID,goodsid:item.goodsid})" >{{item.productName}}</p>
+                        <div   class="price">
+                            <span @click="goTo('detail',{productID:item.productID,goodsid:item.goodsid})"  >{{item.productPrice}}</span>
+                            <s @click="goTo('detail',{productID:item.productID,goodsid:item.goodsid})" v-if="item.productPrice!=null">({{item.productPrice}})</s>
+                            <el-button type="primary" @click="addShopClick(item.productID,goodsid)" round icon="el-icon-plus"></el-button>
                         </div>
                     </li>
                     </template>
@@ -94,9 +94,20 @@
                         }
                  })
             },
+            addShopClick(val){
+                console.log(val)
+                var page=this;
+                var postData={
+                    goodsid: val,
+                    num: 1
+                };
+                userRequest("/shopCar/addCarGoods",postData).then(function(response){
+                    console.log(response)
+                });
+            },
             // 购物车按钮
             shopClick(val){
-                console.log(val)
+                this.$router.push({path:"/Shopping"});
             },
             liclick(index){
                 this.current = index

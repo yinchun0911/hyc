@@ -31,9 +31,10 @@
             msgEvent(){
                 this.$emit('msgEventClick');
             },
-            search(val){
-                this.$emit('searchClick',val);
-            }
+             search(val){
+                  this.$router.push('list',{keyword:val})
+              }
+
         }
     }
 </script>

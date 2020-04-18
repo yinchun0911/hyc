@@ -18,6 +18,7 @@
 <script>
     export default {
         name: "classHeader",
+        props:['badgeNum'],
         data(){
             return{
                 serchTxt:'',
@@ -29,10 +30,10 @@
                 this.$emit('sweepCodeClick');
             },
             search(val){
-                this.$emit('searchClick',val);
+              this.$router.push('list',{keyword:val})
             },
             shopClick(val){
-                this.$emit('shopClick',val);
+                this.$router.push({path:"/Shopping"});
             },
         }
     }

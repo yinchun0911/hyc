@@ -1,6 +1,6 @@
 <template>
     <div class="detail">
-        <ListHeader :title="title" @shopClick="shopClick"></ListHeader>
+        <ListHeader :title="title" @shopClick="goshopClick" :badgeNum="shoppingNum" ></ListHeader>
         <div class="content">
             <div class="banner">
                 <div class="swiper-container" id="gallery">
@@ -113,12 +113,14 @@
         name: "detail",
         data(){
             this.getProductInfo();
+            this.getShoppingCarNum();
             return{
                 title:'商品详情',
                 btnFlag:false,
                 drawer:false,
                 imgShow:false,
                 num:0,
+                shoppingNum:0,
                 product:{},
                 products:[],
                 standrds:[]
@@ -179,6 +181,19 @@
                 userRequest("/shopCar/addCarGoods",postData).then(function(response){
                     console.log(response)
                 });
+            },goshopClick(){
+                this.$router.push({path:"/Shopping"});
+            },
+              getShoppingCarNum(){
+                        var page=this;
+                        var postData={noError:true,defaultFn:function(){
+                                 console.log("defaultProcess")
+                                 page.shoppingNum=0;
+                            }
+                        }
+                        userRequest("/shopCar/getCarGoodsNum",postData).then(function (response) {
+                              page.shoppingNum=response;
+                        })
             },
             clickType(e){
                 var page=this;
