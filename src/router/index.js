@@ -9,6 +9,8 @@ import List from '../views/Classification/List.vue'
 import Details from '../views/Classification/Details.vue'
 import ConfirmOrder from '../views/Classification/ConfirmOrder.vue'
 import SelectCardRoll from '../views/Classification/SelectCardRoll.vue'
+import OrderDetails from '../views/Classification/OrderDetails.vue'
+
 import Shopping from '../views/Shopping/Home.vue'
 import SuccessPayment from '../views/Shopping/SuccessPayment.vue'
 import FailPayment from '../views/Shopping/FailPayment.vue'
@@ -73,6 +75,11 @@ const routes = [
     path: '/classification/selectCardRoll',
     name: 'selectCardRoll',
     component: SelectCardRoll
+  },
+  {
+    path: '/classification/orderDetails',
+    name: 'orderDetails',
+    component: OrderDetails
   },
     // 购物车
   {
