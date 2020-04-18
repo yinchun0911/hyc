@@ -8,22 +8,22 @@
                     <i class="el-icon-delete"></i>
                 </h2>
                 <ul>
-                    <li>
-                        <div class="check fl">
-                            <el-checkbox v-model="checked"></el-checkbox>
-                        </div>
-                        <div class="img fl">
-                            <img src="../../assets/images/shopList.png" alt="">
-                        </div>
-                        <div class="msg">
-                            <h3>【优洛苹果】绿色食品认证GMP认证，洛川苹果可以带皮吃12枚75#</h3>
-                            <i class="tag">12枚75#</i>
-                            <div class="prices">
-                                <span class="jg">60.00</span>
-                                <el-input-number v-model="num" :min="1" :max="10" size="mini"></el-input-number>
+                        <li  v-for="item  in productList">
+                            <div class="check fl">
+                                <el-checkbox :data-id="item.goodsid" v-model="checked"></el-checkbox>
                             </div>
-                        </div>
-                    </li>
+                            <div class="img fl">
+                                <img :src="item.productPic" alt="">
+                            </div>
+                            <div class="msg">
+                                <h3>{{item.productName}}</h3>
+                                <i class="tag">{{item.standrdsName}}</i>
+                                <div class="prices">
+                                    <span class="jg">{{item.productPrice}}</span>
+                                    <el-input-number v-model="num" :min="1" :max="10" size="mini"></el-input-number>
+                                </div>
+                            </div>
+                        </li>
                 </ul>
             </div>
             <div class="shopFoot">
@@ -43,13 +43,29 @@
 <script>
     import ListHeader from '@/components/ListHeader.vue'
     import Footer from '@/components/Footer.vue'
+    import { request, userRequest} from '@/js/request.js'
     export default {
         name: "shopHome",
         data(){
+            this.loadData(0);
             return{
                 title:'购物车',
                 checked:false,
+                productList:[],
                 num:0
+            }
+        },  methods:{
+            loadData(current){
+                var page=this;
+                var postData={
+                  current: current,
+                  pageSize: 20,
+                }
+                userRequest("/shopCar/getCarGoodsList",postData).then(function (response) {
+                        for(var i in response){
+                            page.productList.push(response[i])
+                        }
+                 })
             }
         },
         components: {
@@ -68,6 +84,7 @@
                 margin-top: 1rem;
                 padding: 0 .2rem;
                 overflow: hidden;
+
                 background-color: #fff;
                 h2{
                     height: .8rem;
@@ -85,9 +102,13 @@
                     border-radius: 50%;
                 }
                 ul{
+                    li:last-child{
+                        margin-bottom: 50px;
+                    }
                     li{
                         padding: .2rem 0;
                         height: 1.92rem;
+                        clear: both;
                         .check{
                             width: .6rem;
                             line-height: 1.92rem;

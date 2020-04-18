@@ -2,30 +2,18 @@
     <div class="ticket">
         <ListHeader :title="title" :showHeadFr="false"></ListHeader>
         <div class="content">
-            <div class="cardRoll blue">
-                <div>
-                    <span>剩余点数：315.2点</span>
-                    <p>VS-100196</p>
-                </div>
-            </div>
-            <div class="cardRoll red">
-                <div>
-                    <span>剩余点数：315.2点</span>
-                    <p>VS-100196</p>
-                </div>
-            </div>
-            <div class="cardRoll yellow">
-                <div>
-                    <span>剩余点数：315.2点</span>
-                    <p>VS-100196</p>
-                </div>
-            </div>
-            <div class="cardRoll green">
-                <div>
-                    <span>剩余点数：315.2点</span>
-                    <p>VS-100196</p>
-                </div>
-            </div>
+            <template v-for="item in cardList">
+                        <div :class="['cardRoll',item.cardName=='红色观影券'?'red':'',
+                                                  item.cardName=='蓝色观影券'?'blue':'',
+                                                  item.cardName=='橙色蛋糕券'?'yellow':'',
+                                                  item.cardName=='绿色洗衣券'?'green':'']">
+                            <div>
+                                <span>剩余点数：{{item.cardBalance}}点</span>
+                                <p>{{item.cardNo}}</p>
+                            </div>
+                        </div>
+            </template>
+
             <button>绑定实体点券</button>
         </div>
     </div>
@@ -33,11 +21,29 @@
 
 <script>
     import ListHeader from '@/components/ListHeader.vue'
+     import { request, userRequest} from '@/js/request.js'
+
     export default {
         name: "ticket",
         data(){
+            this.loadData(0)
             return{
-                title:'我的点券'
+                title:'我的点券',
+                cardList:[]
+            }
+        },
+         methods:{
+            loadData(current){
+                var page=this;
+                var postData={
+                  current: current,
+                  pageSize: 20,
+                }
+                userRequest("/appUser/queryUserCardList",postData).then(function (response) {
+                        for(var i in response){
+                            page.cardList.push(response[i])
+                        }
+                 })
             }
         },
         components: {

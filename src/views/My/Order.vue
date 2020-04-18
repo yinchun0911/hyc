@@ -7,73 +7,55 @@
                     <span>{{item.value}}</span>
                 </li>
             </ul>
-            <div class="listWarp">
-                <h2>
-                    <span>订单号：2003261055591580</span>
-                    <div class="time">
-                        请在
-                        <img :src="minute1" alt="">
-                        <img :src="minute2" alt="">
-                        <span>:</span>
-                        <img :src="second1" alt="">
-                        <img :src="second2" alt="">
-                        内完成支付
-                    </div>
-                    <span class="status">待支付</span>
-                </h2>
-                <div class="listMsg">
-                    <div class="list-fl fl">
-                        <div class="img">
-                            <img src="../../assets/images/classIfication/list-11.png" alt="">
-                        </div>
-                    </div>
-                    <div class="list-fr">
-                        <h3>皇家香雪大米4kg礼盒装<span>X 1</span></h3>
-                        <p>共<i>1</i>件商品<label>实付：</label><span>0.00</span></p>
-                        <div>订单时间：2020-03-26  12:00:00</div>
-                    </div>
-                </div>
-            </div>
-            <div class="listWarp">
-                <h2>
-                    <span>订单号：2003261055591580</span>
-                    <div class="time" v-if="timeShow">
-                        请在
-                        <img :src="minute1" alt="">
-                        <img :src="minute2" alt="">
-                        <span>:</span>
-                        <img :src="second1" alt="">
-                        <img :src="second2" alt="">
-                        内完成支付
-                    </div>
-                    <span class="status succse">已支付</span>
-                </h2>
-                <div class="listMsg">
-                    <div class="list-fl fl">
-                        <div class="img">
-                            <img src="../../assets/images/classIfication/list-11.png" alt="">
-                        </div>
-                    </div>
-                    <div class="list-fr">
-                        <h3>皇家香雪大米4kg礼盒装<span>X 1</span></h3>
-                        <p>共<i>1</i>件商品<label>实付：</label><span>0.00</span></p>
-                        <div>订单时间：2020-03-26  12:00:00</div>
-                    </div>
-                </div>
-            </div>
+
+            <template v-for="order in orderList">
+                <div class="listWarp">
+                                <h2>
+                                    <span>订单号：{{order.orderNo}}</span>
+                                    <div v-if="order.leftTime!=0" :data-leftTime="order.leftTime" class="time" >
+                                        请在
+                                        <img :src="order.left.m2" alt="">
+                                        <img :src="order.left.m1" alt="">
+                                        <span>:</span>
+                                        <img :src="order.left.s2" alt="">
+                                        <img :src="order.left.s1" alt="">
+                                        内完成支付
+                                    </div>
+                                    <span class="status">{{order.orderStarusMsg}}</span>
+                                </h2>
+                                <div class="listMsg">
+                                    <div class="list-fl fl">
+                                        <div class="img">
+                                            <img :src="order.productPic" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="list-fr">
+                                        <h3>{{order.productName}}<span>X {{order.saleNum}}</span></h3>
+                                        <p>共<i>{{order.productCount}}</i>件商品<label>实付：</label><span>{{order.realAmount}}</span></p>
+                                        <div>订单时间：{{order.orderTime}}</div>
+                                    </div>
+                                </div>
+                            </div>
+            </template>
+
+
         </div>
     </div>
 </template>
 
 <script>
     import ListHeader from '@/components/ListHeader.vue'
+     import { request, userRequest} from '@/js/request.js'
+      var moment = require('moment');
+
     export default {
         name: "order",
         data(){
             var current = this.$route.params.status
             if(!current){
-            current=0;
+                current=0;
             }
+            this.loadData(0,current);
             return{
                 title:'我的订单',
                 current:current,
@@ -85,6 +67,7 @@
                     {value:'待收货'},
                     {value:'已完成'},
                 ],
+                orderList:[],
                 minute1:require('../../assets/images/time/mini-0.png'),
                 minute2:require('../../assets/images/time/mini-0.png'),
                 second1:require('../../assets/images/time/mini-0.png'),
@@ -92,13 +75,32 @@
             }
         },
         methods:{
-            init(){
+            loadData(page,current){
+                var op =this;
+                var postData={
+                  current: page,
+                  orderType: current,
+                  pageSize: 10,
+                }
+                userRequest("/shopOrder/orderList",postData).then(function (response) {
+                        for(var i in response.list){
+                            var leftTime=0;
+                            var day = moment(response.list[i].orderTime);
+                            var date=new Date();
+                            leftTime=date.getTime()-day.valueOf();
+                            var left=op.getTime(leftTime);
+                            response.list[i].left=left;
+                            response.list[i].leftTime=leftTime;
+                            op.orderList.push(response.list[i])
+                        }
+                 })
 
-             console.log(this.current);
             },
-
             liclick(index){
                 this.current = index
+                this.orderList=[];
+                this.loadData(0,this.current);
+
             },
             //添零函数
             setNum(num){
@@ -107,30 +109,62 @@
                 }
                 return num;
             },
-            getTime(){
-                var time=1800;//30分钟换算成1800秒
-                var that = this
-                setInterval(function(){
-                    time=time-1;
-                    var minute=parseInt(time/60);
-                    var second=parseInt(time%60);
-                    minute=that.setNum(minute);
-                    second=that.setNum(second)
-                    // 双位数变成单位数
-                    var m1=minute%10;
-                    var m2=parseInt(minute/10);
-                    var s1=second%10;
-                    var s2=parseInt(second/10);
-                    //that.minute1=require('../../assets/images/time/mini-'+m2+'.png');
-                    //that.minute2=require('../../assets/images/time/mini-'+m1+'.png');
-                    //that.second1=require('../../assets/images/time/mini-'+s2+'.png');
-                    //that.second2=require('../../assets/images/time/mini-'+s1+'.png');
-                },1000);
+            getTime(leftTime){
+                var op=this;
+                var countTime=leftTime+0;
+                var time=1800-parseInt(countTime/1000);//30分钟换算成1800秒
 
+               if(time<0){
+                      return {
+                                       m2:op.minute1,m1:op.minute1,s2:op.minute1,s1:op.minute1
+                               }
+                }
+
+                var minute=parseInt(time/60);
+                var second=parseInt(time%60);
+                // 双位数变成单位数
+                var m1=minute%10;
+                var m2=parseInt(minute/10)%10;
+                var s1=second%10;
+                var s2=parseInt(second/10)%10;
+                var pm1,pm2,ps1,ps2;
+                try{
+                    pm1=require('../../assets/images/time/mini-'+m1+'.png');
+                    pm2=require('../../assets/images/time/mini-'+m2+'.png');
+                    ps1=require('../../assets/images/time/mini-'+s1+'.png');
+                    ps2=require('../../assets/images/time/mini-'+s2+'.png');
+                   return {
+                                       m2:pm2,
+                                       m1:pm1,
+                                       s2:ps2,
+                                       s1:ps1
+                           }
+                }catch(e){
+                    console.log(e);
+                }
+
+                return {
+                    m2:pm2,m1:pm1,s2:ps2,s1,ps1
+                }
+
+            },
+            timeOut(){
+                var op=this;
+                var date=new Date();
+                for(var i in op.orderList){
+                       var order =op.orderList[i];
+                       order.leftTime=order.leftTime+1000;
+                       var left=op.getTime(order.leftTime);
+                       order.left=left;
+                }
+
+                setTimeout(function(){
+                    op.timeOut()
+                 },1000);
             }
         },
         mounted() {
-            this.getTime()
+           this.timeOut()
 
         },
         components: {
