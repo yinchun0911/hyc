@@ -52,7 +52,12 @@
                 <div class="foot-fl fl">
                     <img src="../../assets/images/classIfication/icon-01.png" alt="">
                     <img src="../../assets/images/classIfication/icon-02.png" alt="">
-                    <img src="../../assets/images/classIfication/icon-03.png" alt="">
+                    <template v-if="!imgShow">
+                        <img @click="isActive" src="../../assets/images/classIfication/icon-03.png" alt="">
+                    </template>
+                    <template v-if="imgShow">
+                        <img @click="isActive" src="../../assets/images/classIfication/icon-03-active.png" alt="">
+                    </template>
                 </div>
                 <div class="foot-fr fr">
                     <span @click="shopClick">加入推车</span>
@@ -112,6 +117,7 @@
                 title:'商品详情',
                 btnFlag:false,
                 drawer:false,
+                imgShow:false,
                 num:0,
                 product:{},
                 products:[],
@@ -120,6 +126,10 @@
             }
         },
         methods: {
+            // 点击收藏
+            isActive(){
+                this.imgShow = !this.imgShow
+            },
             getProductInfo(){
                 var page=this;
                 var productID =page.$route.query.productID+"";
