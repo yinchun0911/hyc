@@ -6,7 +6,7 @@
 }
 body, nav, dl, dt, dd, p, h1, h2, h3, h4, ul, ol, li, input, button, textarea, footer { margin: 0; padding: 0;-webkit-text-size-adjust: none;}
 html { font-size:20px; /* 10 ÷ 16 × 100% = 62.5% */ width: 100%;min-height: 100%; position: relative;}
-body { font-family: 'Microsoft Yahei', 'Simsun'; margin: 0 auto; color: #666; font-size: 0.14rem; /* 1.33 × 10px = 13.3px */ -webkit-tap-highlight-color: rgba(0, 0, 0, 0); width: 100%;background-size:100% auto;background-color: #f0f3fa; max-width: 800px; max-height: 3000px; overflow: auto; -webkit-overflow-scrolling: touch;}
+body { font-family: 'Microsoft Yahei', 'Simsun'; margin: 0 auto; color: #666; font-size: 0.14rem; /* 1.33 × 10px = 13.3px */ -webkit-tap-highlight-color: rgba(0, 0, 0, 0); width: 100%;background-size:100% auto;background-color: #f0f3fa; max-width: 750px; max-height: 3000px; overflow: auto; -webkit-overflow-scrolling: touch;}
 h1, h2, h3, h4, h5, h6 { font-size: 100%; }
 form { display: inline; }
 ul, ol,li { list-style: none; }

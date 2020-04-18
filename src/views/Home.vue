@@ -231,6 +231,8 @@ export default {
           li{
             width: 20%;
             text-align: center;
+              font-size: .26rem;
+              color: #4c4c4c;
             img{
               display: block;
               width: .7rem;

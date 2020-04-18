@@ -14,7 +14,18 @@
                         </div>
             </template>
 
-            <button>绑定实体点券</button>
+            <button class="save" @click="dialogTableVisible = true">绑定实体点券</button>
+            <!--添加卡片-->
+            <el-dialog title="" :visible.sync="dialogTableVisible" top="40vh" :close-on-click-modal="false">
+                <ul>
+                    <li><label>您的卡号：</label><span>点击扫码获得卡号</span></li>
+                    <li><label>激  活  码：</label><input type="text" placeholder="请输入激活码"></li>
+                </ul>
+                <div class="footBtn">
+                    <button class="backBtn">确 定</button>
+                    <button @click="dialogTableVisible = false">取 消</button>
+                </div>
+            </el-dialog>
         </div>
     </div>
 </template>
@@ -29,7 +40,8 @@
             this.loadData(0)
             return{
                 title:'我的点券',
-                cardList:[]
+                cardList:[],
+                dialogTableVisible:false
             }
         },
          methods:{
@@ -94,7 +106,7 @@
                 background: url("../../assets/images/classIfication/cardRoll-04.png") no-repeat;
                 background-size: 100% 100%;
             }
-            button{
+            button.save{
                 width: 100%;
                 height: .8rem;
                 line-height: .8rem;
@@ -104,6 +116,47 @@
                 background-color: #83b7ff;
                 border: 0;
                 margin-top: .7rem;
+            }
+            .el-dialog{
+                width: 6rem;
+                border-radius: .2rem;
+                .el-dialog__body{
+                    padding: .2rem .5rem;
+                    ul{
+                        li{
+                            height: .8rem;
+                            line-height: .8rem;
+                            border-bottom: .02rem solid #e6e6e6;
+                            font-size: .3rem;
+                            color: #4c4c4c;
+                            &:first-child{
+                                margin-bottom: .3rem;
+                            }
+                            input{
+                                border: 0;
+                                margin-bottom: .08rem;
+                                height: 100%;
+                            }
+                        }
+                    }
+                    .footBtn{
+                        button{
+                            width: 100%;
+                            height: .8rem;
+                            line-height: .8rem;
+                            text-align: center;
+                            font-size: .3rem;
+                            color: #83b7ff;
+                            margin-top: .3rem;
+                            border-color: #83b7ff;
+                            border-radius: .4rem;
+                        }
+                        .backBtn{
+                            background-color: #83b7ff;
+                            color: #fff;
+                        }
+                    }
+                }
             }
         }
 

@@ -307,22 +307,34 @@
                     li{
                         height: .8rem;
                         line-height: .8rem;
+                        position: relative;
                         &:first-child{
                             border-bottom: .02rem solid #f0f3fa;
                         }
                         label{
+                            width: .75rem;
+                            height: .8rem;
+                            line-height: .8rem;
                             font-size: .26rem;
                             color: #b2b2b2;
+                            float: left;
                         }
                         span{
+                            height: .8rem;
+                            line-height: .8rem;
+                            display: block;
+                            margin-left: .75rem;
                             font-size: .26rem;
                             color: #4c4c4c;
                             padding-left: .25rem;
+                            overflow: hidden;
                         }
                         i{
-                            float: right;
+                            position: absolute;
+                            right: 0;
+                            top: 50%;
+                            margin-top: -.12rem;
                             font-size: .3rem;
-                            margin-top: .3rem;
                         }
                     }
                 }
@@ -478,7 +490,7 @@
                             margin: .2rem 0 .4rem 0;
                             display: flex;
                             li{
-                                width: 3rem;
+                                min-width: 3rem;
                                 height: .6rem;
                                 line-height: .6rem;
                                 font-size: .22rem;
@@ -486,6 +498,7 @@
                                 text-align: center;
                                 border: .02rem solid #b3b3b3;
                                 border-radius: .3rem;
+                                padding: 0 .1rem;
                                 &+li{
                                     margin-left: .25rem;
                                 }

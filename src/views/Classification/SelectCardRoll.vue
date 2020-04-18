@@ -2,7 +2,7 @@
     <div class="selectCardRoll">
         <ListHeader :title="title" :showHeadFr="false"></ListHeader>
         <div class="content">
-            <div class="timetime">
+            <div class="time">
                 请在
                 <img :src="minute1" alt="">
                 <img :src="minute2" alt="">
@@ -243,6 +243,7 @@
                         input{
                             border: 0;
                             margin-bottom: .08rem;
+                            height: 100%;
                         }
                     }
                 }

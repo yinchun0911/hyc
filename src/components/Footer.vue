@@ -65,6 +65,7 @@
         background-color: #fff;
         position: fixed;
         bottom: 0;
+        z-index: 1000;
         ul{
             display: flex;
             justify-content: space-between;

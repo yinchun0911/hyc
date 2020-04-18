@@ -207,6 +207,8 @@
                         }
                         p{
                             padding-top: .3rem;
+                            font-size: .26rem;
+                            color: #4c4c4c;
                         }
                     }
                 }

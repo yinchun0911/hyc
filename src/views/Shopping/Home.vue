@@ -100,6 +100,10 @@
                     width: .4rem;
                     height: .4rem;
                     border-radius: 50%;
+                    &:after{
+                        left: 7px;
+                        top:4px;
+                    }
                 }
                 ul{
                     li:last-child{
@@ -171,8 +175,9 @@
                 height: .7rem;
                 line-height: .7rem;
                 position: fixed;
-                bottom:1.15rem;
+                bottom:1.1rem;
                 background-color: #fff;
+                z-index: 1000;
                 .checkBox{
                     width: 1.06rem;
                     .el-checkbox__inner{
@@ -181,7 +186,7 @@
                         border-radius: 50%;
                         &:after{
                             left: 7px;
-                            top:3px;
+                            top:4px;
                         }
                     }
                 }
