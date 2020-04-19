@@ -93,11 +93,11 @@
                 var postData={
                    addressId: page.address.id,
                   orderNo:page.tempOrder.orderNo,
+                  postType:1,
                   remark: page.textarea
                 };
                 userRequest("/shopOrder/addOrder",postData).then(function (response) {
-                    console.log(response)
-                     this.$router.push({name:"selectCardRoll",query:{orderNo:postData.orderNo}});
+                     page.$router.push({name:"selectCardRoll",params:response});
                  })
 
             }

@@ -13,23 +13,28 @@
             </div>
             <div class="orderMsg">
                 <ul>
-                    <li><label>订单编号：</label>2003261055591580</li>
-                    <li><label>下单时间：</label>2020-03-26  12:00:00</li>
-                    <li><label>合计：</label><span>198.00</span>（含运费：<span>0.00</span>）</li>
+                    <li><label>订单编号：</label>{{order.orderNo}}</li>
+                    <li><label>下单时间：</label>{{order.orderTime}}</li>
+                    <li><label>合计：</label><span>{{order.totleProduct}}</span>（含运费：<span>{{order.totleFreight}}</span>）</li>
                 </ul>
                 <div class="checkbox">
-                    <el-checkbox v-model="checked"></el-checkbox><span>阅读并同意XXX <i>服务协议</i></span>
+                    <el-checkbox v-model="checked"></el-checkbox><span>阅读并同意<i>服务协议</i></span>
                 </div>
             </div>
-            <div class="cardRoll">
-                <div>
-                    <span>剩余点数：315.2点</span>
-                    <p>VS-100196</p>
-                </div>
-            </div>
+            <template v-for="item in cardList">
+                        <div class='cardRoll' :data-id="item.cardID" @click="selectCard=item.cardID" >
+                            <div :class="[item.cardName=='红色观影券'?'red':'',
+                                                                                   item.cardName=='蓝色观影券'?'blue':'',
+                                                                                   item.cardName=='橙色蛋糕券'?'yellow':'',
+                                                                                   item.cardName=='绿色洗衣券'?'green':'']">
+                                <span>剩余点数：{{item.cardBalance}}点</span>
+                                <p>{{item.cardNo}}</p>
+                            </div>
+                        </div>
+            </template>
             <div class="btns">
                 <button @click="dialogTableVisible = true">+添加卡片</button>
-                <button class="backBtn">立即支付<span>198.00</span></button>
+                <button class="backBtn" @click="pay">立即支付<span>{{order.totleProduct}}</span></button>
             </div>
             <!--添加卡片-->
             <el-dialog title="" :visible.sync="dialogTableVisible" top="40vh" :close-on-click-modal="false">
@@ -49,9 +54,19 @@
 
 <script>
     import ListHeader from '@/components/ListHeader.vue'
+    import { request, userRequest} from '@/js/request.js'
+    import { Dialog } from 'vant'
     export default {
         name: "selectCardRoll",
         data(){
+
+           var params=this.$route.params;
+                            // orderNo: "XHT2020041900943257471"
+                            //orderTime: "2020-04-19 12:24:04"
+                            //totleProduct: 277
+                            //totleFreight: 41.3
+                            console.log(params);
+            this.loadCardList(params.orderNo);
             return{
                 title:'选择卡卷',
                 minute1:require('../../assets/images/time/0.png'),
@@ -59,7 +74,10 @@
                 second1:require('../../assets/images/time/0.png'),
                 second2:require('../../assets/images/time/0.png'),
                 checked:false,
-                dialogTableVisible:false
+                dialogTableVisible:false,
+                order:params,
+                selectCard:-1,
+                cardList:[]
             }
         },
         methods:{
@@ -69,6 +87,43 @@
                     num="0"+num;
                 }
                 return num;
+             },
+             pay(){
+                 var page=this;
+                 if(!page.checked){
+                     Dialog({ message: '请 阅读 并 同意 用户协议' })
+                    return;
+                 }
+
+                 if(page.selectCard==-1){
+                     Dialog({ message: '选择卡券支付' })
+                     return;
+                 }
+                 var postData={
+                    cardId:page.selectCard,
+                    orderNo:page.order.orderNo
+                 }
+                  userRequest("/shopOrder/orderPay",postData).then(function (response) {
+                      page.$router.push({name:"successPayment",params:response});
+                  });
+
+             },
+             loadCardList(orderNo){
+                  var page=this;
+                    var postData={
+                      current: 0,
+                      pageSize: 20,
+                      orderNo:orderNo
+                    }
+                    userRequest("/appUser/queryUserCardList",postData).then(function (response) {
+                            for(var i in response){
+                                page.cardList.push(response[i])
+                            }
+                            if(page.cardList.length==1){
+                                page.selectCard=page.cardList[0].cardID
+                            }
+                     });
+
              },
              getTime(){
                  var time=1800;//30分钟换算成1800秒
@@ -93,8 +148,7 @@
              }
         },
         mounted() {
-            this.getTime()
-
+           this.getTime()
         },
         components: {
             ListHeader
@@ -168,12 +222,29 @@
             }
             .cardRoll{
                 padding: .35rem 0;
+                 .blue{
+                        background: url("../../assets/images/classIfication/cardRoll-01.png") no-repeat;
+                        background-size: 100% 100%;
+                    }
+                    .red{
+                        background: url("../../assets/images/classIfication/cardRoll-02.png") no-repeat ;
+                        background-size: 100% 100%;
+                    }
+                    .yellow{
+                        background: url("../../assets/images/classIfication/cardRoll-03.png") no-repeat;
+                        background-size: 100% 100%;
+                    }
+                    .green{
+                        background: url("../../assets/images/classIfication/cardRoll-04.png") no-repeat;
+                        background-size: 100% 100%;
+                    }
+
                 div{
+
                     position: relative;
                     margin: 0 auto;
                     width: 7.26rem;
                     height: 2.15rem;
-                    background: url("../../assets/images/classIfication/cardRoll-01.png") no-repeat;
                     background-size: 100% 100%;
                     span{
                         position: absolute;

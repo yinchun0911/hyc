@@ -11,16 +11,16 @@
                 </div>
                 <div class="orderMsg">
                     <div class="price">
-                        <span>198.00</span>
+                        <span>{{order.totleProduct}}</span>
                     </div>
                     <ul>
-                        <li><label>订单编号：</label><span>9478541234757</span></li>
-                        <li><label>下单时间：</label><span>2018-08-19 12:00:31</span></li>
-                        <li><label>支付方式：</label><span>卡包支付</span></li>
+                        <li><label>订单编号：</label><span>{{order.orderNo}}</span></li>
+                        <li><label>下单时间：</label><span>{{order.orderTime}}</span></li>
+                        <li><label>支付方式：</label><span>{{order.payMethod}}</span></li>
                     </ul>
                 </div>
-                <div class="btns">
-                    <button>订单详情</button>
+                <div class="btns" @click="goDetail(order.orderNo)">
+                    <button >订单详情</button>
                 </div>
 
             </div>
@@ -33,8 +33,16 @@
     export default {
         name: "successPayment",
         data(){
+           var params=this.$route.params;
             return{
-                title:'支付成功'
+                title:'支付成功',
+                order:params
+            }
+        },  methods:{
+            goDetail(orderNo){
+              var op=this;
+              console.log(op.order.orderNo)
+              op.$router.push({name:'orderDetails',query:{orderNo:orderNo}});
             }
         },
         components: {

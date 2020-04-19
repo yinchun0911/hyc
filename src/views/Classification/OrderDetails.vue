@@ -7,7 +7,7 @@
             <div class="orderMsg">
                 <div class="warp-fl fl">
                     <div class="img">
-                        <img src="product.productPic" alt="">
+                        <img :src="product.productPic" alt="">
                     </div>
                 </div>
                 <div class="warp-fr">
@@ -21,14 +21,10 @@
         </template>
             <div class="orderStatus">
                 <h3 class="title">订单状态：<span>{{orderDetail.orderStarusMsg  }}</span></h3>
-                <van-steps direction="vertical" :active="1" active-color="#38f">
+                <van-steps direction="vertical" :active="orderDetail.orderLogInfoList.length" active-color="#38f">
                     <van-step v-for="log  in orderDetail.orderLogInfoList">
-                        <h3>创建订单</h3>
-                        <p>2016-07-11 10:00</p>
-                    </van-step>
-                    <van-step>
-                        <h3>订单创建</h3>
-                        <p>{{orderDetail.orderTime}}</p>
+                        <h3>{{log.operRemark}}</h3>
+                        <p>{{log.operTime}}</p>
                     </van-step>
                 </van-steps>
             </div>

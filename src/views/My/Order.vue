@@ -9,7 +9,8 @@
             </ul>
 
             <template v-for="order in orderList">
-                <div @click="goByPathTo('orderDetails',{orderNo:order.orderNo})" class="listWarp">
+
+                <div @click="goDetail(order)" class="listWarp">
                                 <h2>
                                     <span>订单号：{{order.orderNo}}</span>
                                     <div v-if="order.leftTime!=0 && order.orderStatus==1" :data-leftTime="order.leftTime" class="time" >
@@ -162,12 +163,19 @@
                     op.timeOut()
                  },1000);
             },
+            goDetail(order){
+                if(order.orderStatus==1){
+                  this.$router.push({name:"selectCardRoll",params:order})
+                }else{
+                  this.goByPathTo('orderDetails',{orderNo:order.orderNo});
+                }
+            },
              goByPathTo(path,params){
-                        if(params){
-                            this.$router.push({name:path,query:params});
-                        }else{
-                            this.$router.push(path);
-                        }
+                    if(params){
+                        this.$router.push({name:path,query:params});
+                    }else{
+                        this.$router.push(path);
+                    }
             }
         },
         mounted() {
