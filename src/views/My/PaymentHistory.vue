@@ -7,7 +7,7 @@
                     <div class="inputWarp fl">
                         <span class="form-control"><i class="dataPicker" id="date-group1-1">本月</i><i class="el-icon-caret-bottom"></i></span>
                     </div>
-                    <p>支出 <span>396.00</span></p>
+                    <p>支出 <span>{{sum}}</span></p>
                 </h2>
                 <div class="listWarp"  v-for="item in paymentList">
                     <div class="listMsg">
@@ -24,22 +24,8 @@
                     </div>
                 </div>
 
-                <div class="listWarp">
-                    <div class="listMsg">
-                        <div class="list-fl fl">
-                            <div class="img">
-                                <img src="../../assets/images/classIfication/list-11.png" alt="">
-                            </div>
-                        </div>
-                        <div class="list-fr">
-                            <h3>皇家香雪大米4kg礼盒装<span>X 1</span></h3>
-                            <p>共1件商品</p>
-                            <div>订单时间：2020-03-26  12:00:00</div>
-                        </div>
-                    </div>
-                </div>
             </div>
-            
+
         </div>
     </div>
 </template>
@@ -51,37 +37,52 @@
     export default {
         name: "paymentHistory",
         data(){
-            this.loadData(0)
+            var date=new Date();
+            var year=date.getFullYear();
+            var month=date.getMonth()+1;
+            var queryText=year+"-";
+            if(month<10){
+                queryText+="0";
+            }
+            queryText+=""+month;
+            this.loadData(0,queryText)
             return{
                 title:'支付记录',
-                paymentList:[]
+                paymentList:[],
+                sum:0
             }
         },
         methods:{
-            loadData(page){
+            loadData(page,queryText){
                 var op=this;
-                var postData={current:page,pageSize:20}
+                var postData={current:page,orderMonth :queryText,pageSize:20}
                userRequest("/appUser/queryUserPayList",postData).then(function (response) {
-                      for(var i in response){
-                        op.paymentList.push(response[i]);
+                      for(var i in response.list){
+                        op.paymentList.push(response.list[i]);
                       }
-               })
+               });
+                userRequest("/appUser/queryUserPayCount",postData).then(function (response) {
+                    op.sum=response
+                });
 
             }
         },
         mounted() {
+            var op=this;
             new Rolldate({
                 el: '#date-group1-1',
                 format: 'YYYY-MM',
                 beginYear: 2000,
-                endYear: 2100
-            })
-            new Rolldate({
-                el: '#date-group1-2',
-                format: 'YYYY-MM',
-                beginYear: 2000,
                 endYear: 2100,
-                value: '2020-2'
+                 trigger:'tap',
+                    init: function() {
+                      console.log('插件开始触发');
+                    },
+                 confirm: function(date) {
+                     op.paymentList=[];
+                    op.loadData(0,date);
+                   console.log('确定按钮触发'+date);
+                 }
             })
         },
         components: {

@@ -2,168 +2,21 @@
     <div class="collection">
         <ListHeader :title="title" :text="text" :showHeadFr="false" :showMyHeadFr="true" @clickBtn="succseClick(text)"></ListHeader>
         <div class="content">
-            <div class="listBox">
-                <h2>3月26日</h2>
-                <div class="list">
-                    <div class="list-fl fl">
-                        <el-checkbox v-model="checked" v-if="showChecked"></el-checkbox>
+            <div class="listBox" v-for="month in monthArray" >
+                <h2>{{month}} </h2>
+                <div class="list" v-for="item in monthDataArray[month]" >
+                    <div class="list-fl fl"  @click="goTo('detail',{productID:item.productID,goodsid:item.goodsid})" >
+                        <el-checkbox v-model="checkIds[item.goodsid]" v-if="showChecked"></el-checkbox>
                         <div class="img">
-                            <img src="../../assets/images/classIfication/list-11.png" alt="">
+                            <img :src="item.productPic" alt="">
                         </div>
                     </div>
                     <div class="list-fr" :class="{marLeft:showChecked}">
-                        <h3>皇家香雪大米4kg礼盒装</h3>
-                        <i class="tag">4kg礼盒装</i>
+                        <h3  @click="goTo('detail',{productID:item.productID,goodsid:item.goodsid})" >{{item.productName}}</h3>
+                        <i class="tag" @click="goTo('detail',{productID:item.productID,goodsid:item.goodsid})"  > {{item.standrdsName}}</i>
                         <div class="prices">
-                            <span class="jg">60.00</span>
-                            <el-button type="primary" round icon="el-icon-plus"></el-button>
-                        </div>
-                    </div>
-                </div>
-                <div class="list">
-                    <div class="list-fl fl">
-                        <el-checkbox v-model="checked" v-if="showChecked"></el-checkbox>
-                        <div class="img">
-                            <img src="../../assets/images/classIfication/list-11.png" alt="">
-                        </div>
-                    </div>
-                    <div class="list-fr" :class="{marLeft:showChecked}">
-                        <h3>皇家香雪大米4kg礼盒装</h3>
-                        <i class="tag">4kg礼盒装</i>
-                        <div class="prices">
-                            <span class="jg">60.00</span>
-                            <el-button type="primary" round icon="el-icon-plus"></el-button>
-                        </div>
-                    </div>
-                </div>
-                <div class="list">
-                    <div class="list-fl fl">
-                        <el-checkbox v-model="checked" v-if="showChecked"></el-checkbox>
-                        <div class="img">
-                            <img src="../../assets/images/classIfication/list-11.png" alt="">
-                        </div>
-                    </div>
-                    <div class="list-fr" :class="{marLeft:showChecked}">
-                        <h3>皇家香雪大米4kg礼盒装</h3>
-                        <i class="tag">4kg礼盒装</i>
-                        <div class="prices">
-                            <span class="jg">60.00</span>
-                            <el-button type="primary" round icon="el-icon-plus"></el-button>
-                        </div>
-                    </div>
-                </div>
-                <div class="list">
-                    <div class="list-fl fl">
-                        <el-checkbox v-model="checked" v-if="showChecked"></el-checkbox>
-                        <div class="img">
-                            <img src="../../assets/images/classIfication/list-11.png" alt="">
-                        </div>
-                    </div>
-                    <div class="list-fr" :class="{marLeft:showChecked}">
-                        <h3>皇家香雪大米4kg礼盒装</h3>
-                        <i class="tag">4kg礼盒装</i>
-                        <div class="prices">
-                            <span class="jg">60.00</span>
-                            <el-button type="primary" round icon="el-icon-plus"></el-button>
-                        </div>
-                    </div>
-                </div>
-                <div class="list">
-                    <div class="list-fl fl">
-                        <el-checkbox v-model="checked" v-if="showChecked"></el-checkbox>
-                        <div class="img">
-                            <img src="../../assets/images/classIfication/list-11.png" alt="">
-                        </div>
-                    </div>
-                    <div class="list-fr" :class="{marLeft:showChecked}">
-                        <h3>皇家香雪大米4kg礼盒装</h3>
-                        <i class="tag">4kg礼盒装</i>
-                        <div class="prices">
-                            <span class="jg">60.00</span>
-                            <el-button type="primary" round icon="el-icon-plus"></el-button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="listBox">
-                <h2>3月25日</h2>
-                <div class="list">
-                    <div class="list-fl fl">
-                        <el-checkbox v-model="checked" v-if="showChecked"></el-checkbox>
-                        <div class="img">
-                            <img src="../../assets/images/classIfication/list-11.png" alt="">
-                        </div>
-                    </div>
-                    <div class="list-fr" :class="{marLeft:showChecked}">
-                        <h3>皇家香雪大米4kg礼盒装</h3>
-                        <i class="tag">4kg礼盒装</i>
-                        <div class="prices">
-                            <span class="jg">60.00</span>
-                            <el-button type="primary" round icon="el-icon-plus"></el-button>
-                        </div>
-                    </div>
-                </div>
-                <div class="list">
-                    <div class="list-fl fl">
-                        <el-checkbox v-model="checked" v-if="showChecked"></el-checkbox>
-                        <div class="img">
-                            <img src="../../assets/images/classIfication/list-11.png" alt="">
-                        </div>
-                    </div>
-                    <div class="list-fr" :class="{marLeft:showChecked}">
-                        <h3>皇家香雪大米4kg礼盒装</h3>
-                        <i class="tag">4kg礼盒装</i>
-                        <div class="prices">
-                            <span class="jg">60.00</span>
-                            <el-button type="primary" round icon="el-icon-plus"></el-button>
-                        </div>
-                    </div>
-                </div>
-                <div class="list">
-                    <div class="list-fl fl">
-                        <el-checkbox v-model="checked" v-if="showChecked"></el-checkbox>
-                        <div class="img">
-                            <img src="../../assets/images/classIfication/list-11.png" alt="">
-                        </div>
-                    </div>
-                    <div class="list-fr" :class="{marLeft:showChecked}">
-                        <h3>皇家香雪大米4kg礼盒装</h3>
-                        <i class="tag">4kg礼盒装</i>
-                        <div class="prices">
-                            <span class="jg">60.00</span>
-                            <el-button type="primary" round icon="el-icon-plus"></el-button>
-                        </div>
-                    </div>
-                </div>
-                <div class="list">
-                    <div class="list-fl fl">
-                        <el-checkbox v-model="checked" v-if="showChecked"></el-checkbox>
-                        <div class="img">
-                            <img src="../../assets/images/classIfication/list-11.png" alt="">
-                        </div>
-                    </div>
-                    <div class="list-fr" :class="{marLeft:showChecked}">
-                        <h3>皇家香雪大米4kg礼盒装</h3>
-                        <i class="tag">4kg礼盒装</i>
-                        <div class="prices">
-                            <span class="jg">60.00</span>
-                            <el-button type="primary" round icon="el-icon-plus"></el-button>
-                        </div>
-                    </div>
-                </div>
-                <div class="list">
-                    <div class="list-fl fl">
-                        <el-checkbox v-model="checked" v-if="showChecked"></el-checkbox>
-                        <div class="img">
-                            <img src="../../assets/images/classIfication/list-11.png" alt="">
-                        </div>
-                    </div>
-                    <div class="list-fr" :class="{marLeft:showChecked}">
-                        <h3>皇家香雪大米4kg礼盒装</h3>
-                        <i class="tag">4kg礼盒装</i>
-                        <div class="prices">
-                            <span class="jg">60.00</span>
-                            <el-button type="primary" round icon="el-icon-plus"></el-button>
+                            <span class="jg">{{item.productPrice}}</span>
+                            <el-button type="primary" @click="addShopClick(item.productID,item.goodsid)" round icon="el-icon-plus"></el-button>
                         </div>
                     </div>
                 </div>
@@ -171,8 +24,8 @@
         </div>
         <div class="collection-foot" v-if="showChecked">
             <div class="warp">
-                <el-checkbox v-model="checked">全选</el-checkbox>
-                <button>删 除</button>
+                <el-checkbox v-model="checked" @change="clickAll()">全选</el-checkbox>
+                <button @click="del()" >删 除</button>
             </div>
         </div>
     </div>
@@ -180,17 +33,94 @@
 
 <script>
     import ListHeader from '@/components/ListHeader.vue'
+    import { request, userRequest} from '@/js/request.js'
+    var moment = require('moment');
     export default {
         name: "collection",
         data(){
+            this.loadData(0,this);
             return{
                 title:'我的收藏',
                 text:'管理',
                 checked:false,
-                showChecked:false
+                showChecked:false,
+                monthArray:[],
+                monthDataArray:{},
+                checkIds:{}
             }
         },
         methods:{
+            goTo(path,params){
+                        if(params){
+                            this.$router.push({name:path,query:params});
+                        }else{
+                            this.$router.push(path);
+                        }
+             },
+              addShopClick(val){
+                 console.log(val)
+                 var page=this;
+                 var postData={
+                     goodsid: val,
+                     num: 1
+                 };
+                 userRequest("/shopCar/addCarGoods",postData).then(function(response){
+                     console.log(response)
+                 });
+             },
+            loadData(pageNo,op){
+                 var postData={
+                      current: pageNo,
+                      pageSize: 10,
+                    }
+                var nowYear=new Date().getFullYear();
+                userRequest("/appUser/queryUserCollectList",postData).then(function (response) {
+                        for(var i in response){
+                            var data=response[i];
+                            var time=data.collectTime.split("-");
+                            var monthStr="";
+                            if(nowYear==time[0]){
+                                monthStr=time[1]+"月"+time[2]+"日";
+                            }else{
+                                monthStr=time[0]+"年"+time[1]+"月"+time[2]+"日";
+                            }
+                            if(op.monthArray.indexOf(monthStr)==-1){
+                                op.monthArray.push(monthStr);
+                                op.monthDataArray[monthStr]=[];
+                            }
+                            op.monthDataArray[monthStr].push(data);
+                        }
+                        console.log(op.monthArray,op.monthDataArray)
+                 })
+            },
+            clickAll(){
+                var page=this;
+                for(var i in page.monthDataArray){
+                    for(var j in page.monthDataArray[i] ){
+                        var op=page.monthDataArray[i][j];
+                        page.checkIds[op.goodsid]=page.checked;
+                    }
+                }
+            },
+            del(){
+                var page=this;
+                var total=0;
+                var success=0;
+                for(var i in page.checkIds){
+                    if(!this.checkIds[i]){
+                        continue;
+                    }
+                    total++;
+                    userRequest("/shopProduct/delProductCollectInfo",{goodsid:i}).then(function (response) {
+                        success++;
+                        if(total==success ){
+                               page.monthArray=[];
+                               page.monthDataArray={};
+                               page.loadData(0,page);
+                        }
+                    });
+                }
+            },
             succseClick(text){
                 if(text=='管理'){
                     this.showChecked = true
@@ -201,6 +131,8 @@
                 }
 
             }
+        },
+         mounted() {
         },
         components: {
             ListHeader,

@@ -21,7 +21,7 @@
                         <div   class="price">
                             <span @click="goTo('detail',{productID:item.productID,goodsid:item.goodsid})"  >{{item.productPrice}}</span>
                             <s @click="goTo('detail',{productID:item.productID,goodsid:item.goodsid})" v-if="item.productPrice!=null">({{item.productPrice}})</s>
-                            <el-button type="primary" @click="addShopClick(item.productID,goodsid)" round icon="el-icon-plus"></el-button>
+                            <el-button type="primary" @click="addShopClick(item.productID,item.goodsid)" round icon="el-icon-plus"></el-button>
                         </div>
                     </li>
                     </template>
