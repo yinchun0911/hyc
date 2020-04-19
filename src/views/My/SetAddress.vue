@@ -2,13 +2,13 @@
     <div class="setAddress">
         <ListHeader :title="title" :showHeadFr="false"></ListHeader>
         <div class="content">
-            <div class="top">
-                <h2>Car Walker<span>15022021331</span><b>家</b><i class="el-icon-edit"></i></h2>
-                <p>重庆市渝北区XXXX12#10-1</p>
-                <div><el-checkbox v-model="checked">设为默认</el-checkbox><i class="el-icon-delete"></i></div>
+            <div class="top" v-for="address in addressList">
+                <h2>{{address.linkMan}}<span>{{address.linkPhone}}</span><b>{{labels[address.lableId]}}</b><i class="el-icon-edit" @click="goTo('addAddress',{edit:true,address:address})"></i></h2>
+                <p> {{address.fullAddress}}</p>
+                <div><el-checkbox v-model="address.isDefault==1" @change="setDefault(address.id,address.isDefault==1)"   >设为默认</el-checkbox><i class="el-icon-delete"></i></div>
             </div>
             <div class="btns">
-                <button><i class="el-icon-plus"></i>添加地址</button>
+                <button @click="goTo('addAddress')"><i class="el-icon-plus"></i>添加地址</button>
             </div>
         </div>
     </div>
@@ -16,13 +16,56 @@
 
 <script>
     import ListHeader from '@/components/ListHeader.vue'
+    import { request, userRequest} from '@/js/request.js'
     export default {
         name: "setAddress",
         data(){
+            this.loadAddressTag();
             return{
                 title:'收货地址',
-                checked:false
+                checked:false,
+                labels:{},
+                addressList:[]
             }
+        },
+        methods:{
+             loadAddress(){
+                        var page=this;
+                       userRequest("/userAddress/queryUserAddressList",{current: 0, pageSize: 0}).then(function (response) {
+                                        page.addressList=response;
+                                        console.log(response)
+                        })
+
+              },
+              loadAddressTag(){
+                          var page=this;
+                         userRequest("/userAddress/queryUserAddressLableList",{current: 0, pageSize: 0}).then(function (response) {
+                                        for(var item in response){
+                                          page.labels[response[item].id]=response[item].name;
+                                        }
+                                        page. loadAddress();
+                          })
+                },
+              setDefault(id,isDefault){
+                 console.log(id);
+                 if(isDefault==0){
+                    isDefault=1
+                 }else{
+                    isDefault=0
+                 }
+                 var page=this;
+                 userRequest("/userAddress/saveUserDefaultAddress",{addressId: id,isDefault:isDefault}).then(function (response) {
+                           page.addressList=[];
+                           page.loadAddress();
+                });
+              },
+             goTo(path,params){
+                    if(params){
+                        this.$router.push({name:path,params:params});
+                    }else{
+                        this.$router.push(path);
+                    }
+              }
         },
         components: {
             ListHeader,

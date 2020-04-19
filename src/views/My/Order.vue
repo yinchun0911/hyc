@@ -48,7 +48,9 @@
     import ListHeader from '@/components/ListHeader.vue'
      import { request, userRequest} from '@/js/request.js'
       var moment = require('moment');
-
+      for(var num=0;num<10;num++){
+        require('../../assets/images/time/mini-'+num+'.png')
+      }
     export default {
         name: "order",
         data(){
@@ -81,7 +83,7 @@
                 var postData={
                   current: page,
                   orderType: current,
-                  pageSize: 10,
+                  pageSize: 50,
                 }
                 userRequest("/shopOrder/orderList",postData).then(function (response) {
                         for(var i in response.list){

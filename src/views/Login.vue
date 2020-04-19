@@ -6,10 +6,10 @@
             <div class="content-wrap">
                 <form>
                     <ul>
-                        <li><input type="text" value="15012345678"></li>
-                        <li><input type="text" placeholder="请输入验证码"><button class="code">获取验证码</button></li>
+                        <li><input type="text" v-model="phone" placeholder="请输入手机号码" ></li>
+                        <li><input type="text" v-model="code" placeholder="请输入验证码"><button  type="button" @click="getCode()" class="code">{{text}}</button></li>
                     </ul>
-                    <button class="loginBtn">登 录</button>
+                    <button type="button" @click="loginBtn()"  class="loginBtn">登 录</button>
                 </form>
                 <div class="bottom-btn">
                     <p>一键登录</p>
@@ -24,15 +24,77 @@
 
 <script>
     import ListHeader from '@/components/ListHeader.vue'
+    import { request, userRequest} from '@/js/request.js'
+      import { Dialog } from 'vant'
     export default {
         name: "login",
         data(){
+            var title="登录"
             return{
-                title:'登录绑定',
+                title:title,
+                text:"获取验证码",
+                phone:"",
+                code:"",
+                countDwon:60,
+                hasSend:false
             }
         },
         methods:{
+            getCode(){
+                console.log(1111)
+                var op=this;
+                 var phone=op.phone;
+                 if (!/^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/.test(phone)){
+                      Dialog({ message: '手机号不正确' })
+                      return;
+                }
+                if(op)
+                if(op.countDwon<60){
+                    return;
+                }
+                op.text=op.countDwon+"s";
+                op.countDown();
 
+
+                request("/appUserLogin/getIdentifyingCode",{phone :phone}).then(function(response){
+                       console.log(response)
+                       op.hasSend=true;
+                });
+
+            },loginBtn(){
+                var op=this;
+                if(!op.hasSend){
+                     Dialog({ message: '请先获取验证码' })
+                      return;
+                }
+                 var postData={
+                        smsCode:op.code ,
+                        userName:op.phone
+                 }
+
+               request("/appUserLogin/loginVerify",postData).then(function(response){
+
+                        sessionStorage.setItem("userId", response.id);
+                        sessionStorage.setItem("name", response.name);
+                        sessionStorage.setItem("phone", response.phone);
+                        sessionStorage.setItem("headPic", response.headPic);
+                        sessionStorage.setItem("token", response.token);
+
+                        this.$router.push({name:"home",params:params});
+                });
+            },
+
+            countDown(){
+                var op=this;
+                op.countDwon--;
+                if(op.countDwon<0){
+                    op.countDwon=60;
+                       op.text="获取验证码";
+                    return;
+                }
+                op.text=op.countDwon+"s";
+                setTimeout(op.countDown,1000);
+            }
         },
         components: {
             ListHeader,

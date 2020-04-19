@@ -47,15 +47,18 @@
                     {value:'销量'},
                     {value:'筛选'},
                 ],
+                isbottom:-1,
                 currentPage:0,
                 postData:{
                     current:0,
-                    pageSize:30,
+                    pageSize:6,
+                    pageNum:0,
                     sortType:"1",
                     sortMethod:'1',
                     keyWords: "",
                     token:""
                 },
+                lastPage:-1,
                 goodsList:[]
             }
         },
@@ -88,10 +91,16 @@
                    }
 
                   var typeID=typeId;
+                  if(op.isbottom==1){
+                    return;
+                  };
                   request("/shopProduct/queryProductList",op.postData).then(function (response) {
                         for(var i in response.list){
                             op.goodsList.push(response.list[i])
                         }
+                        op.pageNum=response.pageNum;
+                        op.isbottom=1;
+                        op.lastPage=response.lastPage
                  })
             },
             addShopClick(val){
@@ -122,9 +131,10 @@
                     this.postData.sortType=index+1;
                     this.postData.sortMethod='1'
                 }
-                console.log(2222,this.current,index,this.postData.sortMethod);
+                this.pageNum=0
                 this.goodsList=[];
-                this.loadData(this,0)
+                this.isbottom = -1;
+                this.loadData(this,this.pageNum)
             },
             goTo(path,params){
                 if(params){
@@ -132,12 +142,28 @@
                 }else{
                     this.$router.push(path);
                 }
+            },
+            handleScroll() {
+
+                console.log(this.isbottom==1,this.lastPage,this.lastPage!=-1,this.pageNum,this.pageNum<this.lastPage)
+                if(this.isbottom==1&&this.lastPage!=-1 && this.pageNum<this.lastPage){
+                      this.isbottom = -1
+                    this.pageNum++
+                    this.loadData(this,this.pageNum);
+                }else{
+                    console.log("到底了")
+                }
+
             }
         },
         mounted(){
-
              this.loadData(this,1);
+             window.addEventListener('scroll', this.handleScroll)
         },
+        destroyed(){
+            window.removeEventListener('scroll', this.handleScroll)
+        },
+
         components: {
             ListHeader
         },

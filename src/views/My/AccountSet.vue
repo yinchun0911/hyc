@@ -5,22 +5,21 @@
             <div class="top">
                 <label>头像设置</label>
                 <div class="user_pic">
-                    <el-upload
+                    <el-upload  action="#"
                             class="head_img"
-                            action="https://jsonplaceholder.typicode.com/posts/"
                             :show-file-list="false"
                             :on-success="handleAvatarSuccess"
                             :before-upload="beforeAvatarUpload">
-                        <img :src="userInfo.avatar" class="avatar">
+                        <img :src="headPic" class="avatar">
                         <i class="el-icon-arrow-right"></i>
                     </el-upload>
                 </div>
             </div>
             <div class="user-form">
                 <ul>
-                    <li><label>昵称设置</label><input type="text" placeholder="请输入您的昵称"></li>
-                    <li><label>手机号码</label><input type="text" placeholder="请输入您的手机号码"></li>
-                    <li><label>出生日期</label><input type="text" placeholder="请输入您的出生年月日"></li>
+                    <li><label>昵称设置</label><input type="text" v-model="name" placeholder="请输入您的昵称"></li>
+                    <li><label>手机号码</label><input type="text" v-model="phone" placeholder="请输入您的手机号码"></li>
+                    <li><label>出生日期</label><input type="text" v-model="birthday" placeholder="请输入您的出生年月日"></li>
                     <li>
                         <label class="w2">性    别</label>
                         <div class="radio-box">
@@ -31,7 +30,7 @@
                 </ul>
             </div>
             <div class="btns">
-                <button>保 存</button>
+                <button type="button" @click="save()">保 存</button>
             </div>
         </div>
     </div>
@@ -39,20 +38,32 @@
 
 <script>
     import ListHeader from '@/components/ListHeader.vue'
+    import { request, userRequest} from '@/js/request.js'
+    import Vue from 'vue'
     export default {
         name: "accountSet",
         data(){
+            var phone=sessionStorage.getItem("phone")+"";
+            var headPic=sessionStorage.getItem("headPic")+"";
+            var name=sessionStorage.getItem("name")+"";
+            var birthday=sessionStorage.getItem("birthday")+"";
+            var sex=sessionStorage.getItem("sex")+"";
             return{
                 title:'账户设置',
                 userInfo: {
                     avatar: require('../../assets/images/my/user-pic.png')
                 },
+                headPic:headPic,
+                phone:phone,
+                name:name,
+                birthday:birthday,
+                sex:sex,
                 radio:'1'
             }
         },
         methods:{
             handleAvatarSuccess(res, file) {
-                this.userInfo.avatar = URL.createObjectURL(file.raw);
+                this.headPic = URL.createObjectURL(file.raw);
             },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
@@ -65,6 +76,25 @@
                     this.$message.error('上传头像图片大小不能超过 2MB!');
                 }
                 return isJPG && isLt2M;
+            },
+            save(){
+
+                var op=this;
+                var postData={   nickName: op.name,
+                                 userAvatar:  op.headPic,
+                                 userBrithDay: op.birthday,
+                                 userPhone: op.phone,
+                                 userSex: op.radio}
+
+                userRequest("/appUser/saveUserSet",postData).then(function(resp){
+                        sessionStorage.setItem("phone",postData.userPhone);
+                        sessionStorage.setItem("headPic",postData.userAvatar);
+                        sessionStorage.setItem("name",postData.nickName);
+                        sessionStorage.setItem("birthday",postData.userBrithDay);
+                        sessionStorage.setItem("sex",postData.userSex);
+                        op.$router.push({name:"my"});
+
+                });
             }
         },
         components: {

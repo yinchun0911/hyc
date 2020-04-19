@@ -2,65 +2,17 @@
     <div class="problem">
         <ListHeader :title="title" :showHeadFr="false"></ListHeader>
         <div class="content">
-            <el-collapse accordion>
-                <el-collapse-item>
+            <el-collapse accordion >
+                 <el-collapse-item v-for="type in problem">
                     <template slot="title">
-                        <h2 class="q1">常见问题</h2>
+                        <h2 :class="'q'+type.typeSort">{{type.typeName}}</h2>
                     </template>
-                    <div class="main">
-                        <h4>1、常见问题常见问题常见问题常见问题常</h4>
+                    <div class="main" v-for="it in type.problemInfoList  ">
+                        <h4>{{it.sortNum}}、{{it.question}}</h4>
                         <div class="msg">
-                            <p>兑换方式一：</p>
-                            <p>常见问题常见问题常见问题常见问题常常见问题常见问题常见问题常见问题常</p>
-                            <p>兑换方式二：</p>
-                            <p>常见问题常见问题常见问题常见问题常常见问题常见问题常见问题常见问题常</p>
+                            {{it.answer}}
                         </div>
                     </div>
-                    <div class="main">
-                        <h4>2、常见问题常见问题常见问题常见问题常</h4>
-                        <div class="msg">
-                            <p>兑换方式一：</p>
-                            <p>常见问题常见问题常见问题常见问题常常见问题常见问题常见问题常见问题常</p>
-                            <p>兑换方式二：</p>
-                            <p>常见问题常见问题常见问题常见问题常常见问题常见问题常见问题常见问题常</p>
-                        </div>
-                    </div>
-                    <div class="main">
-                        <h4>3、常见问题常见问题常见问题常见问题常</h4>
-                        <div class="msg">
-                            <p>兑换方式一：</p>
-                            <p>常见问题常见问题常见问题常见问题常常见问题常见问题常见问题常见问题常</p>
-                            <p>兑换方式二：</p>
-                            <p>常见问题常见问题常见问题常见问题常常见问题常见问题常见问题常见问题常</p>
-                        </div>
-                    </div>
-                    <div class="main">
-                        <h4>4、常见问题常见问题常见问题常见问题常</h4>
-                        <div class="msg">
-                            <p>兑换方式一：</p>
-                            <p>常见问题常见问题常见问题常见问题常常见问题常见问题常见问题常见问题常</p>
-                            <p>兑换方式二：</p>
-                            <p>常见问题常见问题常见问题常见问题常常见问题常见问题常见问题常见问题常</p>
-                        </div>
-                    </div>
-                </el-collapse-item>
-                <el-collapse-item>
-                    <template slot="title">
-                        <h2 class="q2">个人权益问题</h2>
-                    </template>
-                    <div>个人权益问题；</div>
-                </el-collapse-item>
-                <el-collapse-item>
-                    <template slot="title">
-                        <h2 class="q3">线上商城使用问题</h2>
-                    </template>
-                    <div>线上商城使用问题；</div>
-                </el-collapse-item>
-                <el-collapse-item>
-                    <template slot="title">
-                        <h2 class="q4">线下使用常见问题</h2>
-                    </template>
-                    <div>线下使用常见问题；</div>
                 </el-collapse-item>
             </el-collapse>
 
@@ -70,13 +22,26 @@
 
 <script>
     import ListHeader from '@/components/ListHeader.vue'
+    import { request, userRequest} from '@/js/request.js'
     export default {
         name: "problem",
         data(){
+            this.loadData();
             return{
-                title:'常见问题'
+                title:'常见问题',
+                problem:{}
             }
         },
+        methods:{
+            loadData(){
+                var op=this;
+               request("/appUserCommon/queryNormalAnswerInfo",{}).then(function (response) {
+                     op.problem=response
+               });
+
+            }
+        },
+
         components: {
             ListHeader,
         },

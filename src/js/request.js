@@ -1,14 +1,19 @@
 import axios from 'axios'
 import Vue from 'vue'
+import { Dialog } from 'vant'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
+
+import { router }  from '@/router/index.js'
+
 export function userRequest(url, params){
-     params.appUserId=1;
-     params.token="string";
+     params.appUserId=sessionStorage.getItem("userId");
+     params.token=sessionStorage.getItem("token");
      if(params.noError&&params.appUserId==null){
               if(typeof params.defaultFn=="function"){
                      params.defaultFn();
               }
      }
+     params.needUser=true;
     return request(url, params);
 }
 export function request(url, params) {
@@ -27,8 +32,14 @@ export function request(url, params) {
                         if(res.data.code=="200"){
                             resolve(res.data.data);
                         }else if(typeof params.defaultFn=="function"){
-                            console.log("req result success")
                             params.defaultFn();
+                        }else{
+                            Dialog({ message: res.data.msg })
+                            if("请先登录惠原仓"==res.data.msg){
+                            //无法跳转
+                                router.push({name:"login"});
+                            }
+
                         }
             })
             .catch(err => {

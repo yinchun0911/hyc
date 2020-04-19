@@ -3,15 +3,13 @@
         <ListHeader :title="title" :showHeadFr="false"></ListHeader>
         <div class="content">
             <ul>
-                <li>收货地址<i class="el-icon-arrow-right"></i></li>
-                <li>账号与安全<i class="el-icon-arrow-right"></i></li>
-                <li>通用设置<i class="el-icon-arrow-right"></i></li>
-                <li>版本更新<i class="el-icon-arrow-right"></i></li>
-                <li>投诉建议<i class="el-icon-arrow-right"></i></li>
+                <li @click="goTo('setAddress')">收货地址 <i class="el-icon-arrow-right"></i></li>
+                <li @click="goTo('accountSecurity')">账号与安全<i class="el-icon-arrow-right"></i></li>
+                <li >投诉建议<i class="el-icon-arrow-right"></i></li>
             </ul>
             <div class="btns">
-                <button>切换账号</button>
-                <button class="backBtn">退出登录</button>
+                <button @click="logout()">切换账号</button>
+                <button @click="logout()" class="backBtn">退出登录</button>
             </div>
         </div>
     </div>
@@ -25,6 +23,19 @@
             return{
                 title:'基础设置'
             }
+        }, methods:{
+
+            logout(){
+               sessionStorage.setItem("userSession",null);
+               this.goTo("login");
+            },
+             goTo(path,params){
+                    if(params){
+                        this.$router.push({name:path,params:params});
+                    }else{
+                        this.$router.push(path);
+                    }
+                }
         },
         components: {
             ListHeader,

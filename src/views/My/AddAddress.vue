@@ -4,29 +4,26 @@
         <div class="content">
             <div class="top">
                 <ul>
-                    <li><label>联 系 人</label><input type="text" placeholder="请输入您的姓名"></li>
-                    <li><label>手机号码</label><input type="text" placeholder="请输入您的手机号码"></li>
+                    <li><label>联 系 人</label><input type="text" v-model="linkMan" placeholder="请输入您的姓名"></li>
+                    <li><label>手机号码</label><input type="text" v-model="phone" placeholder="请输入您的手机号码"></li>
                     <li><label>所在地址</label><input type="text" readonly @click="showPopup" v-model="showAddr"></li>
-                    <li><label>详细地址</label><input type="text" placeholder="例如：10楼108室"></li>
+                    <li><label>详细地址</label><input type="text" v-model="address" placeholder="例如：10楼108室"></li>
                 </ul>
             </div>
             <div class="tag">
                 <label>标 签</label>
                 <div class="tab-box">
-                    <span>家</span>
-                    <span>公司</span>
-                    <span>学校</span>
-                    <span class="addTag"><i class="el-icon-plus"></i></span>
+                    <span :class="lableId==item.id?'check':''" v-for="item in labels" @click="lableId=item.id"  :data-id="item.id">{{item.name}}</span>
                 </div>
             </div>
             <div class="default">
                 设为默认地址
                 <div class="switch fr">
-                    <el-switch v-model="defaultValue"></el-switch>
+                    <el-switch v-model="setDefault"></el-switch>
                 </div>
             </div>
             <div class="btns">
-                <button>保 存</button>
+                <button @click="save()">保 存</button>
             </div>
             <van-popup
                     v-model="show"
@@ -50,17 +47,45 @@
 <script>
     import ListHeader from '@/components/ListHeader.vue'
     import addressData from '@/js/address.js'
+    import { request, userRequest} from '@/js/request.js'
     export default {
         name: "addAddress",
         data(){
+            var title="新增收货地址";
+            var page=this;
+             var isEdit =page.$route.params.edit;
+             console.log(page.$route.params);
+             var linkMan="";
+             var phone="";
+             var showAddr='请选择您的所在地址'
+             var address="";
+             var lableId=1;
+             var id=null;
+             if(isEdit){
+               title="编辑收货地址";
+                var oldData=page.$route.params.address;
+                id=oldData.id;
+                linkMan=oldData.linkMan;
+                phone=oldData.linkPhone;
+                showAddr=oldData.fullAddress.split(oldData.address)[0];
+                address=oldData.address;
+                lableId=oldData.lableId;
+             }
+            this.loadAddressTag();
             return{
-                title:'新增收货地址',
-                defaultValue:false,
+                aid:id,
+                title:title,
+                setDefault:false,
+                linkMan:linkMan,
+                phone:phone,
                 show: false,  //是否显示弹出层
                 detailAddress: '',  //绑定详细地址输入框
                 areaList: addressData, //可选地址数据列表
-                showAddr: '请选择您的所在地址',      //显示校区地址
+                showAddr: showAddr,      //显示校区地址
                 resAddr: '',       //传给后端的位置信息
+                address:address,
+                lableId:lableId,
+                labels:[]
             }
         },
         methods: {
@@ -74,6 +99,12 @@
                 let val = picker.getValues()
                 this.resAddr = val
             },
+             loadAddressTag(){
+                      var page=this;
+                     userRequest("/userAddress/queryUserAddressLableList",{current: 0, pageSize: 0}).then(function (response) {
+                                        page.labels=response
+                          })
+                },
             //选好地址后点击确定
             chooseThis () {
                 this.show = false
@@ -83,7 +114,24 @@
             },
             cancelChoose(){
                 this.show = false
+            },
+            save(){
+                var page=this;
+                var postData={ address: page.address,
+                     fullAddress: page.showAddr+page.address,
+                     id: page.aid,
+                     isDefault: page.setDefault?1:0,
+                     lableId: page.lableId,
+                     linkMan: page.linkMan,
+                      linkPhone: page.phone,
+                 }
+
+                userRequest("/userAddress/saveUserAddress",postData).then(function (response) {
+                    console.log(response);
+                });
+
             }
+            
         },
         components: {
             ListHeader,
@@ -142,6 +190,9 @@
                         &+span{
                             margin-left: .4rem;
                         }
+                    }
+                    span.check{
+                        color: red;
                     }
                     .addTag{
                         margin-left: 0;

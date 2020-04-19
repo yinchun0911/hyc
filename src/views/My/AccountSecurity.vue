@@ -4,13 +4,13 @@
         <div class="content">
             <ul>
                 <li>
-                    <input type="text" placeholder="手机号">
+                    <input type="text" v-model="phone" placeholder="手机号">
                     <button>绑定手机号</button>
                 </li>
-                <li>
+               <!-- <li>
                     <input type="text" placeholder="微信号">
                     <span>张三</span>
-                </li>
+                </li> -->
             </ul>
         </div>
     </div>
@@ -21,7 +21,9 @@
     export default {
         name: "accountSecurity",
         data(){
+             var phone=sessionStorage.getItem("phone")+"";
             return{
+                phone:phone,
                 title:'账号与安全',
             }
         },

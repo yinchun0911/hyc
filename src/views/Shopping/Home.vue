@@ -4,7 +4,7 @@
         <div class="content">
             <div class="list-box">
                 <h2>
-                    <el-checkbox v-model="checked">445566</el-checkbox>
+                    <el-checkbox v-model="checked" @change="checkAll()">全选</el-checkbox>
                     <i class="el-icon-delete"></i>
                 </h2>
                 <ul>
@@ -52,6 +52,8 @@
                 title:'购物车',
                 checked:false,
                 productList:[],
+                lastPage:-1,
+                isbottom:-1,
                 num:0
             }
         },  methods:{
@@ -66,15 +68,38 @@
                 var page=this;
                 var postData={
                   current: current,
-                  pageSize: 20,
+                  pageSize: 5,
                 }
+                if(page.isbottom==1){
+                    return;
+                 };
                 userRequest("/shopCar/getCarGoodsList",postData).then(function (response) {
                         for(var i in response){
                             page.productList.push(response[i])
                         }
+                        page.lastPage=postData.current+1;
+                        if(response.length==-1){
+                            page.lastPage=-2;
+                        }
+                        page.isbottom=1;
                  })
+            },
+             handleScroll() {
+                    if(this.lastPage-1){
+                        return;
+                    }
+                    if(this.isbottom==1&&this.lastPage!=-2 ){
+                        this.isbottom = -1
+                        this.pageNum++
+                        this.loadData(this.pageNum);
+                    }else{
+                        console.log("到底了")
+                    }
+
             }
-        },
+        }, mounted(){
+               window.addEventListener('scroll', this.handleScroll)
+          },
         components: {
             ListHeader,
             Footer

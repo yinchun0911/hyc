@@ -4,11 +4,11 @@
         <div class="content">
             <div class="user-msg" @click="goTo('accountSet')">
                 <div class="user-fl fl">
-                    <img src="../../assets/images/my/user-pic.png" alt="">
+                    <img :src="headPic" alt="">
                 </div>
                 <div class="user-fr">
-                    <h3>Car Walker</h3>
-                    <p>15022021331</p>
+                    <h3>{{name}}</h3>
+                    <p>{{phone}}</p>
                     <i class="el-icon-arrow-right"></i>
                 </div>
             </div>
@@ -71,8 +71,11 @@
     export default {
         name: "my",
         data(){
+             var name=  sessionStorage.getItem("name");
+            var phone=sessionStorage.getItem("phone");
+            var headPic=sessionStorage.getItem("headPic");
             return{
-
+                name:name,phone:phone,headPic:headPic
             }
         },
         methods:{
