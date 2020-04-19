@@ -9,20 +9,21 @@
                     </div>
                     <p>支出 <span>396.00</span></p>
                 </h2>
-                <div class="listWarp">
+                <div class="listWarp"  v-for="item in paymentList">
                     <div class="listMsg">
                         <div class="list-fl fl">
                             <div class="img">
-                                <img src="../../assets/images/classIfication/list-11.png" alt="">
+                                <img :src="item.productPic" alt="">
                             </div>
                         </div>
                         <div class="list-fr">
-                            <h3>皇家香雪大米4kg礼盒装<span>X 1</span></h3>
-                            <p>共1件商品</p>
-                            <div>订单时间：2020-03-26  12:00:00</div>
+                            <h3>{{item.productName}}<span>X {{item.productCount}}</span></h3>
+                            <p>共{{item.saleNum}}件商品</p>
+                            <div>订单时间：{{item.orderTime}}</div>
                         </div>
                     </div>
                 </div>
+
                 <div class="listWarp">
                     <div class="listMsg">
                         <div class="list-fl fl">
@@ -38,28 +39,7 @@
                     </div>
                 </div>
             </div>
-            <div class="box">
-                <h2>
-                    <div class="inputWarp fl">
-                        <span class="form-control"><i class="dataPicker" id="date-group1-2"></i><i class="el-icon-caret-bottom"></i></span>
-                    </div>
-                    <p>支出 <span>396.00</span></p>
-                </h2>
-                <div class="listWarp">
-                    <div class="listMsg">
-                        <div class="list-fl fl">
-                            <div class="img">
-                                <img src="../../assets/images/classIfication/list-10.png" alt="">
-                            </div>
-                        </div>
-                        <div class="list-fr">
-                            <h3>欧利莱特级初榨橄榄油750ml<span>X 1</span></h3>
-                            <p>共1件商品</p>
-                            <div>订单时间：2020-03-26  12:00:00</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </div>
 </template>
@@ -67,11 +47,26 @@
 <script>
     import ListHeader from '@/components/ListHeader.vue'
     import Rolldate from '@/assets/libs/jdate.min.js'
+    import { request, userRequest} from '@/js/request.js'
     export default {
         name: "paymentHistory",
         data(){
+            this.loadData(0)
             return{
-                title:'支付记录'
+                title:'支付记录',
+                paymentList:[]
+            }
+        },
+        methods:{
+            loadData(page){
+                var op=this;
+                var postData={current:page,pageSize:20}
+               userRequest("/appUser/queryUserPayList",postData).then(function (response) {
+                      for(var i in response){
+                        op.paymentList.push(response[i]);
+                      }
+               })
+
             }
         },
         mounted() {
