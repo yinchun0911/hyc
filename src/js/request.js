@@ -3,11 +3,11 @@ import Vue from 'vue'
 import { Dialog } from 'vant'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
-import { router }  from '@/router/index.js'
+import router   from '../router'
 
 export function userRequest(url, params){
-     params.appUserId=sessionStorage.getItem("userId");
-     params.token=sessionStorage.getItem("token");
+     params.appUserId= sessionStorage.getItem("userId");
+     params.token= sessionStorage.getItem("token");
      if(params.noError&&params.appUserId==null){
               if(typeof params.defaultFn=="function"){
                      params.defaultFn();
@@ -15,6 +15,9 @@ export function userRequest(url, params){
      }
      params.needUser=true;
     return request(url, params);
+}
+export function getRemotHost(){
+       return Vue.prototype.APIHOST;
 }
 export function request(url, params) {
        var data=null;
@@ -36,7 +39,6 @@ export function request(url, params) {
                         }else{
                             Dialog({ message: res.data.msg })
                             if("请先登录惠原仓"==res.data.msg){
-                            //无法跳转
                                 router.push({name:"login"});
                             }
 

@@ -49,7 +49,11 @@
             return{
                 title:'支付记录',
                 paymentList:[],
-                sum:0
+                sum:0,
+                queryText:queryText,
+                isbottom:-1,
+                lastPage:-1,
+                pageNum:0,
             }
         },
         methods:{
@@ -60,10 +64,24 @@
                       for(var i in response.list){
                         op.paymentList.push(response.list[i]);
                       }
+                      op.pageNum=response.pageNum;
+                      op.lastPage=response.lastPage;
+                      op.queryText=postData.orderMonth
                });
                 userRequest("/appUser/queryUserPayCount",postData).then(function (response) {
                     op.sum=response
                 });
+
+            },
+             handleScroll() {
+                    console.log(this.isbottom==1,this.lastPage,this.lastPage!=-1,this.pageNum,this.pageNum<this.lastPage)
+                    if(this.isbottom==1&&this.lastPage!=-1 && this.pageNum<this.lastPage){
+                          this.isbottom = -1
+                        this.pageNum++
+                        this.loadData(this,this.queryText);
+                    }else{
+                        console.log("到底了")
+                    }
 
             }
         },
@@ -83,8 +101,11 @@
                     op.loadData(0,date);
                    console.log('确定按钮触发'+date);
                  }
-            })
-        },
+            });
+            window.addEventListener('scroll', this.handleScroll)
+        }, destroyed(){
+              window.removeEventListener('scroll', this.handleScroll)
+          },
         components: {
             ListHeader,
         },

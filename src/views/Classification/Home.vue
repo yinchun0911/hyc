@@ -1,6 +1,6 @@
 <template>
     <div class="classHome">
-        <ClassHeader @sweepCodeClick="sweepCodeClick" @searchClick="searchClick" @shopClick="shopClick"></ClassHeader>
+        <ClassHeader @sweepCodeClick="sweepCodeClick" :badgeNum="badgeNum" @searchClick="searchClick" @shopClick="shopClick"></ClassHeader>
         <div class="content">
             <van-sidebar  v-model="activeKey" @change="onChange">
                 <template v-for="(left,index) in leftList">
@@ -14,7 +14,7 @@
                         <h2>{{item.typeName}}</h2>
                         <ul>
                             <template v-for="(sub,index3) in item.subList">
-                                <li @click="goTo('list',{typeId:11})">
+                                <li @click="goTo('list',{typeId:sub.typeID})">
                                     <div class="img">
                                         <div class="tgd">
                                             <img :src="sub.typePic" alt="">
@@ -43,11 +43,12 @@
         name: "home",
         data(){
             this.initTopList();
+            this.getShoppingCarNum();
             return {
                 leftList:[],
                 comtentList:[],
-                activeKey:-1
-
+                activeKey:-1,
+                badgeNum:0
             }
         },
         methods:{
@@ -80,7 +81,17 @@
                //  page.loadSubList(this.leftList[val].typeID);
 
             },
-
+            getShoppingCarNum(){
+                        var page=this;
+                        var postData={noError:true,defaultFn:function(){
+                                 console.log("defaultProcess")
+                                 page.badgeNum=0;
+                            }
+                        }
+                        userRequest("/shopCar/getCarGoodsNum",postData).then(function (response) {
+                              page.badgeNum=response;
+                        })
+            },
             // 扫一扫
             sweepCodeClick(){
                 console.log('扫一扫')

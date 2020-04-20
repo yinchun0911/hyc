@@ -5,22 +5,22 @@
             <div class="list-box">
                 <h2>
                     <el-checkbox v-model="checked" @change="checkAll()">全选</el-checkbox>
-                    <i class="el-icon-delete"></i>
+                    <i class="el-icon-delete" @click="deleteFn()"></i>
                 </h2>
                 <ul>
                         <li  v-for="item  in productList">
                             <div class="check fl">
-                                <el-checkbox :data-id="item.goodsid" v-model="checked"></el-checkbox>
+                                <el-checkbox :data-id="item.goodsid" v-model="checkIds[item.goodsid]" @change="countCheckTotal()"></el-checkbox>
                             </div>
                             <div class="img fl"  @click="goByPathTo('detail',{productID:item.productID ,goodsid:item.goodsid})">
                                 <img :src="item.productPic" alt="">
                             </div>
-                            <div class="msg"  @click="goByPathTo('detail',{productID:item.productID})">
-                                <h3>{{item.productName}}</h3>
-                                <i class="tag">{{item.standrdsName}}</i>
+                            <div class="msg" >
+                                <h3  @click="goByPathTo('detail',{productID:item.productID})">{{item.productName}}</h3>
+                                <i class="tag"  @click="goByPathTo('detail',{productID:item.productID})">{{item.standrdsName}}</i>
                                 <div class="prices">
                                     <span class="jg">{{item.productPrice}}</span>
-                                    <el-input-number v-model="num" :min="1" :max="10" size="mini"></el-input-number>
+                                    <el-input-number v-model="productNum[item.goodsid]" :min="1" :max="10" @change="countCheckTotal()" size="mini"></el-input-number>
                                 </div>
                             </div>
                         </li>
@@ -28,11 +28,11 @@
             </div>
             <div class="shopFoot">
                 <div class="checkBox fl">
-                    <el-checkbox v-model="checked">全选</el-checkbox>
+                    <el-checkbox v-model="checked" @change="checkAll()">全选</el-checkbox>
                 </div>
                 <div class="sum">
-                    <label for="">合计：<span>0.00</span></label>
-                    <button>去结算</button>
+                    <label >合计：<span>{{total}}</span></label>
+                    <button @click="buy" >去结算</button>
                 </div>
             </div>
         </div>
@@ -54,7 +54,10 @@
                 productList:[],
                 lastPage:-1,
                 isbottom:-1,
-                num:0
+                num:0,
+                checkIds:{},
+                productNum:{},
+                total:0.00
             }
         },  methods:{
              goByPathTo(path,params){
@@ -76,14 +79,103 @@
                 userRequest("/shopCar/getCarGoodsList",postData).then(function (response) {
                         for(var i in response){
                             page.productList.push(response[i])
+                            page.productNum[response[i].goodsid]=response[i].saleNum;
                         }
                         page.lastPage=postData.current+1;
                         if(response.length==-1){
                             page.lastPage=-2;
                         }
                         page.isbottom=1;
+                        console.log(page.productNum);
                  })
             },
+           checkAll(){
+                var page=this;
+                if(!page.checked){
+                    page.total=0.00;
+                }
+                for(var i in page.productList){
+                    var op=page.productList[i];
+                    page.checkIds[op.goodsid]=page.checked;
+                }
+                page. countCheckTotal();
+            },
+            countCheckTotal(){
+                    var page=this;
+                    var  sum=0;
+                    for(var i in page.productList){
+                        var op=page.productList[i];
+                        if(page.checkIds[op.goodsid]==true){
+                            var num=parseInt(page.productNum[op.goodsid]);
+                            if (num=='NaN'){
+                                num=1;
+                            }
+                            sum+=op.productPrice*num;
+                        };
+                    }
+                    page.total=sum
+
+            },
+            deleteFn(){
+                  var page=this;
+                 var  sum=0;
+                 var deleteList=[]
+                 for(var i in page.productList){
+                     var op=page.productList[i];
+                     if(page.checkIds[op.goodsid]==true){
+                         deleteList.push(op.goodsid);
+                     };
+                 }
+                 if(deleteList.length==0){
+                    Dialog({ message: "清先选择商品" })
+                    return;
+                 }
+                 var  num=0;
+                 for(var  i in deleteList){
+                    var deleteData={ goodsid:deleteList[i],
+                                      noError:true,
+                                      defaultFn:function(){
+                                                num++ ;
+                                                if(num==deleteList.length){
+                                                     page.productList=[];
+                                                     page.loadData(current);
+                                                }
+                                       }, num:-1,
+                                     };
+                     userRequest("/shopCar/delCarGoods",deleteData).then(function (response) {
+                        num++;
+                        if(num==deleteList.length){
+                            page.productList=[];
+                            page.loadData(0);
+                         }
+                     });
+                 }
+            },
+            buy(){
+                 var goodsParams=[];
+                 var page=this;
+                  for(var i in page.productList){
+                      var op=page.productList[i];
+                       console.log(op);
+                      if(page.checkIds[op.goodsid]==true){
+                          var num=page.productNum[op.goodsid];
+                          goodsParams.push({ goodsid: op.goodsid, num: num});
+                      };
+                  }
+                  if(goodsParams.length==0){
+                    Dialog({ message: "清先选择商品" });
+                    return;
+                  }
+                var params={
+                    productCarList:goodsParams
+                }
+
+                userRequest("/shopOrder/addTmpOrder",params).then(function (response) {
+                     page.$router.push({name:"confirmOrder",params:{formCar:true,order:response}});
+                 });
+
+            },
+
              handleScroll() {
                     if(this.lastPage-1){
                         return;
@@ -97,9 +189,12 @@
                     }
 
             }
+
         }, mounted(){
                window.addEventListener('scroll', this.handleScroll)
-          },
+        },destroyed(){
+               window.removeEventListener('scroll', this.handleScroll)
+        },
         components: {
             ListHeader,
             Footer

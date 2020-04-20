@@ -68,17 +68,31 @@
 
 <script>
     import Footer from '@/components/Footer.vue'
+    import { request, userRequest} from '@/js/request.js'
     export default {
         name: "my",
         data(){
-             var name=  sessionStorage.getItem("name");
+            var name=  sessionStorage.getItem("name");
             var phone=sessionStorage.getItem("phone");
             var headPic=sessionStorage.getItem("headPic");
+            this.loadInfo();
             return{
                 name:name,phone:phone,headPic:headPic
             }
         },
         methods:{
+            loadInfo(){
+                var page=this;
+                 userRequest("/appUser/queryUserInfo",{}).then(function (response) {
+                       page.name =response.name;
+                       page.phone =response.phone;
+                       if(!response.headPic){
+                        page.headPic=require("../../assets/images/my/user-pic.png");
+                       }else{
+                        page.headPic=response.headPic;
+                       }
+                 });
+            },
             goTo(path,params){
                 if(params){
                     this.$router.push({name:path,params:params});

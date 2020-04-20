@@ -133,13 +133,12 @@
                 this.imgShow = !this.imgShow
                 var page=this;
                 if(this.imgShow){
-                    //取消收藏
-
                      //收藏
                      userRequest("/shopProduct/addProductCollectInfo",{goodsid:page.product.goodsid}).then(function(response){
                         console.log(response)
                     });
                 }else{
+                    //取消收藏
                       userRequest("/shopProduct/delProductCollectInfo",{goodsid:page.product.goodsid}).then(function(response){
                             console.log(response)
                     });

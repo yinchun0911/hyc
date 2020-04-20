@@ -47,6 +47,7 @@
 <script>
     import ListHeader from '@/components/ListHeader.vue'
      import { request, userRequest} from '@/js/request.js'
+     import { Dialog } from 'vant'
       var moment = require('moment');
       for(var num=0;num<10;num++){
         require('../../assets/images/time/mini-'+num+'.png')
@@ -70,11 +71,11 @@
                     {value:'待收货'},
                     {value:'已完成'},
                 ],
-                orderList:[],
                 minute1:require('../../assets/images/time/mini-0.png'),
-                minute2:require('../../assets/images/time/mini-0.png'),
-                second1:require('../../assets/images/time/mini-0.png'),
-                second2:require('../../assets/images/time/mini-0.png'),
+                orderList:[],
+                isbottom:-1,
+                lastPage:-1,
+                pageNum:0,
             }
         },
         methods:{
@@ -83,7 +84,7 @@
                 var postData={
                   current: page,
                   orderType: current,
-                  pageSize: 50,
+                  pageSize: 20,
                 }
                 userRequest("/shopOrder/orderList",postData).then(function (response) {
                         for(var i in response.list){
@@ -96,6 +97,9 @@
                             response.list[i].leftTime=leftTime;
                             op.orderList.push(response.list[i])
                         }
+                       op.pageNum=response.pageNum;
+                       op.lastPage=response.lastPage;
+                       op.queryText=postData.orderMonth
                  })
 
             },
@@ -118,9 +122,7 @@
                 var time=1800-parseInt(countTime/1000);//30分钟换算成1800秒
 
                if(time<0){
-                      return {
-                                       m2:op.minute1,m1:op.minute1,s2:op.minute1,s1:op.minute1
-                               }
+                      return {    m2:op.minute1,m1:op.minute1,s2:op.minute1,s1:op.minute1   }
                 }
 
                 var minute=parseInt(time/60);
@@ -136,12 +138,7 @@
                     pm2=require('../../assets/images/time/mini-'+m2+'.png');
                     ps1=require('../../assets/images/time/mini-'+s1+'.png');
                     ps2=require('../../assets/images/time/mini-'+s2+'.png');
-                   return {
-                                       m2:pm2,
-                                       m1:pm1,
-                                       s2:ps2,
-                                       s1:ps1
-                           }
+                   return {  m2:pm2,  m1:pm1,  s2:ps2,   s1:ps1  }
                 }catch(e){
                     console.log(e);
                 }
@@ -160,7 +157,6 @@
                        var left=op.getTime(order.leftTime);
                        order.left=left;
                 }
-
                 setTimeout(function(){
                     op.timeOut()
                  },1000);
@@ -179,10 +175,25 @@
                         this.$router.push(path);
                     }
             }
+            ,
+             handleScroll() {
+                    console.log(this.isbottom==1,this.lastPage,this.lastPage!=-1,this.pageNum,this.pageNum<this.lastPage)
+                    if(this.isbottom==1&&this.lastPage!=-1 && this.pageNum<this.lastPage){
+                          this.isbottom = -1
+                        this.pageNum++
+                        this.loadData(this,this.queryText);
+                    }else{
+                        console.log("到底了")
+                    }
+
+            }
         },
         mounted() {
-           this.timeOut()
-        },
+           this.timeOut();
+           window.addEventListener('scroll', this.handleScroll)
+         }, destroyed(){
+                        window.removeEventListener('scroll', this.handleScroll)
+           },
         components: {
             ListHeader,
         },

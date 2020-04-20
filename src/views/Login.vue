@@ -56,7 +56,7 @@
                 op.countDown();
 
 
-                request("/appUserLogin/getIdentifyingCode",{phone :phone}).then(function(response){
+                request("/appUserLogin/getIdentifyingCode",{userPhone :phone}).then(function(response){
                        console.log(response)
                        op.hasSend=true;
                 });
@@ -64,12 +64,12 @@
             },loginBtn(){
                 var op=this;
                 if(!op.hasSend){
-                     Dialog({ message: '请先获取验证码' })
-                      return;
+                    Dialog({ message: '请先获取验证码' })
+                    return;
                 }
                  var postData={
                         smsCode:op.code ,
-                        userName:op.phone
+                        userPhone:op.phone
                  }
 
                request("/appUserLogin/loginVerify",postData).then(function(response){
@@ -80,7 +80,7 @@
                         sessionStorage.setItem("headPic", response.headPic);
                         sessionStorage.setItem("token", response.token);
 
-                        this.$router.push({name:"home",params:params});
+                        op.$router.push({name:"home",params:params});
                 });
             },
 

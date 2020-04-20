@@ -52,15 +52,24 @@
 <script>
     import ListHeader from '@/components/ListHeader.vue'
     import { request, userRequest} from '@/js/request.js'
+    import { Dialog } from 'vant'
     export default {
         name: "confirmOrder",
         data(){
-            this.createTempOrder();
+            //购物车已创建好订单
+            var formCar=this.$route.params.formCar;
+            var tempOrder={};
+            if(formCar){
+                  tempOrder=this.$route.params.order;
+            }else{
+                //非购物车需要创建临时订单
+                this.createTempOrder();
+            }
             this.loadAddress();
             return{
                 title:'确认订单',
                 textarea:'',
-                tempOrder:{},
+                tempOrder:tempOrder,
                 address:{},
 
             }
@@ -90,6 +99,10 @@
             },
             subOrder(){
                 var page=this;
+                if(page.address==null){
+                    Dialog({ message: "清先选择商品" });
+                    return;
+                  }
                 var postData={
                    addressId: page.address.id,
                   orderNo:page.tempOrder.orderNo,

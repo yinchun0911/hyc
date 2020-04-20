@@ -5,10 +5,9 @@
             <div class="top">
                 <label>头像设置</label>
                 <div class="user_pic">
-                    <el-upload  action="#"
+                    <el-upload  :action="host+'/file/uploadBaseData'"
                             class="head_img"
                             :show-file-list="false"
-                            :on-success="handleAvatarSuccess"
                             :before-upload="beforeAvatarUpload">
                         <img :src="headPic" class="avatar">
                         <i class="el-icon-arrow-right"></i>
@@ -23,8 +22,8 @@
                     <li>
                         <label class="w2">性    别</label>
                         <div class="radio-box">
-                            <el-radio v-model="radio" label="1">男</el-radio>
-                            <el-radio v-model="radio" label="2">女</el-radio>
+                            <el-radio v-model="sex" label="1">男</el-radio>
+                            <el-radio v-model="sex" label="2">女</el-radio>
                         </div>
                     </li>
                 </ul>
@@ -38,44 +37,58 @@
 
 <script>
     import ListHeader from '@/components/ListHeader.vue'
-    import { request, userRequest} from '@/js/request.js'
+    import { request, userRequest ,getRemotHost} from '@/js/request.js'
     import Vue from 'vue'
     export default {
         name: "accountSet",
         data(){
-            var phone=sessionStorage.getItem("phone")+"";
-            var headPic=sessionStorage.getItem("headPic")+"";
-            var name=sessionStorage.getItem("name")+"";
-            var birthday=sessionStorage.getItem("birthday")+"";
-            var sex=sessionStorage.getItem("sex")+"";
+            this.loadInfo()
             return{
                 title:'账户设置',
                 userInfo: {
                     avatar: require('../../assets/images/my/user-pic.png')
                 },
-                headPic:headPic,
-                phone:phone,
-                name:name,
-                birthday:birthday,
-                sex:sex,
-                radio:'1'
+                headPic:"",
+                phone:"",
+                name:"",
+                birthday:"",
+                sex:"",
+                radio:'1',
+                host:getRemotHost()
             }
         },
         methods:{
+            loadInfo(){
+                var page=this;
+                 userRequest("/appUser/queryUserInfo",{}).then(function (response) {
+                       page.name =response.name;
+                       page.phone =response.phone;
+                       if(!response.headPic){
+                        page.headPic=require("../../assets/images/my/user-pic.png");
+                       }else{
+                        page.headPic=response.headPic;
+                       }
+                      page.birthday= response.birthDay!=null?response.birthDay:""
+                      page.sex=response.sex+""
+                 });
+            },
             handleAvatarSuccess(res, file) {
+                console.log(res);
                 this.headPic = URL.createObjectURL(file.raw);
             },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
                 const isLt2M = file.size / 1024 / 1024 < 2;
-
                 if (!isJPG) {
                     this.$message.error('上传头像图片只能是 JPG 格式!');
                 }
                 if (!isLt2M) {
                     this.$message.error('上传头像图片大小不能超过 2MB!');
                 }
-                return isJPG && isLt2M;
+                if( isJPG && isLt2M){
+                    this.headPic = URL.createObjectURL(file.raw);
+                };
+                return false;
             },
             save(){
 

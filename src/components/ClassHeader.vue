@@ -21,8 +21,7 @@
         props:['badgeNum'],
         data(){
             return{
-                serchTxt:'',
-                badgeNum:3
+                serchTxt:''
             }
         },
         methods:{
