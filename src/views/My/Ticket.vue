@@ -18,8 +18,8 @@
             <!--添加卡片-->
             <el-dialog title="" :visible.sync="dialogTableVisible" top="40vh" :close-on-click-modal="false">
                 <ul>
-                    <li><label>您的卡号：</label><span>点击扫码获得卡号</span></li>
-                    <li><label>激  活  码：</label><input type="text" placeholder="请输入激活码"></li>
+                    <li><label>您的卡号：</label><span @click="scan()">点击扫码获得卡号</span></li>
+                    <li><label>激  活  码：</label><input type="text" :model="cardPWD" placeholder="请输入激活码"></li>
                 </ul>
                 <div class="footBtn">
                     <button class="backBtn">确 定</button>
@@ -31,9 +31,10 @@
 </template>
 
 <script>
+    import wx from 'weixin-js-sdk'
     import ListHeader from '@/components/ListHeader.vue'
      import { request, userRequest} from '@/js/request.js'
-
+    import { Dialog } from 'vant'
     export default {
         name: "ticket",
         data(){
@@ -41,7 +42,10 @@
             return{
                 title:'我的点券',
                 cardList:[],
-                dialogTableVisible:false
+                dialogTableVisible:false,
+
+                cardNo :"",
+                cardPWD:""
             }
         },
          methods:{
@@ -49,13 +53,32 @@
                 var page=this;
                 var postData={
                   current: current,
-                  pageSize: 20,
+                  pageSize: 30,
                 }
                 userRequest("/appUser/queryUserCardList",postData).then(function (response) {
                         for(var i in response){
                             page.cardList.push(response[i])
                         }
                  })
+            },
+            scan(){
+
+
+            },
+            saveCard(){
+                var page=this;
+                var cardNo=page.cardNo;
+                var cardPWD=page.cardPWD;
+
+
+                 userRequest("/appUser/saveUserCard",{cardNo,cardPWD}).then(function (response) {
+                        Dialog({ message: "添加成功" });
+                        page.cardList=[];
+                        page.loadData(0)
+
+                 });
+
+
             }
         },
         components: {

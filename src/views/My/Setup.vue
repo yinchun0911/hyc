@@ -5,7 +5,7 @@
             <ul>
                 <li @click="goTo('setAddress')">收货地址 <i class="el-icon-arrow-right"></i></li>
                 <li @click="goTo('accountSecurity')">账号与安全<i class="el-icon-arrow-right"></i></li>
-                <li >投诉建议<i class="el-icon-arrow-right"></i></li>
+                <li @click="goTo('proposal')">投诉建议<i class="el-icon-arrow-right"></i></li>
             </ul>
             <div class="btns">
                 <button @click="logout()">切换账号</button>
@@ -26,7 +26,8 @@
         }, methods:{
 
             logout(){
-               sessionStorage.setItem("userSession",null);
+               sessionStorage.setItem("userId",null);
+               sessionStorage.setItem("token",null);
                this.goTo("login");
             },
              goTo(path,params){

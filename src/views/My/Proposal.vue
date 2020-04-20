@@ -14,6 +14,7 @@
                 <el-upload
                         action="https://jsonplaceholder.typicode.com/posts/"
                         list-type="picture-card"
+                        :before-upload="beforeAvatarUpload"
                         :on-preview="handlePictureCardPreview"
                         :on-remove="handleRemove">
                     <i class="el-icon-plus"></i>
@@ -24,7 +25,7 @@
                 </el-dialog>
             </div>
             <div class="btns">
-                <button>立即提交</button>
+                <button @click="save()">立即提交</button>
             </div>
         </div>
     </div>
@@ -32,6 +33,8 @@
 
 <script>
     import ListHeader from '@/components/ListHeader.vue'
+    import { request, userRequest ,getRemotHost} from '@/js/request.js'
+    import { Dialog } from 'vant'
     export default {
         name: "proposal",
         data(){
@@ -39,14 +42,35 @@
                 title:'投诉建议',
                 textarea:'',
                 dialogImageUrl: '',
-                dialogVisible: false
+                dialogVisible: false,
+                imageUpload:""
             }
         },
         methods: {
+            save(){
+                var page=this;
+                /*if(page.imageUpload==""){
+                    Dialog({ message: "请至少上传1张问题/建议相关图片" });
+                    return null;
+                }*/
+                if(page.textarea==""){
+                    Dialog({ message: "请留下您宝贵的建议" });
+                    return;
+                }
+                var suggestion=page.textarea
+                userRequest("/appUserCommon/saveUserSuggestion",{suggestion,pic1:"暂时没有图片"}).then(function(){
+                          Dialog({ message: "提交成功，感谢您的支持与信任" });
+                          page.$router.push("setup");
+
+                });
+
+            },
             handleRemove(file, fileList) {
                 console.log(file, fileList);
             },
+            beforeAvatarUpload(){ return false},
             handlePictureCardPreview(file) {
+                this.imageUpload="1";
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
             }

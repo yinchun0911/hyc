@@ -80,7 +80,7 @@
                         sessionStorage.setItem("headPic", response.headPic);
                         sessionStorage.setItem("token", response.token);
 
-                        op.$router.push({name:"home",params:params});
+                        op.$router.push({name:"Home",params:response});
                 });
             },
 
