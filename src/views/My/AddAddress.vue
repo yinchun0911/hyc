@@ -172,6 +172,7 @@
                 background-color: #fff;
                 overflow: hidden;
                 margin: .2rem 0;
+                font-size: .26rem;
                 label{
                     width: 2.11rem;
                     float: left;

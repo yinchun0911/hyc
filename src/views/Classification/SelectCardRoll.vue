@@ -18,7 +18,7 @@
                     <li><label>合计：</label><span>{{order.totleProduct}}</span>（含运费：<span>{{order.totleFreight}}</span>）</li>
                 </ul>
                 <div class="checkbox">
-                    <el-checkbox v-model="checked"></el-checkbox><span>阅读并同意<i>服务协议</i></span>
+                    <el-checkbox v-model="checked"></el-checkbox><span @click="dialogVisible = true">阅读并同意<i>服务协议</i></span>
                 </div>
             </div>
             <template v-for="item in cardList">
@@ -47,7 +47,12 @@
                     <button @click="dialogTableVisible = false">取 消</button>
                 </div>
             </el-dialog>
-
+            <!--服务协议-->
+            <el-dialog class="agreement" :visible.sync="dialogVisible">
+                <div class="box">
+                    服务协议服务协议服务协议服务协议服务协议服务协议服务协议服务协议服务协议服务协议服务协议服务协议服务协议
+                </div>
+            </el-dialog>
         </div>
     </div>
 </template>
@@ -74,6 +79,7 @@
                 second1:require('../../assets/images/time/0.png'),
                 second2:require('../../assets/images/time/0.png'),
                 checked:false,
+                dialogVisible:false,
                 dialogTableVisible:false,
                 order:params,
                 selectCard:-1,
@@ -335,6 +341,25 @@
                         color: #fff;
                     }
                 }
+            }
+        }
+        .agreement{
+            .el-dialog{
+                height: 75vh;
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+            .el-dialog__headerbtn{
+                position: fixed;
+                top:15vh;
+                right: .8rem;
+                .el-dialog__close{
+                    color: #000;
+                    font-weight: bolder;
+                }
+            }
+            .el-dialog__body {
+                padding: 0 .3rem .2rem .3rem;
             }
         }
     }

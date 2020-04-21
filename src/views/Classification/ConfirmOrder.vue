@@ -30,7 +30,7 @@
                 </div>
             </template>
             <div class="type">
-                <p>配送方式<span>快递</span><i class="el-icon-arrow-right"></i></p>
+                <p>配送方式<span>快递</span><i class="el-icon-arrow-right" @click="showSheet = true"></i></p>
             </div>
             <div class="price-box">
                 <ul>
@@ -45,6 +45,8 @@
             <div class="orderFooter">
                 <p>合计：<span>{{tempOrder.totleMoney}}</span><button @click="subOrder">提 交</button></p>
             </div>
+            <!--选择规格-->
+            <van-action-sheet v-model="showSheet" :actions="actions" @select="onSelect" />
         </div>
     </div>
 </template>
@@ -71,9 +73,21 @@
                 textarea:'',
                 tempOrder:tempOrder,
                 address:{},
-
+                showSheet:false,
+                actions: [
+                    { name: '选项1' },
+                    { name: '选项2' },
+                    { name: '选项3' },
+                ],
             }
         },methods: {
+            // 选择规格
+            onSelect(item) {
+                // 默认情况下点击选项时不会自动收起
+                // 可以通过 close-on-click-action 属性开启自动收起
+                this.showSheet = false;
+                alert(item.name);
+            },
             loadAddress(){
                 var page=this;
                userRequest("/userAddress/queryUserAddressList",{current: 0, pageSize: 0}).then(function (response) {
@@ -100,7 +114,7 @@
             subOrder(){
                 var page=this;
                 if(page.address==null){
-                    Dialog({ message: "清先选择商品" });
+                    Dialog({ message: "请先选择商品" });
                     return;
                   }
                 var postData={
@@ -287,7 +301,7 @@
             }
             .message{
                 background-color: #fff;
-                padding: 0 .2rem;
+                padding: 0 .2rem .2rem .2rem;
                 margin-bottom: 1rem;
                 p{
                     height: .8rem;
