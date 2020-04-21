@@ -117,17 +117,25 @@
             },
             save(){
                 var page=this;
+                var id=page.aid;
+                if(!id){
+                    id=0;
+                }
                 var postData={ address: page.address,
                      fullAddress: page.showAddr+page.address,
-                     id: page.aid,
+                     id: id,
                      isDefault: page.setDefault?1:0,
                      lableId: page.lableId,
                      linkMan: page.linkMan,
                       linkPhone: page.phone,
+                      cityCode :0,
+                      countyCode :0,
+                      provinceCode  :0,
+                      townCode  :0,
                  }
 
                 userRequest("/userAddress/saveUserAddress",postData).then(function (response) {
-                    console.log(response);
+                      this.$router.push("setAddress");
                 });
 
             }

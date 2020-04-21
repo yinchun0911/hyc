@@ -8,7 +8,7 @@
                 </div>
                 <div class="msg">
                     <h3>{{address.linkMan}} <span>{{address.linkPhone}}</span></h3>
-                    <p>{{address.address}}</p>
+                    <p @click="goEdit()">{{address.address}}</p>
                     <i class="el-icon-arrow-right"></i>
                 </div>
             </div>
@@ -70,17 +70,26 @@
                 title:'确认订单',
                 textarea:'',
                 tempOrder:tempOrder,
-                address:{},
+                address:{linkMan:"",linkPhone:"",address:"您未填写地址，请先完善地址信息"},
 
             }
         },methods: {
             loadAddress(){
                 var page=this;
                userRequest("/userAddress/queryUserAddressList",{current: 0, pageSize: 0}).then(function (response) {
-                                page.address=response[0];
+                                if(response.length>0){
+                                    page.address=response[0];
+                                }
                                 console.log(response)
                 })
 
+            },
+            goEdit(){
+                var page=this;
+                 console.log(page.address.address);
+                if("您未填写地址，请先完善地址信息"===page.address.address){
+                     page.$router.push({name:"setAddress"});
+                }
             },
             createTempOrder(){
                  var page=this;
@@ -100,7 +109,11 @@
             subOrder(){
                 var page=this;
                 if(page.address==null){
-                    Dialog({ message: "清先选择商品" });
+                    Dialog({ message: "清先选择收货地址" });
+                    return;
+                  }
+                  if("您未填写地址，请先完善地址信息"===page.address.address){
+                    Dialog({ message: "请先设置收货地址" });
                     return;
                   }
                 var postData={
