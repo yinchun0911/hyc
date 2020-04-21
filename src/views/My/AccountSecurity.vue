@@ -45,6 +45,7 @@
                     height: .8rem;
                     line-height: .8rem;
                     border-bottom: .02rem solid #f0f3fa;
+                    font-size: .26rem;
                     position: relative;
                     &:before{
                         content: '';
@@ -75,6 +76,7 @@
                         height: 100%;
                         border: 0;
                         padding-left: .65rem;
+                        font-size: .26rem;
                     }
                     button{
                         float: right;

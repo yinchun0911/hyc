@@ -30,12 +30,12 @@
                     <li>
                         <label>规格</label>
                         <span>{{product.standrdsName}}</span>
-                        <i class="el-icon-arrow-right"></i>
+                        <i class="el-icon-arrow-right" @click="showSheet = true"></i>
                     </li>
                     <li>
                         <label>送至</label>
-                        <span>添加收货地址</span>
-                        <i class="el-icon-arrow-right"></i>
+                        <span>{{showAdds}}</span>
+                        <i class="el-icon-arrow-right" @click="showPopup"></i>
                     </li>
                 </ul>
             </div>
@@ -99,13 +99,31 @@
                     </div>
                 </el-drawer>
             </div>
-
+            <!--选择规格-->
+            <van-action-sheet v-model="showSheet" :actions="actions" @select="onSelect" />
+            <!-- 选择地址-->
+            <van-popup
+                    v-model="show"
+                    position="bottom"
+                    :style="{ height: '50%' ,padding:'16px'}"
+            >
+                <van-area
+                        :area-list="areaList"
+                        :columns-placeholder="['请选择', '请选择', '请选择']"
+                        value="110000"
+                        title="选择地址"
+                        @change="changeAddr"
+                        @cancel="cancelChoose"
+                        @confirm="chooseThis"
+                />
+            </van-popup>
         </div>
     </div>
 </template>
 
 <script>
     import ListHeader from '@/components/ListHeader.vue'
+    import addressData from '@/js/address.js'
     import Swiper from 'swiper';
     import 'swiper/css/swiper.min.css';
     import { request, userRequest} from '@/js/request.js'
@@ -123,11 +141,47 @@
                 shoppingNum:0,
                 product:{},
                 products:[],
-                standrds:[]
+                standrds:[],
+                show:false,
+                showAdds:'添加收货地址',
+                areaList: addressData, //可选地址数据列表
+                resAddr:'',
+                showSheet:false,
+                actions: [
+                    { name: '选项1' },
+                    { name: '选项2' },
+                    { name: '选项3' },
+                ],
 
             }
         },
         methods: {
+            //控制popup组件的弹出和隐藏
+            showPopup () {
+                this.show = true
+            },
+            changeAddr (picker) {
+                //value=0改变省，1改变市，2改变区
+                let val = picker.getValues()
+                this.resAddr = val
+            },
+            cancelChoose(){
+                this.show = false
+            },
+            //选好地址后点击确定
+            chooseThis () {
+                this.show = false
+                //选中地址成功后回显
+                this.showAdds = this.resAddr[0].name + '-' + this.resAddr[1].name + '-' + this.resAddr[2].name
+                console.log(this.resAddr, '即将传给后端的省市区信息')
+            },
+            // 选择规格
+            onSelect(item) {
+                // 默认情况下点击选项时不会自动收起
+                // 可以通过 close-on-click-action 属性开启自动收起
+                this.showSheet = false;
+                alert(item.name);
+            },
             // 点击收藏
             isActive(){
                 this.imgShow = !this.imgShow

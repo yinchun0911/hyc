@@ -126,6 +126,10 @@
                 line-height: 1.6rem;
                 background-color: #fff;
                 padding: 0 .2rem;
+                label{
+                    font-size: .26rem;
+                    color: #4c4c4c;
+                }
                 .user_pic{
                     width: 1.88rem;
                     height: 1.6rem;
