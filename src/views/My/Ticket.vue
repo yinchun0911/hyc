@@ -18,7 +18,7 @@
             <!--添加卡片-->
             <el-dialog title="" :visible.sync="dialogTableVisible" top="40vh" :close-on-click-modal="false">
                 <ul>
-                    <li><label>您的卡号：</label><span @click="scan()">点击扫码获得卡号</span></li>
+                    <li><label>您的卡号：</label><span @click="scan()">{{cardNo!=""?cardNo:"点击扫码获得卡号"}}</span></li>
                     <li><label>激  活  码：</label><input type="text" :model="cardPWD" placeholder="请输入激活码"></li>
                 </ul>
                 <div class="footBtn">
@@ -33,7 +33,7 @@
 <script>
     import wx from 'weixin-js-sdk'
     import ListHeader from '@/components/ListHeader.vue'
-     import { request, userRequest} from '@/js/request.js'
+     import { getrequest, userRequest} from '@/js/request.js'
     import { Dialog } from 'vant'
     export default {
         name: "ticket",
@@ -45,7 +45,8 @@
                 dialogTableVisible:false,
 
                 cardNo :"",
-                cardPWD:""
+                cardPWD:"",
+                wechatInit:false
             }
         },
          methods:{
@@ -62,15 +63,59 @@
                  })
             },
             scan(){
+                var page=this;
+                if(!page.wechatInit){
+                    var href=window.location.href;
+                    getrequest("/wechat/getCode", {url:href}).then(function (res) {
+                        getrequest(res,{}).then(function(data){
+                            var  jsondata=JSON.parse(res);
+                            wx.config({
+                                // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                                debug: false,
+                                // 必填，公众号的唯一标识
+                                appId: jsondata.model.appId,
+                                // 必填，生成签名的时间戳
+                                timestamp: "" + jsondata.model.timestamp,
+                                // 必填，生成签名的随机串
+                                nonceStr: jsondata.model.nonceStr,
+                                // 必填，签名
+                                signature: jsondata.model.signature,
+                                // 必填，需要使用的JS接口列表，所有JS接口列表
+                                jsApiList: ['checkJsApi', 'scanQRCode']
+                            });
 
+
+                            wx.error(function (res) {
+                                alert("出错了：" + res.errMsg);//这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
+                            });
+                            wx.ready(function () {
+                                wx.checkJsApi({
+                                    jsApiList: ['scanQRCode'],
+                                    success: function (res) {
+                                        page.wechatInit=true;
+                                    }
+                                });
+
+                            });
+                        });
+                    });
+
+                }else{
+                        wx.scanQRCode({
+                            needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                            scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
+                            success: function (res) {
+                                page.cardNo=res.resultStr
+                            }
+                        });
+
+                    }
 
             },
             saveCard(){
                 var page=this;
                 var cardNo=page.cardNo;
                 var cardPWD=page.cardPWD;
-
-
                  userRequest("/appUser/saveUserCard",{cardNo,cardPWD}).then(function (response) {
                         Dialog({ message: "添加成功" });
                         page.cardList=[];

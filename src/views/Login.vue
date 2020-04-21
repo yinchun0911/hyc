@@ -13,7 +13,7 @@
                 </form>
                 <div class="bottom-btn">
                     <p>一键登录</p>
-                    <div class="wechat-login">
+                    <div  @click="wechatLogin()" class="wechat-login">
                         <img src="../assets/images/wx.png" alt="">
                     </div>
                 </div>
@@ -40,6 +40,9 @@
             }
         },
         methods:{
+            wechatLogin(){
+                Dialog({ message: '暂未开放' })
+            },
             getCode(){
                 console.log(1111)
                 var op=this;
@@ -74,11 +77,11 @@
 
                request("/appUserLogin/loginVerify",postData).then(function(response){
 
-                        sessionStorage.setItem("userId", response.id);
-                        sessionStorage.setItem("name", response.name);
-                        sessionStorage.setItem("phone", response.phone);
-                        sessionStorage.setItem("headPic", response.headPic);
-                        sessionStorage.setItem("token", response.token);
+                       localStorage.setItem("userId", response.id);
+                       localStorage.setItem("name", response.name);
+                       localStorage.setItem("phone", response.phone);
+                       localStorage.setItem("headPic", response.headPic);
+                       localStorage.setItem("token", response.token);
 
                         op.$router.push({name:"Home",params:response});
                 });

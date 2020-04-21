@@ -49,8 +49,8 @@
             </el-dialog>
             <!--服务协议-->
             <el-dialog class="agreement" :visible.sync="dialogVisible">
-                <div class="box">
-                    服务协议服务协议服务协议服务协议服务协议服务协议服务协议服务协议服务协议服务协议服务协议服务协议服务协议
+                <div class="box" v-html="text">
+
                 </div>
             </el-dialog>
         </div>
@@ -64,7 +64,7 @@
     export default {
         name: "selectCardRoll",
         data(){
-
+            this.loadUserProtalInfo();
            var params=this.$route.params;
                             // orderNo: "XHT2020041900943257471"
                             //orderTime: "2020-04-19 12:24:04"
@@ -83,6 +83,7 @@
                 dialogTableVisible:false,
                 order:params,
                 selectCard:-1,
+                text:"",
                 cardList:[]
             }
         },
@@ -131,6 +132,13 @@
                      });
 
              },
+            loadUserProtalInfo(){
+                 var page=this;
+                userRequest("/appUserCommon/queryUserProtalInfo", {}).then(function (response) {
+                    page.text=response.instructionsContent;
+                });
+
+            },
              getTime(){
                  var time=1800;//30分钟换算成1800秒
                  var that = this

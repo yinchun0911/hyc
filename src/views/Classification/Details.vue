@@ -519,6 +519,8 @@
             .drawer-box{
                 .el-drawer{
                     height: 6rem !important;
+                    overflow-x: hidden;
+                    overflow-y: auto;
                     .el-drawer__header{
                         padding: .2rem .2rem 0;
                         margin-bottom: .2rem;
@@ -589,19 +591,22 @@
                         ul{
                             margin: .2rem 0 .4rem 0;
                             display: flex;
+                            flex-wrap:wrap;
                             li{
                                 min-width: 3rem;
                                 height: .6rem;
                                 line-height: .6rem;
-                                font-size: .22rem;
+                                font-size: .2rem;
                                 color: #b2b2b2;
                                 text-align: center;
                                 border: .02rem solid #b3b3b3;
                                 border-radius: .3rem;
                                 padding: 0 .1rem;
-                                &+li{
-                                    margin-left: .25rem;
-                                }
+                                margin-right: .1rem;
+                                margin-top: .1rem;
+                                /*&+li{*/
+                                /*    margin-left: .25rem;*/
+                                /*}*/
                             }
                             .active{
                                 background-color: #e9f2ff;

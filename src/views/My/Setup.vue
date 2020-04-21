@@ -26,8 +26,8 @@
         }, methods:{
 
             logout(){
-               sessionStorage.setItem("userId",null);
-               sessionStorage.setItem("token",null);
+               localStorage.setItem("userId",null);
+                localStorage.setItem("token",null);
                this.goTo("login");
             },
              goTo(path,params){

@@ -97,7 +97,7 @@
             },onAddressSelect(item){
                 var page =this;
                 console.log(item)
-                page.address=page.selectPostName[tiem.id];
+                page.address=page.addressList[item.id];
             },
             loadAddress(){
                 var page=this;
