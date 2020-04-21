@@ -43,6 +43,7 @@
 <script>
     import ListHeader from '@/components/ListHeader.vue'
     import Footer from '@/components/Footer.vue'
+    import { Dialog } from 'vant'
     import { request, userRequest} from '@/js/request.js'
     export default {
         name: "shopHome",

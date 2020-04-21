@@ -72,6 +72,7 @@
                             //totleFreight: 41.3
                             console.log(params);
             this.loadCardList(params.orderNo);
+            this.loadOrderInfo(params.orderNo);
             return{
                 title:'选择卡卷',
                 minute1:require('../../assets/images/time/0.png'),
@@ -95,6 +96,12 @@
                 }
                 return num;
              },
+            loadOrderInfo(orderNo){
+                 var page=this;
+                userRequest("/shopOrder/orderInfo",{orderNo:orderNo}).then(function (response) {
+                    page.order=response;
+                })
+            },
              pay(){
                  var page=this;
                  if(!page.checked){
