@@ -162,7 +162,19 @@ const routes = [
 
 const router = new VueRouter({
   mode: 'history',
+
   routes
+});
+router.beforeEach((to, from, next) => {
+    console.log("to",to.path,"from",from.path)
+    console.log(to.path=="/classification/confirmOrder"&&(from.path=="/classification/selectCardRoll" || from.path=="/"));
+     if(to.path=="/classification/confirmOrder"&&(from.path=="/classification/selectCardRoll" || from.path=="/")){
+       next("/")
+
+     }else{
+       next();
+     }
+
 })
 
 export default router

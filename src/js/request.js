@@ -2,12 +2,12 @@ import axios from 'axios'
 import Vue from 'vue'
 import { Dialog } from 'vant'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
-
+axios.defaults.withCredentials = true;
 import router   from '../router'
 
 export function userRequest(url, params){
-     params.appUserId= sessionStorage.getItem("userId");
-     params.token= sessionStorage.getItem("token");
+     params.appUserId= localStorage.getItem("userId");
+     params.token= localStorage.getItem("token");
      if(params.noError&&params.appUserId==null){
               if(typeof params.defaultFn=="function"){
                      params.defaultFn();
@@ -50,3 +50,36 @@ export function request(url, params) {
     });
 
 }
+
+
+export function getrequest(url, params) {
+    var data=null;
+    if(url.indexOf("http")!=0){
+        url=Vue.prototype.APIHOST+url
+    }
+
+    return new Promise((resolve, reject) => {
+
+        axios.get(url, {params:params})
+            .then(res => {
+                if(url.indexOf("http")!=0){
+                    resolve(res);
+                }else if(res.data.code=="200"){
+                    resolve(res.data.data);
+                }else if(typeof params.defaultFn=="function"){
+                    params.defaultFn();
+                }else{
+                    Dialog({ message: res.data.msg })
+                    if("请先登录惠原仓"==res.data.msg){
+                        router.push({name:"login"});
+                    }
+
+                }
+            })
+            .catch(err => {
+                reject(err.data)
+            })
+    });
+
+}
+
