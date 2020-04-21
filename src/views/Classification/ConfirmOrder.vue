@@ -9,7 +9,7 @@
                 <div class="msg">
                     <h3>{{address.linkMan}} <span>{{address.linkPhone}}</span></h3>
                     <p @click="goEdit()">{{address.address}}</p>
-                    <i class="el-icon-arrow-right"></i>
+                    <i @click="showAddress=true" class="el-icon-arrow-right"></i>
                 </div>
             </div>
             <template v-for=" product in tempOrder.producList">
@@ -30,7 +30,7 @@
                 </div>
             </template>
             <div class="type">
-                <p>配送方式<span>快递</span><i class="el-icon-arrow-right" @click="showSheet = true"></i></p>
+                <p>配送方式<span @click="showSheet = true">{{selectPostName}}</span><i class="el-icon-arrow-right" ></i></p>
             </div>
             <div class="price-box">
                 <ul>
@@ -47,6 +47,7 @@
             </div>
             <!--选择规格-->
             <van-action-sheet v-model="showSheet" :actions="actions" @select="onSelect" />
+            <van-action-sheet v-model="showAddress" :actions="addressSelect" @select="onAddressSelect" />
         </div>
     </div>
 </template>
@@ -74,11 +75,15 @@
                 tempOrder:tempOrder,
                 address:{linkMan:"",linkPhone:"",address:"您未填写地址，请先完善地址信息"},
                 showSheet:false,
+                showAddress:false,
                 actions: [
-                    { name: '选项1' },
-                    { name: '选项2' },
-                    { name: '选项3' },
+                    { name: '快递',id:1 },
+                    { name: '自提',id:2 }
                 ],
+                addressSelect:[{name:"添加新地址",id:-1}],
+                selectPost:1,
+                selectPostName:"自提",
+                addressList:{}
             }
         },methods: {
             // 选择规格
@@ -86,14 +91,28 @@
                 // 默认情况下点击选项时不会自动收起
                 // 可以通过 close-on-click-action 属性开启自动收起
                 this.showSheet = false;
-                alert(item.name);
+                this.selectPost=item.id;
+                this.selectPostName=item.name;
+
+            },onAddressSelect(item){
+                var page =this;
+                console.log(item)
+                page.address=page.selectPostName[tiem.id];
             },
             loadAddress(){
                 var page=this;
                userRequest("/userAddress/queryUserAddressList",{current: 0, pageSize: 0}).then(function (response) {
                                 if(response.length>0){
                                     page.address=response[0];
+
+                                    for (var i in response){
+                                        var str=response[i].linkMan+"   "+response[i].address;
+                                        page.addressSelect.push({name:str,id:response[i].id})
+                                        page.addressList[response[i].id]=response[i];
+                                    }
+
                                 }
+
                                 console.log(response)
                 })
 
@@ -131,9 +150,9 @@
                     return;
                   }
                 var postData={
-                   addressId: page.address.id,
+                  addressId: page.address.id,
                   orderNo:page.tempOrder.orderNo,
-                  postType:1,
+                  postType:page.selectPost,
                   remark: page.textarea
                 };
                 userRequest("/shopOrder/addOrder",postData).then(function (response) {

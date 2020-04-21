@@ -65,9 +65,9 @@
         methods:{
             // 加载分类商品
             loadData(op,page){
-                   var typeId = op.$route.params.typeId;
-                   var areaID = op.$route.params.areaID;
-                    var keyWords=  op.$route.params.keyword;
+                   var typeId = op.$route.query.typeId;
+                   var areaID = op.$route.query.areaID;
+                    var keyWords=  op.$route.query.keyword;
                    if(typeId){
                     op.postData.typeId=typeId+"";
                    }

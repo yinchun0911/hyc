@@ -148,9 +148,6 @@
                 resAddr:'',
                 showSheet:false,
                 actions: [
-                    { name: '选项1' },
-                    { name: '选项2' },
-                    { name: '选项3' },
                 ],
 
             }
@@ -179,8 +176,8 @@
             onSelect(item) {
                 // 默认情况下点击选项时不会自动收起
                 // 可以通过 close-on-click-action 属性开启自动收起
-                this.showSheet = false;
-                alert(item.name);
+
+                this.product=this.products[item.id]
             },
             // 点击收藏
             isActive(){
@@ -215,6 +212,7 @@
                        for(var i in response){
                             var id=response[i].goodsid;
                             var standrdsName=response[i].standrdsName;
+                            page.actions.push({id:id,name:standrdsName});
                             page.standrds.push({id:id,standrdsName:standrdsName});
                             page.products[id]=response[i];
                             if(goodsid!=null&&goodsid==id){

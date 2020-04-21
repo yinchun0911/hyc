@@ -32,7 +32,7 @@
                 this.$emit('msgEventClick');
             },
              search(val){
-                  this.$router.push('list',{keyword:val})
+                  this.$router.push('/classification/list?keyword='+val)
               }
 
         }

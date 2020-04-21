@@ -7,7 +7,7 @@
 
         <template v-for="(swiper,index) in swiperList">
           <div class="swiper-slide" :data-url="swiper.jumpUrl">
-            <img :src="swiper.carouselPic" alt="">
+            <img :src="swiper.carouselPic" @click="goByPathTo(swiper.jumpUrl)" alt="">
           </div>
        </template>
         </div>
@@ -19,15 +19,15 @@
       <h2>惠原仓政企职工生活服务平台</h2>
       <div class="nav">
         <ul>
-          <li v-for="item in navList" :data-link="item.menuLink"><img :src="item.menuIcon" alt="">{{item.menuName}}</li>
+          <li v-for="item in navList" :data-link="item.menuLink" @click="goByPathTo(item.menuLink)" ><img :src="item.menuIcon" alt="">{{item.menuName}}</li>
         </ul>
       </div>
       <div class="main">
-        <img @click="goTo('list',{areaID:special1.activityAreaID})" :src="special1.activityAreaPic" alt="">
-        <img @click="goTo('list',{areaID:special2.activityAreaID})" :src="special2.activityAreaPic"alt="">
+        <img @click="goByPathTo('list',{areaID:special1.activityAreaID})" :src="special1.activityAreaPic" alt="">
+        <img @click="goByPathTo('list',{areaID:special2.activityAreaID})" :src="special2.activityAreaPic"alt="">
       </div>
       <div class="more-box">
-        <img @click="goTo('list',{areaID:special3.activityAreaID})" :src="special3.activityAreaPic" alt="">
+        <img @click="goByPathTo('list',{areaID:special3.activityAreaID})" :src="special3.activityAreaPic" alt="">
       </div>
 
 
@@ -35,7 +35,7 @@
     <div class="specialArea" :id="special.activityAreaID">
             <h3><img src="../assets/images/icon-04.png" alt="">{{ special.activityAreaName }}<span  @click="goTo('list',{areaID:special.activityAreaID})">更多&gt;</span></h3>
             <div class="areaBanner">
-              <img @click="goTo('list',{areaID:special.activityAreaID})" :src="special.activityAreaPic" alt="">
+              <img @click="goByPathTo('list',{areaID:special.activityAreaID})" :src="special.activityAreaPic" alt="">
             </div>
             <ul>
             <template v-for="(item,index) in special.indexActivityAreaDataList">
@@ -135,14 +135,17 @@ export default {
     },
     //搜索按钮
     searchClick(val){
-      console.log(val)
-      this.goTo('list',{keyword:val})
+
     },
     goByPathTo(path,params){
+        if(path.indexOf("http")==0){
+            window.location.href=path;
+            return;
+        }
             if(params){
                 this.$router.push({name:path,query:params});
             }else{
-                this.$router.push(path);
+                this.$router.push({path:path});
             }
     },
      goTo(path,params){

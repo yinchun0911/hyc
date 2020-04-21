@@ -53,7 +53,7 @@
         },
         methods:{
             goTo(path,params){
-                this.$router.push({name:path,params:params});
+                this.$router.push({name:path,query:params});
             },
             loadSubList(data,index){
                 var page=this;
@@ -102,6 +102,7 @@
             },
             //搜索按钮
             searchClick(val){
+                this.goTo('list',{keyword:val})
                 console.log(val)
             },
             checkInitEd(){
