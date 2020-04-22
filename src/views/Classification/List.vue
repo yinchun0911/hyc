@@ -34,6 +34,7 @@
 <script>
     import ListHeader from '@/components/ListHeader.vue'
     import { request, userRequest} from '@/js/request.js'
+    import { Dialog } from 'vant'
     export default {
         name: "List",
         data(){
@@ -111,7 +112,7 @@
                     num: 1
                 };
                 userRequest("/shopCar/addCarGoods",postData).then(function(response){
-                    console.log(response)
+                    Dialog({ message: '添加成功' })
                 });
             },
             // 购物车按钮

@@ -8,6 +8,7 @@
                     <el-upload  :action="host+'/file/uploadBaseData'"
                             class="head_img"
                             :show-file-list="false"
+                                :http-request="uploadProcess"
                             :before-upload="beforeAvatarUpload">
                         <img :src="headPic" class="avatar">
                         <i class="el-icon-arrow-right"></i>
@@ -37,7 +38,7 @@
 
 <script>
     import ListHeader from '@/components/ListHeader.vue'
-    import { request, userRequest ,getRemotHost} from '@/js/request.js'
+    import { upload, userRequest ,getRemotHost} from '@/js/request.js'
     import Vue from 'vue'
     export default {
         name: "accountSet",
@@ -85,11 +86,19 @@
                 if (!isLt2M) {
                     this.$message.error('上传头像图片大小不能超过 2MB!');
                 }
-                if( isJPG && isLt2M){
-                    this.headPic = URL.createObjectURL(file.raw);
-                };
-                return false;
+                return isJPG && isLt2M;
             },
+            uploadProcess(param){
+                var page=this;
+
+                var formData=new FormData();
+                formData.append('multipartFile', param.file);
+                formData.append('type', "USERLOCATION");
+                jQuery.ajax({url:Vue.prototype.APIHOST+'/file/upload', contentType:"multipart/form-data", contentType: false,processData: false,type:"post",data:formData,success:function(res){
+                      page.headPic=res.msg;
+                }});
+            },
+
             save(){
 
                 var op=this;

@@ -34,6 +34,7 @@
 <script>
     import ListHeader from '@/components/ListHeader.vue'
     import { request, userRequest} from '@/js/request.js'
+    import {Dialog} from "vant";
     var moment = require('moment');
     export default {
         name: "collection",
@@ -65,7 +66,7 @@
                      num: 1
                  };
                  userRequest("/shopCar/addCarGoods",postData).then(function(response){
-                     console.log(response)
+                     Dialog({ message: '添加购物车成功' })
                  });
              },
             loadData(pageNo,op){

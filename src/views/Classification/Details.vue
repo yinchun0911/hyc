@@ -127,6 +127,7 @@
     import Swiper from 'swiper';
     import 'swiper/css/swiper.min.css';
     import { request, userRequest} from '@/js/request.js'
+    import {Dialog} from "vant";
     export default {
         name: "detail",
         data(){
@@ -186,12 +187,12 @@
                 if(this.imgShow){
                      //收藏
                      userRequest("/shopProduct/addProductCollectInfo",{goodsid:page.product.goodsid}).then(function(response){
-                        console.log(response)
+                         Dialog({ message: '操作成功' })
                     });
                 }else{
                     //取消收藏
                       userRequest("/shopProduct/delProductCollectInfo",{goodsid:page.product.goodsid}).then(function(response){
-                            console.log(response)
+                          Dialog({ message: '操作成功' })
                     });
                 }
 
@@ -230,7 +231,7 @@
                     num: 1
                 };
                 userRequest("/shopCar/addCarGoods",postData).then(function(response){
-                    console.log(response)
+                    Dialog({ message: '添加购物车成功' })
                 });
             },goshopClick(){
                 this.$router.push({path:"/Shopping"});

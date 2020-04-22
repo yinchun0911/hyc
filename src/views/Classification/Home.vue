@@ -44,10 +44,17 @@
         data(){
             this.initTopList();
             this.getShoppingCarNum();
+            var queryIndex=this.$route.query.index;
+            if(!queryIndex){
+                queryIndex=0;
+            }
+
+
             return {
                 leftList:[],
                 comtentList:[],
                 activeKey:-1,
+                queryIndex:queryIndex,
                 badgeNum:0
             }
         },
@@ -110,7 +117,7 @@
                 if(this.comtentList.length==0){
                     setTimeout(this.checkInitEd,300);
                 }else{
-                    this.activeKey=0;
+                    this.activeKey=this.queryIndex;
                 }
             }
         },mounted() {

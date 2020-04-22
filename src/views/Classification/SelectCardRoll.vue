@@ -39,11 +39,11 @@
             <!--添加卡片-->
             <el-dialog title="" :visible.sync="dialogTableVisible" top="40vh" :close-on-click-modal="false">
                 <ul>
-                    <li><label>您的卡号：</label><span>点击扫码获得卡号</span></li>
-                    <li><label>激  活  码：</label><input type="text" placeholder="请输入激活码"></li>
+                    <li><label>您的卡号：</label><span @click="scan()">{{cardNo!=""?cardNo:"点击扫码获得卡号"}}</span></li>
+                    <li><label>激  活  码：</label><input type="text" :model="cardPWD"  placeholder="请输入激活码"></li>
                 </ul>
                 <div class="footBtn">
-                    <button class="backBtn">确 定</button>
+                    <button class="backBtn"  @click="saveCard()">确 定</button>
                     <button @click="dialogTableVisible = false">取 消</button>
                 </div>
             </el-dialog>
@@ -61,6 +61,7 @@
     import ListHeader from '@/components/ListHeader.vue'
     import { request, userRequest} from '@/js/request.js'
     import { Dialog } from 'vant'
+    import wx from "weixin-js-sdk";
     export default {
         name: "selectCardRoll",
         data(){
@@ -85,6 +86,8 @@
                 order:params,
                 selectCard:-1,
                 text:"",
+                cardNo :"",
+                cardPWD:"",
                 cardList:[]
             }
         },
@@ -96,6 +99,34 @@
                 }
                 return num;
              },
+
+            scan(){
+                var page=this;
+
+                wx.scanQRCode({
+                    needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                    scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
+                    success: function (res) {
+                        console.log(res)
+                        var array=res.resultStr.split("=");
+                        page.cardNo=array[array.length-1];
+                    }
+                });
+
+
+
+            },
+            saveCard(){
+                var page=this;
+                var cardNo=page.cardNo;
+                var cardPWD=page.cardPWD;
+                userRequest("/appUser/saveUserCard",{cardNo,cardPWD}).then(function (response) {
+                    Dialog({ message: "添加成功" });
+                    page.cardList=[];
+                    page.loadData(0)
+
+                });
+            },
             loadOrderInfo(orderNo){
                  var page=this;
                 userRequest("/shopOrder/orderInfo",{orderNo:orderNo}).then(function (response) {
@@ -170,6 +201,7 @@
         },
         mounted() {
            this.getTime()
+
         },
         components: {
             ListHeader

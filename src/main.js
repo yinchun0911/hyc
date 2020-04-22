@@ -23,7 +23,7 @@ Vue.use(Vant);
 Vue.use(ElementUI);
 Vue.use(common);
 
-Vue.prototype.APIHOST = '//39.98.82.142:9096';
+Vue.prototype.APIHOST = '//www.hui5288.com:9096';
 //process.env.NODE_ENV != 'production' ? '//39.98.82.142:9096' : '//39.98.82.142:9096'
 
 new Vue({

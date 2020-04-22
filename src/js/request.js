@@ -5,6 +5,8 @@ axios.defaults.headers.post['Content-Type'] = 'application/json'
 axios.defaults.withCredentials = true;
 import router   from '../router'
 
+
+
 export function userRequest(url, params){
      params.appUserId= localStorage.getItem("userId");
      params.token= localStorage.getItem("token");
@@ -29,8 +31,15 @@ export function request(url, params) {
       }
 
     return new Promise((resolve, reject) => {
-
-        axios.post(url, data)
+        let config=null;
+        if (url.indexOf("/file/upload")>0){
+            config={
+                headers:{
+                    'Content-Type':'application/text/html;charset=utf-8'      //改这里就好了
+                }
+            }
+        }
+        axios.post(url, data,config)
             .then(res => {
                         if(res.data.code=="200"){
                             resolve(res.data.data);
