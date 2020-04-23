@@ -22,7 +22,7 @@
                     <i v-if="product.isPush == 1">倾情推荐</i>
                     <b>已售{{product.saleNum}}件</b>
                 </div>
-                <p class="foot-word">{{product.productID}}</p>
+                <p class="foot-word">{{product.sku}}</p>
                 <p class="foot-word">{{product.postInfo}}</p>
             </div>
             <div class="select-box">
