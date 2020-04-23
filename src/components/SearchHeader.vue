@@ -4,7 +4,7 @@
             <img src="../assets/images/icon-01.png" alt="">
         </div>
         <div class="head-center fl">
-            <input type="text" v-model="serchTxt" placeholder="请输入关键词">
+            <input type="text" v-model="serchTxt" @keypress="inputChange"  placeholder="请输入关键词">
             <el-button type="primary" icon="el-icon-search" circle @click="search(serchTxt)"></el-button>
         </div>
         <div class="head-fr fr" @click="msgEvent">
@@ -25,6 +25,13 @@
             }
         },
         methods:{
+            inputChange(e){
+                var page=this;
+                if(e.keyCode == 13){
+                    e.preventDefault();//禁止键盘默认事件
+                    this.$router.push('/classification/list?keyword='+page.serchTxt)
+                }
+            },
             sweepCode(){
                 this.$emit('sweepCodeClick');
             },
