@@ -252,14 +252,14 @@ export default {
         background-color: #fff;
         margin-top: .2rem;
         border-radius: .2rem;
-        padding-left: 1.08rem;
+        text-align: center;
         font-size: .3rem;
         color: #4c4c4c;
         position: relative;
         &:before{
           content: '';
           position: absolute;
-          left: .3rem;
+          left: 1rem;
           top: 50%;
           width: .56rem;
           height: .48rem;
@@ -301,6 +301,7 @@ export default {
         }
       }
       .more-box{
+          width: 100%;
         margin-top: .65rem;
         font-size: 0;
         display: inline-block;

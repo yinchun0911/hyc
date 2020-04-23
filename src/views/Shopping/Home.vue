@@ -20,7 +20,8 @@
                                 <i class="tag"  @click="goByPathTo('detail',{productID:item.productID})">{{item.standrdsName}}</i>
                                 <div class="prices">
                                     <span class="jg">{{item.productPrice}}</span>
-                                    <el-input-number v-model="productNum[item.goodsid]" :min="1" :max="10" @change="countCheckTotal()" size="mini"></el-input-number>
+<!--                                    <el-input-number v-model="productNum[item.goodsid]" :min="1" :max="10" @change="countCheckTotal()" size="mini"></el-input-number>-->
+                                    <van-stepper v-model="productNum[item.goodsid]" integer min="1" max="10" @change="countCheckTotal()"/>
                                 </div>
                             </div>
                         </li>
@@ -287,9 +288,13 @@
                                         background-size: 100% 100%;
                                     }
                                 }
-                                .el-input-number--mini{
+                                .van-stepper{
                                     float: right;
                                     width: 2.09rem;
+                                }
+                                .el-input-number--mini{
+                                    float: right;
+                                    /*width: 2.09rem;*/
                                     .el-input-number__decrease, .el-input-number__increase{top: 2px}
                                 }
                             }

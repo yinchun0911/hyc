@@ -138,10 +138,12 @@
             float: left;
             .van-sidebar-item{
                 background-color: #f0f3fa;
+                text-align: center;
+                padding: 15px 12px 15px 8px;
             }
             .van-sidebar-item__text{
-                font-size: .22rem;
-                color: #b2b2b2;
+                font-size: .24rem;
+                color: #323233;
             }
             .van-sidebar-item--select{
                 border-color: #83b7ff;
@@ -165,7 +167,6 @@
                 text-align: center;
                 font-size: .3rem;
                 color: #4c4c4c;
-                font-weight: normal;
             }
             ul{
                 display: flex;
@@ -192,10 +193,10 @@
                     }
 
                     p{
-                        margin-top: .2rem;
+                        margin-top: .1rem;
                         width: 100%;
                         text-align: center;
-                        font-size: .24rem;
+                        font-size: .2rem;
                         color: #4c4c4c;
                     }
                 }
