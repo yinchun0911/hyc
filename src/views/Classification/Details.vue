@@ -133,6 +133,7 @@
         data(){
             this.getProductInfo();
             this.getShoppingCarNum();
+            this.loadAddress();
             return{
                 title:'商品详情',
                 btnFlag:false,
@@ -179,6 +180,15 @@
                 // 可以通过 close-on-click-action 属性开启自动收起
 
                 this.product=this.products[item.id]
+            },
+            loadAddress(){
+                var page=this;
+                userRequest("/userAddress/queryUserAddressList",{current: 0, pageSize: 0}).then(function (response) {
+                    if(response.length>0){
+                        page.showAdds=response[0].fullAddress.replace(response[0].address,"");
+                    }
+                })
+
             },
             // 点击收藏
             isActive(){

@@ -21,7 +21,7 @@
                                 <div class="prices">
                                     <span class="jg">{{item.productPrice}}</span>
 <!--                                    <el-input-number v-model="productNum[item.goodsid]" :min="1" :max="10" @change="countCheckTotal()" size="mini"></el-input-number>-->
-                                    <van-stepper v-model="productNum[item.goodsid]" integer min="1" max="10" @change="countCheckTotal()"/>
+                                    <van-stepper v-model="productNum[item.goodsid]" integer min="1" max="10" @change="countCheckTotal(item.goodsid)"/>
                                 </div>
                             </div>
                         </li>
@@ -102,7 +102,7 @@
                 }
                 page. countCheckTotal();
             },
-            countCheckTotal(){
+            countCheckTotal(goodsId){
                     var page=this;
                     var  sum=0;
                     for(var i in page.productList){
@@ -115,7 +115,19 @@
                             sum+=op.productPrice*num;
                         };
                     }
-                    page.total=sum
+                    page.total=sum;
+
+                    if(goodsId){
+                        var num=page.productNum[goodsId];
+                        var postData={
+                            goodsid: goodsId,
+                            num: num
+                        }
+                        userRequest("/shopCar/setCarGoods",postData).then(function (response) {
+
+                        });
+                    }
+
 
             },
             deleteFn(){
