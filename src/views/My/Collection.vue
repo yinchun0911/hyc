@@ -5,9 +5,9 @@
             <div class="listBox" v-for="month in monthArray" >
                 <h2>{{month}} </h2>
                 <div class="list" v-for="item in monthDataArray[month]" >
-                    <div class="list-fl fl"  @click="goTo('detail',{productID:item.productID,goodsid:item.goodsid})" >
+                    <div class="list-fl fl"  >
                         <el-checkbox v-model="checkIds[item.goodsid]" v-if="showChecked"></el-checkbox>
-                        <div class="img">
+                        <div class="img"  @click="goTo('detail',{productID:item.productID,goodsid:item.goodsid})">
                             <img :src="item.productPic" alt="">
                         </div>
                     </div>

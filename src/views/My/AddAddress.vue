@@ -48,6 +48,7 @@
     import ListHeader from '@/components/ListHeader.vue'
     import addressData from '@/js/address.js'
     import { request, userRequest} from '@/js/request.js'
+    import { Dialog } from 'vant'
     export default {
         name: "addAddress",
         data(){
@@ -135,7 +136,8 @@
                  }
 
                 userRequest("/userAddress/saveUserAddress",postData).then(function (response) {
-                      this.$router.push("setAddress");
+                    Dialog({ message: "添加地址成功" })
+                    page.$router.push("setAddress");
                 });
 
             }
