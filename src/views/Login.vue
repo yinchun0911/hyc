@@ -22,8 +22,8 @@
                 </div>
             </div>
             <!--服务协议-->
-            <el-dialog class="agreement" :visible.sync="dialogVisible">
-                <div class="box" v-html="agreementText">
+            <el-dialog class="agreement" :visible.sync="dialogVisible" top="0">
+                <div class="box" v-html="protalInfo">
 
                 </div>
             </el-dialog>
@@ -39,24 +39,37 @@
         name: "login",
         data(){
             var title="登录"
+            this.loadUserProtalInfo();
             return{
                 title:title,
                 text:"获取验证码",
                 phone:"",
+                checked:false,
                 code:"",
                 countDwon:60,
                 hasSend:false,
                 dialogVisible:false,
-                agreementText:''
+                agreementText:'',
             }
         },
         methods:{
             wechatLogin(){
-                Dialog({ message: '暂未开放' })
+                window.location.href="/hui/hui.html";
+            },
+            loadUserProtalInfo(){
+                var page=this;
+                userRequest("/appUserCommon/queryUserProtalInfo", {}).then(function (response) {
+                    page.protalInfo=response.instructionsContent;
+                });
+
             },
             getCode(){
                 console.log(1111)
                 var op=this;
+                if(!op.checked){
+                    Dialog({ message: '请先阅读并同意用户协议' })
+                    return;
+                }
                  var phone=op.phone;
                  if (!/^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/.test(phone)){
                       Dialog({ message: '手机号不正确' })
@@ -252,14 +265,16 @@
         }
         .agreement{
             .el-dialog{
-                height: 75vh;
+                width: 100%;
+                height: 100vh;
                 overflow-x: hidden;
                 overflow-y: auto;
+                margin: 0;
             }
             .el-dialog__headerbtn{
                 position: fixed;
-                top:15vh;
-                right: .8rem;
+                top:.05rem;
+                right: .1rem;
                 .el-dialog__close{
                     color: #000;
                     font-weight: bolder;

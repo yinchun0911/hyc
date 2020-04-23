@@ -19,7 +19,7 @@
             <el-dialog title="" :visible.sync="dialogTableVisible" top="40vh" :close-on-click-modal="false">
                 <ul>
                     <li><label>您的卡号：</label><span @click="scan()">{{cardNo!=""?cardNo:"点击扫码获得卡号"}}</span></li>
-                    <li><label>激  活  码：</label><input type="text" :model="cardPWD" placeholder="请输入激活码"></li>
+                    <li><label>激  活  码：</label><input type="text" v-model="cardPWD"  placeholder="请输入激活码"></li>
                 </ul>
                 <div class="footBtn">
                     <button class="backBtn" @click="saveCard()">确 定</button>
@@ -84,6 +84,7 @@
                 var page=this;
                 var cardNo=page.cardNo;
                 var cardPWD=page.cardPWD;
+                console.log(page.cardPWD);
                  userRequest("/appUser/saveUserCard",{cardNo,cardPWD}).then(function (response) {
                         Dialog({ message: "添加成功" });
                         page.cardList=[];

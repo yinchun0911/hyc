@@ -40,7 +40,7 @@
             <el-dialog title="" :visible.sync="dialogTableVisible" top="40vh" :close-on-click-modal="false">
                 <ul>
                     <li><label>您的卡号：</label><span @click="scan()">{{cardNo!=""?cardNo:"点击扫码获得卡号"}}</span></li>
-                    <li><label>激  活  码：</label><input type="text" :model="cardPWD"  placeholder="请输入激活码"></li>
+                    <li><label>激  活  码：</label><input type="text"  v-model="cardPWD"  placeholder="请输入激活码"></li>
                 </ul>
                 <div class="footBtn">
                     <button class="backBtn"  @click="saveCard()">确 定</button>
@@ -48,7 +48,7 @@
                 </div>
             </el-dialog>
             <!--服务协议-->
-            <el-dialog class="agreement" :visible.sync="dialogVisible">
+            <el-dialog class="agreement" :visible.sync="dialogVisible"  top="0">
                 <div class="box" v-html="text">
 
                 </div>
@@ -392,14 +392,16 @@
         }
         .agreement{
             .el-dialog{
-                height: 75vh;
+                width: 100%;
+                height: 100vh;
                 overflow-x: hidden;
                 overflow-y: auto;
+                margin: 0;
             }
             .el-dialog__headerbtn{
                 position: fixed;
-                top:15vh;
-                right: .8rem;
+                top:.05rem;
+                right: .1rem;
                 .el-dialog__close{
                     color: #000;
                     font-weight: bolder;
