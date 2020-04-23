@@ -19,7 +19,7 @@
                 <ul>
                     <li><label>昵称设置</label><input type="text" v-model="name" placeholder="请输入您的昵称"></li>
                     <li><label>手机号码</label><input type="text" v-model="phone" placeholder="请输入您的手机号码"></li>
-                    <li><label>出生日期</label><input type="text" v-model="birthday" placeholder="请输入您的出生年月日"></li>
+                    <li><label>出生日期</label><input type="text" ref="scanTextbox" v-model="birthday" placeholder="请输入您的出生年月日" readonly @focus="stopKeyborad" @click="showPopFn()"></li>
                     <li>
                         <label class="w2">性    别</label>
                         <div class="radio-box">
@@ -33,6 +33,10 @@
                 <button type="button" @click="save()">保 存</button>
             </div>
         </div>
+<!--        选择出生日期-->
+        <van-popup v-model="show" position="bottom" :style="{ height: '40%' }">
+            <van-datetime-picker v-model="currentDate" :min-date="minDate" :max-date="maxDate" type="date" @change="changeFn()" @confirm="confirmFn()" @cancel="cancelFn()" />
+        </van-popup>
     </div>
 </template>
 
@@ -55,7 +59,12 @@
                 birthday:"",
                 sex:"",
                 radio:'1',
-                host:getRemotHost()
+                host:getRemotHost(),
+                currentDate: new Date(),
+                changeDate: new Date(),
+                minDate: new Date(1900, 0, 1),
+                maxDate: new Date(2025, 10, 1),
+                show:false
             }
         },
         methods:{
@@ -117,7 +126,32 @@
                         op.$router.push({name:"my"});
 
                 });
-            }
+            },
+            showPopFn() {
+                this.show = true;
+            },
+            showPopup() {
+                this.show = true;
+            },
+            changeFn() { // 值变化是触发
+                this.changeDate = this.currentDate // Tue Sep 08 2020 00:00:00 GMT+0800 (中国标准时间)
+            },
+            confirmFn() { // 确定按钮
+                this.birthday = this.timeFormat(this.currentDate);
+                this.show = false;
+            },
+            cancelFn(){
+                this.show = true;
+            },
+            timeFormat(time) { // 时间格式化 2019-09-08
+                let year = time.getFullYear();
+                let month = time.getMonth() + 1;
+                let day = time.getDate();
+                return year + '年' + month + '月' + day + '日'
+            },
+            stopKeyborad(){
+                document.activeElement.blur();
+            },
         },
         components: {
             ListHeader,

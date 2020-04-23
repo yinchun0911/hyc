@@ -83,6 +83,7 @@
                 border-radius: .2rem;
                 overflow: hidden;
                 padding: .25rem .3rem;
+                margin-bottom: .2rem;
                 h2{
                     font-size: .3rem;
                     color: #4c4c4c;

@@ -163,13 +163,20 @@
                             border-bottom: .02rem solid #e6e6e6;
                             font-size: .3rem;
                             color: #4c4c4c;
+                            label{
+                                width: 1.75rem;
+                                display: inline-block;
+                            }
                             &:first-child{
                                 margin-bottom: .3rem;
                             }
                             input{
                                 border: 0;
                                 margin-bottom: .08rem;
+                                width: 3rem;
                                 height: 100%;
+                                display: inline-block;
+                                background-color: transparent;
                             }
                         }
                     }

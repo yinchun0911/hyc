@@ -94,8 +94,8 @@
                         </ul>
                     </div>
                     <div class="specifications">
-                        <p>数量<el-input-number v-model="num" :min="1" :max="10" size="mini"></el-input-number></p>
-                        <button @click="buy">立即够买</button>
+                        <p>数量<van-stepper v-model="num" integer min="1" max="10"/></p>
+                        <button class="buyBtn" @click="buy">立即够买</button>
                     </div>
                 </el-drawer>
             </div>
@@ -585,7 +585,7 @@
                         p{
                             font-size: .26rem;
                             color: #4c4c4c;
-                            .el-input-number{
+                            .van-stepper{
                                 float: right;
                             }
                         }
@@ -615,7 +615,7 @@
                                 border-color: #83b7ff;
                             }
                         }
-                        button{
+                        button.buyBtn{
                             margin-top: .4rem;
                             width: 100%;
                             height: .8rem;

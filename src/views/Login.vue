@@ -6,8 +6,11 @@
             <div class="content-wrap">
                 <form>
                     <ul>
-                        <li><input type="text" v-model="phone" placeholder="请输入手机号码" ></li>
-                        <li><input type="text" v-model="code" placeholder="请输入验证码"><button  type="button" @click="getCode()" class="code">{{text}}</button></li>
+                        <li class="pho"><input type="text" v-model="phone" placeholder="请输入手机号码" ></li>
+                        <li class="psd"><input type="text" v-model="code" placeholder="请输入验证码"><button  type="button" @click="getCode()" class="code">{{text}}</button></li>
+                        <div class="checkbox">
+                            <el-checkbox v-model="checked"></el-checkbox><span @click="dialogVisible = true">阅读并同意<i>服务协议</i></span>
+                        </div>
                     </ul>
                     <button type="button" @click="loginBtn()"  class="loginBtn">登 录</button>
                 </form>
@@ -18,6 +21,12 @@
                     </div>
                 </div>
             </div>
+            <!--服务协议-->
+            <el-dialog class="agreement" :visible.sync="dialogVisible">
+                <div class="box" v-html="agreementText">
+
+                </div>
+            </el-dialog>
         </div>
     </div>
 </template>
@@ -36,7 +45,9 @@
                 phone:"",
                 code:"",
                 countDwon:60,
-                hasSend:false
+                hasSend:false,
+                dialogVisible:false,
+                agreementText:''
             }
         },
         methods:{
@@ -135,32 +146,6 @@
                                 color: #4c4c4c;
                                 font-size: .26rem;
                             }
-                            &:first-child{
-                                &:before{
-                                    content: '';
-                                    width: .35rem;
-                                    height: .37rem;
-                                    background: url("../assets/images/user-icon.png") no-repeat;
-                                    background-size: 100% 100%;
-                                    position: absolute;
-                                    left: 0;
-                                    top: 50%;
-                                    margin-top: -.18rem;
-                                }
-                            }
-                            &:last-child{
-                                &:before{
-                                    content: '';
-                                    width: .29rem;
-                                    height: .36rem;
-                                    background: url("../assets/images/user-psw.png") no-repeat;
-                                    background-size: 100% 100%;
-                                    position: absolute;
-                                    left: 0;
-                                    top: 50%;
-                                    margin-top: -.18rem;
-                                }
-                            }
                             .code{
                                 width: 2.18rem;
                                 height: .8rem;
@@ -171,6 +156,44 @@
                                 background-color: #83b7ff;
                                 border: 0;
                                 border-radius: .4rem;
+                            }
+                        }
+                        .pho{
+                            &:before{
+                                content: '';
+                                width: .35rem;
+                                height: .37rem;
+                                background: url("../assets/images/user-icon.png") no-repeat;
+                                background-size: 100% 100%;
+                                position: absolute;
+                                left: 0;
+                                top: 50%;
+                                margin-top: -.18rem;
+                            }
+                        }
+                        .psd{
+                            &:before{
+                                content: '';
+                                width: .29rem;
+                                height: .36rem;
+                                background: url("../assets/images/user-psw.png") no-repeat;
+                                background-size: 100% 100%;
+                                position: absolute;
+                                left: 0;
+                                top: 50%;
+                                margin-top: -.18rem;
+                            }
+                        }
+                    }
+                    .checkbox{
+                        margin-top: .4rem;
+                        span{
+                            padding-right: .3rem;
+                            font-size: .26rem;
+                            color: #808080;
+                            i{
+                                color: #83b7ff;
+                                text-decoration:underline
                             }
                         }
                     }
@@ -225,6 +248,25 @@
                         }
                     }
                 }
+            }
+        }
+        .agreement{
+            .el-dialog{
+                height: 75vh;
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+            .el-dialog__headerbtn{
+                position: fixed;
+                top:15vh;
+                right: .8rem;
+                .el-dialog__close{
+                    color: #000;
+                    font-weight: bolder;
+                }
+            }
+            .el-dialog__body {
+                padding: 0 .3rem .2rem .3rem;
             }
         }
     }
