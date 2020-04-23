@@ -4,7 +4,7 @@
         <div class="content">
             <ul class="nav">
                 <li v-for="(item,index) in navList" :class="current==index?'active':''"  @click="liclick(index)">
-                    <span>{{item.value}}<template v-if="current==index"><i class="el-icon-d-caret"></i></template></span>
+                    <span @click="showPrice" >{{item.value}}<template v-if="current==index"><i class="el-icon-d-caret"></i></template></span>
                 </li>
             </ul>
             <div class="list-box">
@@ -30,14 +30,14 @@
             <van-popup v-model="show" position="bottom" :style="{ height: '35%' }">
                 <van-form @submit="onSubmit">
                     <van-field
-                            v-model="min"
+                            v-model="priceMin"
                             name="最低价格"
                             label="最低价格"
                             placeholder="最低价格"
                             :rules="[{ required: true, message: '请填写最低价格' }]"
                     />
                     <van-field
-                            v-model="max"
+                            v-model="priceMax"
                             name="最高价格"
                             label="最高价格"
                             placeholder="最高价格"
@@ -73,6 +73,7 @@
                 ],
                 isbottom:-1,
                 currentPage:0,
+                priceMin:0,priceMax:100,
                 postData:{
                     current:0,
                     pageSize:6,
@@ -80,7 +81,8 @@
                     sortType:"1",
                     sortMethod:'1',
                     keyWords: "",
-                    token:""
+                    token:"",
+
                 },
                 lastPage:-1,
                 goodsList:[],
@@ -89,6 +91,10 @@
             }
         },
         methods:{
+            showPrice(){
+                var page=this;
+                if(page.index==4) {page.show=!page.show}
+            },
             // 加载分类商品
             loadData(op,page){
                    var typeId = op.$route.query.typeId;
@@ -115,6 +121,17 @@
                    if(page==0||page==1){
                     op.goodsList=[];
                    }
+                    if(page.index==4){
+                        if(op.priceMin>op.priceMax){
+                            Dialog({message:"请正确设置价格区间"});
+                            return;
+                        }
+                        op.postData.lowPrice=op.priceMin;
+                        op.postData.highPrice=op.priceMax;
+                    }else{
+                        op.postData.lowPrice=null;
+                        op.postData.highPrice=null;
+                    }
 
                   var typeID=typeId;
                   if(op.isbottom==1){

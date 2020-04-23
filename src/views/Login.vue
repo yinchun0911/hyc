@@ -35,6 +35,7 @@
     import ListHeader from '@/components/ListHeader.vue'
     import { request, userRequest} from '@/js/request.js'
       import { Dialog } from 'vant'
+    import cookie from "../js/cookie";
     export default {
         name: "login",
         data(){
@@ -101,6 +102,7 @@
 
                request("/appUserLogin/loginVerify",postData).then(function(response){
 
+                       cookie.setCookie("appUserId",response.id,365);
                        localStorage.setItem("userId", response.id);
                        localStorage.setItem("name", response.name);
                        localStorage.setItem("phone", response.phone);
