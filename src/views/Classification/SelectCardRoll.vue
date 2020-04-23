@@ -274,21 +274,23 @@
                 }
             }
             .cardRoll{
+                background: url("../../assets/images/classIfication/cardRoll-00.png") no-repeat;
+                background-size: 100% 100%;
                 padding: .35rem 0;
                  .blue{
-                        background: url("../../assets/images/classIfication/cardRoll-01.png") no-repeat;
+                        background: url("../../assets/images/classIfication/cardRoll-01.png") no-repeat !important;
                         background-size: 100% 100%;
                     }
                     .red{
-                        background: url("../../assets/images/classIfication/cardRoll-02.png") no-repeat ;
+                        background: url("../../assets/images/classIfication/cardRoll-02.png") no-repeat !important;
                         background-size: 100% 100%;
                     }
                     .yellow{
-                        background: url("../../assets/images/classIfication/cardRoll-03.png") no-repeat;
+                        background: url("../../assets/images/classIfication/cardRoll-03.png") no-repeat !important;
                         background-size: 100% 100%;
                     }
                     .green{
-                        background: url("../../assets/images/classIfication/cardRoll-04.png") no-repeat;
+                        background: url("../../assets/images/classIfication/cardRoll-04.png") no-repeat !important;
                         background-size: 100% 100%;
                     }
 

@@ -3,8 +3,8 @@
         <ListHeader :title="title" @shopClick="shopClick"></ListHeader>
         <div class="content">
             <ul class="nav">
-                <li v-for="(item,index) in navList" :class="current==index?'active':''"  @click="liclick(index)">
-                    <span @click="showPrice" >{{item.value}}<template v-if="current==index"><i class="el-icon-d-caret"></i></template></span>
+                <li v-for="(item,index) in navList" :class="current==index?'active':''"  @click="liclick(index);">
+                    <span >{{item.value}}<template v-if="current==index"><i class="el-icon-d-caret"></i></template></span>
                 </li>
             </ul>
             <div class="list-box">
@@ -73,7 +73,7 @@
                 ],
                 isbottom:-1,
                 currentPage:0,
-                priceMin:0,priceMax:100,
+                priceMin:1,priceMax:100,
                 postData:{
                     current:0,
                     pageSize:6,
@@ -86,15 +86,12 @@
                 },
                 lastPage:-1,
                 goodsList:[],
-                show:true,
-                min:null
+                show:false
+
             }
         },
         methods:{
-            showPrice(){
-                var page=this;
-                if(page.index==4) {page.show=!page.show}
-            },
+
             // 加载分类商品
             loadData(op,page){
                    var typeId = op.$route.query.typeId;
@@ -121,7 +118,7 @@
                    if(page==0||page==1){
                     op.goodsList=[];
                    }
-                    if(page.index==4){
+                    if(op.current==4){
                         if(op.priceMin>op.priceMax){
                             Dialog({message:"请正确设置价格区间"});
                             return;
@@ -162,6 +159,7 @@
                 this.$router.push({path:"/Shopping"});
             },
             liclick(index){
+                this.showPrice();
                 console.log(1111,this.current,index,this.postData.sortMethod);
                 if( this.current == index){
                     if(this.postData.sortMethod=='1'){
@@ -174,10 +172,21 @@
                     this.postData.sortType=index+1;
                     this.postData.sortMethod='1'
                 }
+                this.showPrice(index);
+                if(index==4&&this.show){
+
+                    return;
+                }
                 this.pageNum=0
                 this.goodsList=[];
                 this.isbottom = -1;
-                this.loadData(this,this.pageNum)
+
+                this.loadData(this,this.pageNum);
+
+            },
+            showPrice(index){
+                var page=this;
+                if(index==4) {page.show=!page.show}
             },
             goTo(path,params){
                 if(params){
@@ -199,7 +208,11 @@
 
             },
             onSubmit(values) {
-                console.log('submit', values);
+                this.pageNum=0
+                this.goodsList=[];
+                this.isbottom = -1;
+                this.loadData(this,this.pageNum);
+
             },
         },
         mounted(){

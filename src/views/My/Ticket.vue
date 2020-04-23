@@ -104,11 +104,14 @@
         .content{
             margin-top: 1.2rem;
             .cardRoll{
+                background: url("../../assets/images/classIfication/cardRoll-00.png") no-repeat;
+                background-size: 100% 100%;
                 div{
                     position: relative;
                     margin: 0 auto;
                     width: 7.26rem;
                     height: 2.15rem;
+
                     span{
                         position: absolute;
                         bottom: .52rem;
@@ -126,19 +129,19 @@
                 }
             }
             .blue{
-                background: url("../../assets/images/classIfication/cardRoll-01.png") no-repeat;
+                background: url("../../assets/images/classIfication/cardRoll-01.png") no-repeat  !important;
                 background-size: 100% 100%;
             }
             .red{
-                background: url("../../assets/images/classIfication/cardRoll-02.png") no-repeat;
+                background: url("../../assets/images/classIfication/cardRoll-02.png") no-repeat !important;
                 background-size: 100% 100%;
             }
             .yellow{
-                background: url("../../assets/images/classIfication/cardRoll-03.png") no-repeat;
+                background: url("../../assets/images/classIfication/cardRoll-03.png") no-repeat !important;
                 background-size: 100% 100%;
             }
             .green{
-                background: url("../../assets/images/classIfication/cardRoll-04.png") no-repeat;
+                background: url("../../assets/images/classIfication/cardRoll-04.png") no-repeat !important;
                 background-size: 100% 100%;
             }
             button.save{
