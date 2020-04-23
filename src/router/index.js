@@ -33,17 +33,26 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: {
+      title: '惠原仓'
+    }
   },
   {
     path:'/login',
     name:'login',
-    component:Login
+    component:Login,
+    meta: {
+      title: '惠原仓-登陆'
+    }
   },
   {
     path:'/notice',
     name:'notice',
-    component:Notice
+    component:Notice,
+    meta: {
+      title: '惠原仓-消息'
+    }
   },
   {
     path:'/information',
@@ -54,43 +63,68 @@ const routes = [
   {
     path: '/classification',
     name: 'classification',
-    component: Classification
+    component: Classification,
+    meta: {
+      title: '惠原仓-类目查看'
+    }
   },
   {
     path: '/classification/list',
     name: 'list',
-    component: List
+    component: List,
+    meta: {
+      title: '惠原仓-商品列表'
+    }
   },
   {
     path: '/classification/details',
     name: 'detail',
-    component: Details
+    component: Details,
+    meta: {
+      title: '惠原仓-商品详情'
+    }
   },
   {
     path: '/classification/confirmOrder',
     name: 'confirmOrder',
-    component: ConfirmOrder
+    component: ConfirmOrder ,
+    meta: {
+      title: '确认下单'
+    }
   },
   {
     path: '/classification/selectCardRoll',
     name: 'selectCardRoll',
-    component: SelectCardRoll
+    component: SelectCardRoll,
+    meta: {
+      title: '惠原仓-进行支付'
+    }
   },
   {
     path: '/classification/orderDetails',
     name: 'orderDetails',
-    component: OrderDetails
+    component: OrderDetails,
+    meta: {
+      title: '订单详情'
+    }
+
   },
     // 购物车
   {
     path: '/Shopping',
     name: 'Shopping',
-    component: Shopping
+    component: Shopping,
+    meta: {
+      title: '惠原仓-我的购物车'
+    }
   },
   {
     path: '/successPayment',
     name: 'successPayment',
-    component: SuccessPayment
+    component: SuccessPayment,
+    meta: {
+      title: '惠原仓-支付成功'
+    }
   },
   {
     path: '/failPayment',
@@ -101,62 +135,98 @@ const routes = [
   {
     path: '/my',
     name: 'my',
-    component: My
+    component: My,
+    meta: {
+      title: '惠原仓-个人中心'
+    }
   },
   {
     path: '/order',
     name: 'order',
-    component: Order
+    component: Order,
+    meta: {
+      title: '惠原仓-我的订单'
+    }
   },
   {
     path: '/ticket',
     name: 'ticket',
-    component: Ticket
+    component: Ticket,
+    meta: {
+      title: '惠原仓'
+    }
   },
   {
     path: '/paymentHistory',
     name: 'paymentHistory',
-    component: PaymentHistory
+    component: PaymentHistory,
+    meta: {
+      title: '惠原仓-支付记录'
+    }
   },
   {
     path: '/collection',
     name: 'collection',
-    component: Collection
+    component: Collection,
+    meta: {
+      title: '惠原仓-我的收藏'
+    }
   },
   {
     path: '/proposal',
     name: 'proposal',
-    component: Proposal
+    component: Proposal,
+    meta: {
+      title: '惠原仓'
+    }
   },
   {
     path: '/problem',
     name: 'problem',
-    component: Problem
+    component: Problem,
+    meta: {
+      title: '惠原仓'
+    }
   },
   {
     path: '/setup',
     name: 'setup',
-    component: Setup
+    component: Setup,
+    meta: {
+      title: '惠原仓'
+    }
   },
   {
     path: '/setAddress',
     name: 'setAddress',
-    component: SetAddress
+    component: SetAddress,
+    meta: {
+      title: '惠原仓'
+    }
   },
   {
     path: '/addAddress',
     name: 'addAddress',
-    component: AddAddress
+    component: AddAddress,
+    meta: {
+      title: '惠原仓'
+    }
   },
   {
     path: '/accountSet',
     name: 'accountSet',
-    component: AccountSet
+    component: AccountSet,
+    meta: {
+      title: '惠原仓'
+    }
   },
   {
     path: '/accountSecurity',
     name: 'accountSecurity',
-    component: AccountSecurity
+    component: AccountSecurity,
+    meta: {
+      title: '惠原仓'
+    }
   }
 ]
 
@@ -167,6 +237,9 @@ const router = new VueRouter({
 });
 router.beforeEach((to, from, next) => {
     console.log("to",to.path,"from",from.path)
+    if (to.meta.title) {
+      document.title = to.meta.title
+    }
     console.log(to.path=="/classification/confirmOrder"&&(from.path=="/classification/selectCardRoll" || from.path=="/"));
      if(to.path=="/classification/confirmOrder"&&(from.path=="/classification/selectCardRoll" || from.path=="/")){
        next("/")
