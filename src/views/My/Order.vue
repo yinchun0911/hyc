@@ -7,7 +7,6 @@
                     <span>{{item.value}}</span>
                 </li>
             </ul>
-
             <template v-for="order in orderList">
 
                 <div @click="goDetail(order)" class="listWarp">
@@ -207,16 +206,18 @@
             margin-top: .88rem;
             ul.nav {
                 padding: 0 .2rem;
+                width: 100%;
                 height: .8rem;
                 line-height: .8rem;
                 background-color: #fff;
-                display: flex;
-                justify-content: space-between;
+                background-color: #fff;
+                position: fixed;
+                top:.88rem;
 
                 li {
                     width: 20%;
                     text-align: center;
-
+                    float: left;
                     span {
                         font-size: .26rem;
                         color: #b2b2b2;
@@ -236,7 +237,7 @@
                 background-color: #fff;
                 padding: 0 .2rem .2rem;
                 border-radius: .2rem;
-                margin: .2rem .2rem 0 .2rem;
+                margin: 1.76rem .2rem 0 .2rem;
                 overflow: hidden;
                 h2{
                     height: .8rem;

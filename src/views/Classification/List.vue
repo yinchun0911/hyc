@@ -18,7 +18,7 @@
                             </div>
                         </div>
                         <p @click="goTo('detail',{productID:item.productID,goodsid:item.goodsid})" >{{item.productName}}</p>
-                        <div   class="price">
+                        <div class="price">
                             <span @click="goTo('detail',{productID:item.productID,goodsid:item.goodsid})"  >{{item.productPrice}}</span>
                             <s @click="goTo('detail',{productID:item.productID,goodsid:item.goodsid})" v-if="item.productPrice!=null">({{item.productPrice}})</s>
                             <el-button type="primary" @click="addShopClick(item.goodsid)" round icon="el-icon-plus"></el-button>
@@ -27,6 +27,29 @@
                     </template>
                 </ul>
             </div>
+            <van-popup v-model="show" position="bottom" :style="{ height: '35%' }">
+                <van-form @submit="onSubmit">
+                    <van-field
+                            v-model="min"
+                            name="最低价格"
+                            label="最低价格"
+                            placeholder="最低价格"
+                            :rules="[{ required: true, message: '请填写最低价格' }]"
+                    />
+                    <van-field
+                            v-model="max"
+                            name="最高价格"
+                            label="最高价格"
+                            placeholder="最高价格"
+                            :rules="[{ required: true, message: '请填写最高价格' }]"
+                    />
+                    <div style="margin: 16px;">
+                        <van-button round block type="info" native-type="submit">
+                            确定
+                        </van-button>
+                    </div>
+                </van-form>
+            </van-popup>
         </div>
     </div>
 </template>
@@ -60,7 +83,9 @@
                     token:""
                 },
                 lastPage:-1,
-                goodsList:[]
+                goodsList:[],
+                show:true,
+                min:null
             }
         },
         methods:{
@@ -155,7 +180,10 @@
                     console.log("到底了")
                 }
 
-            }
+            },
+            onSubmit(values) {
+                console.log('submit', values);
+            },
         },
         mounted(){
              this.loadData(this,1);
@@ -211,13 +239,15 @@
             margin-top: .88rem;
             background-color: #f0f3fa;
             ul.nav{
+                width: 100%;
                 padding: 0 .2rem;
                 height: .8rem;
                 line-height: .8rem;
                 background-color: #fff;
-                display: flex;
-                justify-content: space-between;
+                position: fixed;
+                top:.88rem;
                 li{
+                    float: left;
                     width: 20%;
                     text-align: center;
                     span{
@@ -236,6 +266,7 @@
             }
             .list-box{
                 padding: 0 .2rem;
+                margin-top: 1.76rem;
                 ul{
                     display: flex;
                     justify-content: space-between;
@@ -311,6 +342,9 @@
                     }
                 }
             }
+        }
+        .van-popup--bottom{
+            padding-top: .3rem;
         }
     }
 </style>
