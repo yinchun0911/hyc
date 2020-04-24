@@ -43,7 +43,7 @@ const routes = [
     name:'login',
     component:Login,
     meta: {
-      title: '惠原仓-登陆'
+      title: '惠原仓'
     }
   },
   {
@@ -51,13 +51,16 @@ const routes = [
     name:'notice',
     component:Notice,
     meta: {
-      title: '惠原仓-消息'
+      title: '惠原仓'
     }
   },
   {
     path:'/information',
     name:'information',
-    component:Information
+    component:Information,
+    meta: {
+      title: '惠原仓'
+    }
   },
     //分类
   {
@@ -65,7 +68,7 @@ const routes = [
     name: 'classification',
     component: Classification,
     meta: {
-      title: '惠原仓-类目查看'
+      title: '惠原仓'
     }
   },
   {
@@ -73,7 +76,7 @@ const routes = [
     name: 'list',
     component: List,
     meta: {
-      title: '惠原仓-商品列表'
+      title: '惠原仓'
     }
   },
   {
@@ -81,7 +84,7 @@ const routes = [
     name: 'detail',
     component: Details,
     meta: {
-      title: '惠原仓-商品详情'
+      title: '惠原仓'
     }
   },
   {
@@ -89,7 +92,7 @@ const routes = [
     name: 'confirmOrder',
     component: ConfirmOrder ,
     meta: {
-      title: '确认下单'
+      title: '惠原仓'
     }
   },
   {
@@ -97,7 +100,7 @@ const routes = [
     name: 'selectCardRoll',
     component: SelectCardRoll,
     meta: {
-      title: '惠原仓-进行支付'
+      title: '惠原仓'
     }
   },
   {
@@ -115,7 +118,7 @@ const routes = [
     name: 'Shopping',
     component: Shopping,
     meta: {
-      title: '惠原仓-我的购物车'
+      title: '惠原仓'
     }
   },
   {
@@ -123,13 +126,16 @@ const routes = [
     name: 'successPayment',
     component: SuccessPayment,
     meta: {
-      title: '惠原仓-支付成功'
+      title: '惠原仓'
     }
   },
   {
     path: '/failPayment',
     name: 'failPayment',
-    component: FailPayment
+    component: FailPayment,
+    meta: {
+      title: '惠原仓'
+    }
   },
   // 我的
   {
@@ -137,7 +143,7 @@ const routes = [
     name: 'my',
     component: My,
     meta: {
-      title: '惠原仓-个人中心'
+      title: '惠原仓'
     }
   },
   {
@@ -145,7 +151,7 @@ const routes = [
     name: 'order',
     component: Order,
     meta: {
-      title: '惠原仓-我的订单'
+      title: '惠原仓'
     }
   },
   {
@@ -161,7 +167,7 @@ const routes = [
     name: 'paymentHistory',
     component: PaymentHistory,
     meta: {
-      title: '惠原仓-支付记录'
+      title: '惠原仓'
     }
   },
   {
@@ -169,7 +175,7 @@ const routes = [
     name: 'collection',
     component: Collection,
     meta: {
-      title: '惠原仓-我的收藏'
+      title: '惠原仓'
     }
   },
   {
