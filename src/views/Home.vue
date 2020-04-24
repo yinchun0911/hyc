@@ -39,6 +39,11 @@
                 <p class="title">{{item.activityAreaProductName}}</p>
                 <p class="introduce">{{item.activityAreaProductRemark}}</p>
               </li>
+                <li @click="goByPathTo('detail',{productID:item.productID})">
+                    <img :src="item.activityAreaProductPic" alt="">
+                    <p class="title">{{item.activityAreaProductName}}</p>
+                    <p class="introduce">{{item.activityAreaProductRemark}}</p>
+                </li>
               </template>
             </ul>
     </div>

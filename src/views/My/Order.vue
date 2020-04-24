@@ -7,8 +7,8 @@
                     <span>{{item.value}}</span>
                 </li>
             </ul>
+            <div style="width: 100%; height: .88rem"></div>
             <template v-for="order in orderList">
-
                 <div @click="goDetail(order)" class="listWarp">
                                 <h2>
                                     <span>订单号：{{order.orderNo}}</span>
@@ -237,7 +237,7 @@
                 background-color: #fff;
                 padding: 0 .2rem .2rem;
                 border-radius: .2rem;
-                margin: 1.76rem .2rem 0 .2rem;
+                margin: .2rem .2rem 0 .2rem;
                 overflow: hidden;
                 h2{
                     height: .8rem;
