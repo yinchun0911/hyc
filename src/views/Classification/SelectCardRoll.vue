@@ -34,7 +34,8 @@
 <!--            </template>-->
             <div class="cardRoll">
                 <div class="list">
-                    <img class="imgActive" src="../../assets/images/classIfication/cardRoll-03.png" alt="">
+                    <img class="imgActive" src="../../assets/images/classIfication/cardRoll-00.png" alt="">
+                    <h2>蓝色观影券</h2>
                     <span>剩余点数：315.2点</span>
                     <p>VS-101245</p>
                 </div>
@@ -292,19 +293,36 @@
                         display: block;
                         margin: 0 auto .1rem auto;
                     }
+                    h2{
+                        width: 3.2rem;
+                        font-size: .4rem;
+                        color: #fff;
+                        font-weight: normal;
+                        position: absolute;
+                        top: .55rem;
+                        left: 2.1rem;
+                        white-space:nowrap;
+                        overflow:hidden;
+                    }
                     span{
+                        width: 3.2rem;
                         position: absolute;
                         bottom: .52rem;
                         left: 2rem;
                         font-size: .28rem;
                         color: #fff;
+                        white-space:nowrap;
+                        overflow:hidden;
                     }
                     p{
+                        width: 1.4rem;
                         font-size: .26rem;
                         color: #fff;
                         position: absolute;
                         right: .28rem;
                         top: .5rem;
+                        white-space:nowrap;
+                        overflow:hidden;
                     }
                     .imgActive{
                         border:1px solid #f00;
