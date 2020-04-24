@@ -3,16 +3,23 @@
         <ListHeader :title="title" @shopClick="goshopClick" :badgeNum="shoppingNum" ></ListHeader>
         <div class="content">
             <div class="banner">
-                <div class="swiper-container" id="gallery">
-                    <div class="swiper-wrapper">
+<!--                <div class="swiper-container" id="gallery">-->
+<!--                    <div class="swiper-wrapper">-->
 
-                       <template v-for="(item,index) in product.imageList" >
-                        <div v-if="item.picType==1" class="swiper-slide"><img :src="item.picUrl" alt=""></div>
-                       </template>
-                    </div>
-                    <!-- 如果需要分页器 -->
-                    <!--        <div class="swiper-pagination"></div>-->
-                </div>
+<!--                       <template v-for="(item,index) in product.imageList" >-->
+<!--                        <div v-if="item.picType==1" class="swiper-slide"><img :src="item.picUrl" alt=""></div>-->
+<!--                       </template>-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash; 如果需要分页器 &ndash;&gt;-->
+<!--                    &lt;!&ndash;        <div class="swiper-pagination"></div>&ndash;&gt;-->
+<!--                </div>-->
+                <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+                    <template v-for="(item,index) in product.imageList" >
+                        <van-swipe-item v-if="item.picType==1">
+                            <img :src="item.picUrl" alt="">
+                        </van-swipe-item>
+                    </template>
+                </van-swipe>
             </div>
             <div class="hite">
                 <p>{{product.productName}}</p>
@@ -339,21 +346,16 @@
             .banner{
                 width: 100%;
                 background-color: #fff;
-                .swiper-slide{
+                .my-swipe{
                     display: block;
                     height: 3.98rem;
-                    img{
-                        width: 100%;
-                        height: 100%;
+                    .van-swipe-item{
+                        height: 3.98rem;
+                        img{
+                            width: 100%;
+                            height: 3.98rem;
+                        }
                     }
-                }
-                .item_1{
-                    background: url('../../assets/images/classIfication/box-01.png') no-repeat center 0;
-                    background-size: 100% 100%;
-                }
-                .item_2{
-                    background: url('../../assets/images/classIfication/box-01.png') no-repeat center 0;
-                    background-size: 100% 100%;
                 }
             }
             .hite{

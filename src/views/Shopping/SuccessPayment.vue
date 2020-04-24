@@ -21,6 +21,7 @@
                 </div>
                 <div class="btns" @click="goDetail(order.orderNo)">
                     <button >订单详情</button>
+                    <button class="backBtn">返  回</button>
                 </div>
 
             </div>
@@ -142,6 +143,12 @@
                     color: #fff;
                     border-color: #83b7ff;
                     border-radius: .4rem;
+                    margin-bottom: .45rem;
+                }
+                .backBtn{
+                    background-color: #fff;
+                    color: #b2b2b2;
+                    border-color: #d7d9dd;
                 }
             }
 

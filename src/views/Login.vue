@@ -141,11 +141,10 @@
         }
         .content{
             .content-wrap{
-                margin: 0 .2rem;
+                margin: -1.5rem .2rem 0 .2rem;
                 background-color: #fff;
                 border-radius: .15rem;
                 padding: 0 .2rem .75rem .2rem;
-                margin-top: -1.5rem;
                 form{
                     ul{
                         padding: 1.2rem 0 .95rem .5rem;
@@ -156,6 +155,7 @@
                             line-height: .8rem;
                             input{
                                 border: 0;
+                                width: 3.8rem;
                                 height: 100%;
                                 padding-left: .65rem;
                                 color: #4c4c4c;

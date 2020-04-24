@@ -2,18 +2,13 @@
   <div class="home">
     <SearchHeader @sweepCodeClick="sweepCodeClick" @msgEventClick="msgEventClick" :badgeNum="msgNum" @searchClick="searchClick"></SearchHeader>
     <div class="banner">
-      <div class="swiper-container" id="gallery">
-        <div class="swiper-wrapper">
-
-        <template v-for="(swiper,index) in swiperList">
-          <div class="swiper-slide" :data-url="swiper.jumpUrl">
-            <img :src="swiper.carouselPic" @click="goByPathTo(swiper.jumpUrl)" alt="">
-          </div>
-       </template>
-        </div>
-        <!-- 如果需要分页器 -->
-        <div class="swiper-pagination"></div>
-      </div>
+        <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+            <template v-for="(swiper,index) in swiperList">
+                <van-swipe-item :data-url="swiper.jumpUrl">
+                    <img :src="swiper.carouselPic"  @click="goByPathTo(swiper.jumpUrl)" alt="">
+                </van-swipe-item>
+            </template>
+        </van-swipe>
     </div>
     <div class="content">
       <h2>惠原仓政企职工生活服务平台</h2>
@@ -196,20 +191,6 @@ export default {
 
   mounted() {
       this.initWechat();
-    var gallerySwiper = new Swiper('#gallery', {
-      spaceBetween: 10,
-      effect : 'fade',
-      paginationClickable: true,
-      autoplay: {
-        delay: 2000,//2秒切换一次
-        disableOnInteraction: false,
-      },
-      // 如果需要分页器
-      pagination: {
-        el: '.swiper-pagination',
-        clickable :true,
-      },
-    });
   },
   components: {
     SearchHeader,
@@ -225,21 +206,17 @@ export default {
       height: 1.82rem;
       background-color: #7fb1f7;
       padding: 0 .2rem;
-      .swiper-slide{
+      .my-swipe{
         display: block;
-        width: 7.1rem;
+        width: 100%;
         height: 3rem;
-        img{
-          width: 100%;
-        }
-      }
-      .item_1{
-        background: url('../assets/images/banner.png') no-repeat center 0;
-        background-size: 100% 100%;
-      }
-      .item_2{
-        background: url('../assets/images/banner.png') no-repeat center 0;
-        background-size: 100% 100%;
+          .van-swipe-item{
+              height: 3rem;
+              img{
+                  width: 7.1rem;
+                  height: 3rem;
+              }
+          }
       }
     }
     .content{
@@ -360,11 +337,17 @@ export default {
           }
         }
         ul{
+            width: 100%;
+            overflow-y: hidden;
+            overflow-x: auto;
           display: flex;
           justify-content: space-between;
           padding: .2rem .2rem 0 .2rem;
           li{
-            width: 33.3%;
+            width: 31%;
+              &+li{
+                  margin-left: .2rem;
+              }
             img{
               width: 2.1rem;
             }

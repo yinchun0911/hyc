@@ -13,7 +13,11 @@
                             </div>
                         </div>
             </template>
-
+            <div class="cardRoll">
+                <img src="../../assets/images/classIfication/cardRoll-01.png" alt="">
+                <img src="../../assets/images/classIfication/cardRoll-02.png" alt="">
+                <img src="../../assets/images/classIfication/cardRoll-03.png" alt="">
+            </div>
             <button class="save" @click="dialogTableVisible = true">绑定实体点券</button>
             <!--添加卡片-->
             <el-dialog title="" :visible.sync="dialogTableVisible" top="40vh" :close-on-click-modal="false">
@@ -104,29 +108,35 @@
         .content{
             margin-top: 1.2rem;
             .cardRoll{
-                background: url("../../assets/images/classIfication/cardRoll-00.png") no-repeat;
-                background-size: 100% 100%;
-                div{
-                    position: relative;
-                    margin: 0 auto;
+                img{
                     width: 7.26rem;
                     height: 2.15rem;
-
-                    span{
-                        position: absolute;
-                        bottom: .52rem;
-                        left: 2rem;
-                        font-size: .28rem;
-                        color: #fff;
-                    }
-                    p{
-                        font-size: .26rem;
-                        color: #fff;
-                        position: absolute;
-                        right: .28rem;
-                        top: .5rem;
-                    }
+                    display: block;
+                    margin: 0 auto .1rem auto;
                 }
+                /*background: url("../../assets/images/classIfication/cardRoll-00.png") no-repeat;*/
+                /*background-size: 100% 100%;*/
+                /*div{*/
+                /*    position: relative;*/
+                /*    margin: 0 auto;*/
+                /*    width: 7.26rem;*/
+                /*    height: 2.15rem;*/
+
+                /*    span{*/
+                /*        position: absolute;*/
+                /*        bottom: .52rem;*/
+                /*        left: 2rem;*/
+                /*        font-size: .28rem;*/
+                /*        color: #fff;*/
+                /*    }*/
+                /*    p{*/
+                /*        font-size: .26rem;*/
+                /*        color: #fff;*/
+                /*        position: absolute;*/
+                /*        right: .28rem;*/
+                /*        top: .5rem;*/
+                /*    }*/
+                /*}*/
             }
             .blue{
                 background: url("../../assets/images/classIfication/cardRoll-01.png") no-repeat  !important;
@@ -204,7 +214,5 @@
                 }
             }
         }
-
     }
-
 </style>

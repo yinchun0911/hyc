@@ -21,17 +21,23 @@
                     <el-checkbox v-model="checked"></el-checkbox><span @click="dialogVisible = true">阅读并同意<i>服务协议</i></span>
                 </div>
             </div>
-            <template v-for="item in cardList">
-                        <div class='cardRoll' :data-id="item.cardID" @click="selectCard=item.cardID" >
-                            <div :class="[item.cardName=='红色观影券'?'red':'',
-                                                                                   item.cardName=='蓝色观影券'?'blue':'',
-                                                                                   item.cardName=='橙色蛋糕券'?'yellow':'',
-                                                                                   item.cardName=='绿色洗衣券'?'green':'']">
-                                <span>剩余点数：{{item.cardBalance}}点</span>
-                                <p>{{item.cardNo}}</p>
-                            </div>
-                        </div>
-            </template>
+<!--            <template v-for="item in cardList">-->
+<!--                        <div class='cardRoll' :data-id="item.cardID" @click="selectCard=item.cardID" >-->
+<!--                            <div :class="[item.cardName=='红色观影券'?'red':'',-->
+<!--                                                                                   item.cardName=='蓝色观影券'?'blue':'',-->
+<!--                                                                                   item.cardName=='橙色蛋糕券'?'yellow':'',-->
+<!--                                                                                   item.cardName=='绿色洗衣券'?'green':'']">-->
+<!--                                <span>剩余点数：{{item.cardBalance}}点</span>-->
+<!--                                <p>{{item.cardNo}}</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--            </template>-->
+            <div class="cardRoll">
+                <div class="list">
+                    <img class="imgActive" src="../../assets/images/classIfication/cardRoll-03.png" alt="">
+                    <i class="listActive el-icon-check"></i>
+                </div>
+            </div>
             <div class="btns">
                 <button @click="dialogTableVisible = true">+添加卡片</button>
                 <button class="backBtn" @click="pay">立即支付<span>{{order.totleProduct}}</span></button>
@@ -274,48 +280,68 @@
                 }
             }
             .cardRoll{
-                background: url("../../assets/images/classIfication/cardRoll-00.png") no-repeat;
-                background-size: 100% 100%;
-                padding: .35rem 0;
-                 .blue{
-                        background: url("../../assets/images/classIfication/cardRoll-01.png") no-repeat !important;
-                        background-size: 100% 100%;
-                    }
-                    .red{
-                        background: url("../../assets/images/classIfication/cardRoll-02.png") no-repeat !important;
-                        background-size: 100% 100%;
-                    }
-                    .yellow{
-                        background: url("../../assets/images/classIfication/cardRoll-03.png") no-repeat !important;
-                        background-size: 100% 100%;
-                    }
-                    .green{
-                        background: url("../../assets/images/classIfication/cardRoll-04.png") no-repeat !important;
-                        background-size: 100% 100%;
-                    }
-
-                div{
-
+                /*background: url("../../assets/images/classIfication/cardRoll-00.png") no-repeat;*/
+                /*background-size: 100% 100%;*/
+                margin: .35rem 0;
+                .list{
                     position: relative;
-                    margin: 0 auto;
-                    width: 7.26rem;
-                    height: 2.15rem;
-                    background-size: 100% 100%;
-                    span{
-                        position: absolute;
-                        bottom: .52rem;
-                        left: 2rem;
-                        font-size: .28rem;
-                        color: #fff;
+                    img{
+                        width: 7.26rem;
+                        height: 2.15rem;
+                        display: block;
+                        margin: 0 auto .1rem auto;
                     }
-                    p{
-                        font-size: .26rem;
-                        color: #fff;
+                    .imgActive{
+                        border:1px solid #f00;
+                    }
+                    .listActive{
                         position: absolute;
-                        right: .28rem;
-                        top: .5rem;
+                        right: .3rem;
+                        top: .05rem;
+                        color: #f00;
+                        font-size: 40px;
+                        font-weight: bolder;
                     }
                 }
+                 /*.blue{*/
+                 /*       background: url("../../assets/images/classIfication/cardRoll-01.png") no-repeat !important;*/
+                 /*       background-size: 100% 100%;*/
+                 /*   }*/
+                 /*   .red{*/
+                 /*       background: url("../../assets/images/classIfication/cardRoll-02.png") no-repeat !important;*/
+                 /*       background-size: 100% 100%;*/
+                 /*   }*/
+                 /*   .yellow{*/
+                 /*       background: url("../../assets/images/classIfication/cardRoll-03.png") no-repeat !important;*/
+                 /*       background-size: 100% 100%;*/
+                 /*   }*/
+                 /*   .green{*/
+                 /*       background: url("../../assets/images/classIfication/cardRoll-04.png") no-repeat !important;*/
+                 /*       background-size: 100% 100%;*/
+                 /*   }*/
+
+                /*div{*/
+
+                /*    position: relative;*/
+                /*    margin: 0 auto;*/
+                /*    width: 7.26rem;*/
+                /*    height: 2.15rem;*/
+                /*    background-size: 100% 100%;*/
+                /*    span{*/
+                /*        position: absolute;*/
+                /*        bottom: .52rem;*/
+                /*        left: 2rem;*/
+                /*        font-size: .28rem;*/
+                /*        color: #fff;*/
+                /*    }*/
+                /*    p{*/
+                /*        font-size: .26rem;*/
+                /*        color: #fff;*/
+                /*        position: absolute;*/
+                /*        right: .28rem;*/
+                /*        top: .5rem;*/
+                /*    }*/
+                /*}*/
             }
             .btns{
                 padding: 0 .2rem;
