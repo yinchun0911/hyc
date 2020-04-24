@@ -2,25 +2,17 @@
     <div class="ticket">
         <ListHeader :title="title" :showHeadFr="false"></ListHeader>
         <div class="content">
-<!--            <template v-for="item in cardList">-->
-<!--                        <div :class="['cardRoll',item.cardName=='红色观影券'?'red':'',-->
-<!--                                                  item.cardName=='蓝色观影券'?'blue':'',-->
-<!--                                                  item.cardName=='橙色蛋糕券'?'yellow':'',-->
-<!--                                                  item.cardName=='绿色洗衣券'?'green':'']">-->
-<!--                            <div>-->
-<!--                                <span>剩余点数：{{item.cardBalance}}点</span>-->
-<!--                                <p>{{item.cardNo}}</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--            </template>-->
-            <div class="cardRoll">
-                <div class="list">
-                    <img src="../../assets/images/classIfication/cardRoll-00.png" alt="">
-                    <h2>蓝色观影券</h2>
-                    <span>剩余点数：315.2点</span>
-                    <p>VS-101245</p>
+            <template v-for="item in cardList">
+                <div class="cardRoll">
+                    <div class="list">
+                        <img :src="item.cardPic" alt="">
+                        <h2>{{item.cardName}}</h2>
+                        <span>剩余点数：{{item.cardBalance}}点</span>
+                        <p>{{item.cardNo}}</p>
+                    </div>
                 </div>
-            </div>
+            </template>
+
             <button class="save" @click="dialogTableVisible = true">绑定实体点券</button>
             <!--添加卡片-->
             <el-dialog title="" :visible.sync="dialogTableVisible" top="40vh" :close-on-click-modal="false">

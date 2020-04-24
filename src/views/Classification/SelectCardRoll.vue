@@ -21,25 +21,18 @@
                     <el-checkbox v-model="checked"></el-checkbox><span @click="dialogVisible = true">阅读并同意<i>服务协议</i></span>
                 </div>
             </div>
-<!--            <template v-for="item in cardList">-->
-<!--                        <div class='cardRoll' :data-id="item.cardID" @click="selectCard=item.cardID" >-->
-<!--                            <div :class="[item.cardName=='红色观影券'?'red':'',-->
-<!--                                                                                   item.cardName=='蓝色观影券'?'blue':'',-->
-<!--                                                                                   item.cardName=='橙色蛋糕券'?'yellow':'',-->
-<!--                                                                                   item.cardName=='绿色洗衣券'?'green':'']">-->
-<!--                                <span>剩余点数：{{item.cardBalance}}点</span>-->
-<!--                                <p>{{item.cardNo}}</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--            </template>-->
-            <div class="cardRoll">
-                <div class="list">
-                    <img class="imgActive" src="../../assets/images/classIfication/cardRoll-00.png" alt="">
-                    <h2>蓝色观影券</h2>
-                    <span>剩余点数：315.2点</span>
-                    <p>VS-101245</p>
+            <template v-for="item in cardList">
+
+                <div class="cardRoll" :data-id="item.cardID" @click="selectCard=item.cardID">
+                    <div class="list">
+                        <img :class="selectCard==item.cardID?'imgActive':''" :src="item.cardPic" alt="">
+                        <h2>{{item.cardName}}</h2>
+                        <span>剩余点数：{{item.cardBalance}}点</span>
+                        <p>{{item.cardNo}}</p>
+                    </div>
                 </div>
-            </div>
+            </template>
+
             <div class="btns">
                 <button @click="dialogTableVisible = true">+添加卡片</button>
                 <button class="backBtn" @click="pay">立即支付<span>{{order.totleProduct}}</span></button>
