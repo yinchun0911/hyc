@@ -35,7 +35,8 @@
             <div class="cardRoll">
                 <div class="list">
                     <img class="imgActive" src="../../assets/images/classIfication/cardRoll-03.png" alt="">
-                    <i class="listActive el-icon-check"></i>
+                    <span>剩余点数：315.2点</span>
+                    <p>VS-101245</p>
                 </div>
             </div>
             <div class="btns">
@@ -291,16 +292,22 @@
                         display: block;
                         margin: 0 auto .1rem auto;
                     }
+                    span{
+                        position: absolute;
+                        bottom: .52rem;
+                        left: 2rem;
+                        font-size: .28rem;
+                        color: #fff;
+                    }
+                    p{
+                        font-size: .26rem;
+                        color: #fff;
+                        position: absolute;
+                        right: .28rem;
+                        top: .5rem;
+                    }
                     .imgActive{
                         border:1px solid #f00;
-                    }
-                    .listActive{
-                        position: absolute;
-                        right: .3rem;
-                        top: .05rem;
-                        color: #f00;
-                        font-size: 40px;
-                        font-weight: bolder;
                     }
                 }
                  /*.blue{*/

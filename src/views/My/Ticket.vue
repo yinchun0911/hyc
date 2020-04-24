@@ -2,21 +2,33 @@
     <div class="ticket">
         <ListHeader :title="title" :showHeadFr="false"></ListHeader>
         <div class="content">
-            <template v-for="item in cardList">
-                        <div :class="['cardRoll',item.cardName=='红色观影券'?'red':'',
-                                                  item.cardName=='蓝色观影券'?'blue':'',
-                                                  item.cardName=='橙色蛋糕券'?'yellow':'',
-                                                  item.cardName=='绿色洗衣券'?'green':'']">
-                            <div>
-                                <span>剩余点数：{{item.cardBalance}}点</span>
-                                <p>{{item.cardNo}}</p>
-                            </div>
-                        </div>
-            </template>
+<!--            <template v-for="item in cardList">-->
+<!--                        <div :class="['cardRoll',item.cardName=='红色观影券'?'red':'',-->
+<!--                                                  item.cardName=='蓝色观影券'?'blue':'',-->
+<!--                                                  item.cardName=='橙色蛋糕券'?'yellow':'',-->
+<!--                                                  item.cardName=='绿色洗衣券'?'green':'']">-->
+<!--                            <div>-->
+<!--                                <span>剩余点数：{{item.cardBalance}}点</span>-->
+<!--                                <p>{{item.cardNo}}</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--            </template>-->
             <div class="cardRoll">
-                <img src="../../assets/images/classIfication/cardRoll-01.png" alt="">
-                <img src="../../assets/images/classIfication/cardRoll-02.png" alt="">
-                <img src="../../assets/images/classIfication/cardRoll-03.png" alt="">
+                <div class="list">
+                    <img src="../../assets/images/classIfication/cardRoll-01.png" alt="">
+                    <span>剩余点数：315.2点</span>
+                    <p>VS-101245</p>
+                </div>
+                <div class="list">
+                    <img src="../../assets/images/classIfication/cardRoll-02.png" alt="">
+                    <span>剩余点数：315.2点</span>
+                    <p>VS-101245</p>
+                </div>
+                <div class="list">
+                    <img src="../../assets/images/classIfication/cardRoll-03.png" alt="">
+                    <span>剩余点数：315.2点</span>
+                    <p>VS-101245</p>
+                </div>
             </div>
             <button class="save" @click="dialogTableVisible = true">绑定实体点券</button>
             <!--添加卡片-->
@@ -108,12 +120,33 @@
         .content{
             margin-top: 1.2rem;
             .cardRoll{
-                img{
+                width: 100%;
+                .list{
+                    position: relative;
+                    margin: 0 auto .1rem auto;
                     width: 7.26rem;
                     height: 2.15rem;
-                    display: block;
-                    margin: 0 auto .1rem auto;
+                    img{
+                        width: 7.26rem;
+                        height: 2.15rem;
+                        display: block;
+                    }
+                    span{
+                        position: absolute;
+                        bottom: .52rem;
+                        left: 2rem;
+                        font-size: .28rem;
+                        color: #fff;
+                    }
+                    p{
+                        font-size: .26rem;
+                        color: #fff;
+                        position: absolute;
+                        right: .28rem;
+                        top: .5rem;
+                    }
                 }
+
                 /*background: url("../../assets/images/classIfication/cardRoll-00.png") no-repeat;*/
                 /*background-size: 100% 100%;*/
                 /*div{*/
