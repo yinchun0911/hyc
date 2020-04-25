@@ -4,7 +4,12 @@
         <div class="content">
             <ul class="nav">
                 <li v-for="(item,index) in navList" :class="current==index?'active':''"  @click="liclick(index);">
-                    <span >{{item.value}}<template v-if="current==index"><i class="el-icon-d-caret"></i></template></span>
+                    <span >{{item.value}}
+                        <template v-if="current==index">
+                            <i class="el-icon-caret-top" :class="postData.sortType=='0'?'ascending':''"></i>
+                            <i class="el-icon-caret-bottom" :class="postData.sortType=='1'?'descending':''"></i>
+                        </template>
+                    </span>
                 </li>
             </ul>
             <div class="list-box">
@@ -280,6 +285,7 @@
                 li{
                     float: left;
                     width: 20%;
+                    height: 100%;
                     text-align: center;
                     span{
                         font-size: .26rem;
@@ -290,8 +296,23 @@
                     span{
                         background-color: #83b7ff;
                         color: #fff;
-                        padding: .02rem .25rem;
+                        padding: .02rem .35rem .02rem .25rem;
                         border-radius: .2rem;
+                        position: relative;
+                        i.el-icon-caret-top{
+                            position: absolute;
+                            top: -.02rem;
+                        }
+                        i.el-icon-caret-bottom{
+                            position: absolute;
+                            bottom: -.02rem;
+                        }
+                        i.ascending{
+                            color: #f00;
+                        }
+                        i.descending{
+                            color: #f00;
+                        }
                     }
                 }
             }
