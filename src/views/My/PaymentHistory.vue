@@ -18,7 +18,7 @@
                         </div>
                         <div class="list-fr">
                             <h3>{{item.productName}}<span>X {{item.productCount}}</span></h3>
-                            <p>共{{item.saleNum}}件商品<label>实付：</label><span>198.00</span></p>
+                            <p>共{{item.saleNum}}件商品<label>实付：</label><span>{{item.realAmount}}</span></p>
                             <div>订单时间：{{item.orderTime}}</div>
                         </div>
                     </div>

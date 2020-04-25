@@ -19,9 +19,9 @@
                         <li><label>支付方式：</label><span>{{order.payMethod}}</span></li>
                     </ul>
                 </div>
-                <div class="btns" @click="goDetail(order.orderNo)">
-                    <button >订单详情</button>
-                    <button class="backBtn">返  回</button>
+                <div class="btns" >
+                    <button @click="goDetail(order.orderNo)">订单详情</button>
+                    <button @click="goHome()" class="backBtn">返  回</button>
                 </div>
 
             </div>
@@ -44,6 +44,10 @@
               var op=this;
               console.log(op.order.orderNo)
               op.$router.push({name:'orderDetails',query:{orderNo:orderNo}});
+            },
+            goHome(){
+                var op=this;
+                op.$router.push({name:'Home'});
             }
         },
         components: {

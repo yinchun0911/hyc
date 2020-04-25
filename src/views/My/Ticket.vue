@@ -83,7 +83,10 @@
                 var page=this;
                 var cardNo=page.cardNo;
                 var cardPWD=page.cardPWD;
-                console.log(page.cardPWD);
+                if(!(cardNo&&cardPWD)){
+                    Dialog({ message: "请扫码获取卡号并输入密码" });
+                    return;
+                }
                  userRequest("/appUser/saveUserCard",{cardNo,cardPWD}).then(function (response) {
                         Dialog({ message: "添加成功" });
                         page.cardList=[];

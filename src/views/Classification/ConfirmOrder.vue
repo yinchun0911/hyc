@@ -77,8 +77,8 @@
                 showSheet:false,
                 showAddress:false,
                 actions: [
-                    { name: '快递',id:1 },
-                    { name: '自提',id:2 }
+                    { name: '快递',id:1 }
+
                 ],
                 addressSelect:[{name:"添加新地址",id:-1}],
                 selectPost:1,

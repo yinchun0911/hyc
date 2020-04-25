@@ -44,6 +44,7 @@
     import ListHeader from '@/components/ListHeader.vue'
     import { upload, userRequest ,getRemotHost} from '@/js/request.js'
     import Vue from 'vue'
+    import {Dialog} from "vant";
     export default {
         name: "accountSet",
         data(){
@@ -111,6 +112,11 @@
             save(){
 
                 var op=this;
+                var phone=op.phone;
+                if (!/^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/.test(phone)){
+                    Dialog({ message: '手机号不正确' })
+                    return;
+                }
                 var postData={   nickName: op.name,
                                  userAvatar:  op.headPic,
                                  userBrithDay: op.birthday,

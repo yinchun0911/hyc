@@ -81,7 +81,7 @@
                     <div class="drawer-warp">
                         <div class="warp-fl fl">
                             <div class="img">
-                                <img src="../../assets/images/classIfication/list-11.png" alt="">
+                                 <img  :src="product.headImg" alt="">
                             </div>
                         </div>
                         <div class="warp-fr">
@@ -236,6 +236,15 @@
                             if(goodsid!=null&&goodsid==id){
                                 page.product=response[i];
                             }
+                            for (var m in response[i].imageList){
+                                var img=response[i].imageList[m];
+                                if(img.picType==1){
+                                    if(!response[i].headImg){
+                                        response[i].headImg=img.picUrl;
+                                    }
+                                }
+                            }
+
                        }
                        page.queryCollect();
                  })
