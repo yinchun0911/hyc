@@ -38,16 +38,20 @@
                 <button class="backBtn" @click="pay">立即支付<span>{{order.totleProduct}}</span></button>
             </div>
             <!--添加卡片-->
-            <el-dialog title="" :visible.sync="dialogTableVisible" top="40vh" :close-on-click-modal="false">
-                <ul>
-                    <li><label>您的卡号：</label><span @click="scan()">{{cardNo!=""?cardNo:"点击扫码获得卡号"}}</span></li>
-                    <li><label>激  活  码：</label><input type="text"  v-model="cardPWD"  placeholder="请输入激活码"></li>
-                </ul>
-                <div class="footBtn">
-                    <button class="backBtn"  @click="saveCard()">确 定</button>
-                    <button @click="dialogTableVisible = false">取 消</button>
+            <van-overlay :show="dialogTableVisible" @click="dialogTableVisible = false">
+                <div class="wrapper" @click.stop>
+                    <div class="box">
+                        <ul>
+                            <li><label>您的卡号：</label><span @click="scan()">{{cardNo!=""?cardNo:"点击扫码获得卡号"}}</span></li>
+                            <li><label>激  活  码：</label><input type="text"  v-model="cardPWD"  placeholder="请输入激活码"></li>
+                        </ul>
+                        <div class="footBtn">
+                            <button class="backBtn"  @click="saveCard()">确 定</button>
+                            <button @click="dialogTableVisible = false">取 消</button>
+                        </div>
+                    </div>
                 </div>
-            </el-dialog>
+            </van-overlay>
             <!--服务协议-->
             <el-dialog class="agreement" :visible.sync="dialogVisible"  top="0">
                 <div class="box" v-html="text">
@@ -399,46 +403,57 @@
                 }
             }
         }
-        .el-dialog{
-            width: 6rem;
-            border-radius: .2rem;
-            .el-dialog__body{
-                padding: .2rem .5rem;
-                ul{
-                    li{
-                        height: .8rem;
-                        line-height: .8rem;
-                        border-bottom: .02rem solid #e6e6e6;
-                        font-size: .3rem;
-                        color: #4c4c4c;
-                        &:first-child{
-                            margin-bottom: .3rem;
+        .van-overlay{
+            .wrapper{
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                .box{
+                    background-color: #fff;
+                    width: 6rem;
+                    height: 5rem;
+                    overflow: hidden;
+                    padding: .2rem .5rem;
+                    border-radius: .2rem;
+                    ul{
+                        li{
+                            height: .8rem;
+                            line-height: .8rem;
+                            border-bottom: .02rem solid #e6e6e6;
+                            font-size: .3rem;
+                            color: #4c4c4c;
+                            &:first-child{
+                                margin-bottom: .3rem;
+                            }
+                            input{
+                                border: 0;
+                                margin-bottom: .08rem;
+                                height: 100%;
+                            }
                         }
-                        input{
-                            border: 0;
-                            margin-bottom: .08rem;
-                            height: 100%;
+                    }
+                    .footBtn{
+                        button{
+                            width: 100%;
+                            height: .8rem;
+                            line-height: .8rem;
+                            text-align: center;
+                            font-size: .3rem;
+                            color: #83b7ff;
+                            margin-top: .3rem;
+                            border-color: #83b7ff;
+                            border-radius: .4rem;
+                        }
+                        .backBtn{
+                            background-color: #83b7ff;
+                            color: #fff;
                         }
                     }
                 }
-                .footBtn{
-                    button{
-                        width: 100%;
-                        height: .8rem;
-                        line-height: .8rem;
-                        text-align: center;
-                        font-size: .3rem;
-                        color: #83b7ff;
-                        margin-top: .3rem;
-                        border-color: #83b7ff;
-                        border-radius: .4rem;
-                    }
-                    .backBtn{
-                        background-color: #83b7ff;
-                        color: #fff;
-                    }
-                }
+
             }
+
         }
         .agreement{
             .el-dialog{
