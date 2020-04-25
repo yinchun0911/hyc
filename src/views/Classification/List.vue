@@ -1,6 +1,6 @@
 <template>
     <div class="list">
-        <ListHeader :title="title" @shopClick="shopClick"></ListHeader>
+        <ListHeader :title="title"  @shopClick="shopClick"></ListHeader>
         <div class="content">
             <ul class="nav">
                 <li v-for="(item,index) in navList" :class="current==index?'active':''"  @click="liclick(index);">
@@ -197,7 +197,7 @@
             },
             handleScroll() {
 
-                console.log(this.isbottom==1,this.lastPage,this.lastPage!=-1,this.pageNum,this.pageNum<this.lastPage)
+                console.log(this.$refs)
                 if(this.isbottom==1&&this.lastPage!=-1 && this.pageNum<this.lastPage){
                       this.isbottom = -1
                     this.pageNum++

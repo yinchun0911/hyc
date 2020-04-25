@@ -161,6 +161,7 @@
                         if(num==deleteList.length){
                             page.productList=[];
                             page.loadData(0);
+                            page. countCheckTotal();
                          }
                      });
                  }

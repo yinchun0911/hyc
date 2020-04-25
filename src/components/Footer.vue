@@ -24,6 +24,7 @@
         data(){
             this.getShoppingCarNum();
             return{
+                refeash:true,
                 // current:0,
                 footerNavList:[
                     {
@@ -56,20 +57,32 @@
         methods:{
             getShoppingCarNum(){
                         var page=this;
+                        if(!page.refeash) {
+                            console.log("stop,load")
+                        }
+                         console.log(" foot  load ")
                         var postData={noError:true,defaultFn:function(){
-                                 console.log("defaultProcess")
-                                 page.shoppingNum=0;
-                            }
+                                         console.log("defaultProcess")
+                                         page.shoppingNum=0;
+                                    }
                         }
                         userRequest("/shopCar/getCarGoodsNum",postData).then(function (response) {
                               page.shoppingNum=response;
-                        })
+                            if(page.refeash) {
+                                console.log("init getNum");
+                                setTimeout(page.getShoppingCarNum, 1000);
+                            }
+                        });
             },
             liclick(path){
                 this.$router.replace(path);
             }
 
-        }
+        },
+        destroyed(){
+            this.refeash=false;
+            console.log(" foot reload ")
+        },
     }
 </script>
 

@@ -22,7 +22,7 @@ import { request, userRequest} from '@/js/request.js'
         data(){
             this.getShoppingCarNum();
             return{
-                shoppingNum:0
+                shoppingNum:0,refeash:true
             }
         },
         props:{
@@ -49,8 +49,17 @@ import { request, userRequest} from '@/js/request.js'
                          page.shoppingNum=0;
                     }
                 }
+                if(!page.refeash) {
+                    console.log("stop,load")
+                }
+
                 userRequest("/shopCar/getCarGoodsNum",postData).then(function (response) {
-                      page.shoppingNum=response;
+                    page.shoppingNum=response;
+                    if(page.refeash) {
+                        console.log("init getNum");
+                        setTimeout(page.getShoppingCarNum, 1000);
+                    }
+
                 })
             },
             shopClick(val){
@@ -59,7 +68,11 @@ import { request, userRequest} from '@/js/request.js'
             clickBtn(){
                 this.$emit('clickBtn');
             }
-        }
+        },
+        destroyed(){
+            this.refeash=false;
+            console.log("reload ")
+        },
     }
 </script>
 
