@@ -152,7 +152,8 @@
                                                 num++ ;
                                                 if(num==deleteList.length){
                                                      page.productList=[];
-                                                     page.loadData(current);
+                                                     page.loadData(0);
+                                                    page. countCheckTotal();
                                                 }
                                        }, num:-1,
                                      };
