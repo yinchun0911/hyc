@@ -11,7 +11,7 @@
             <template v-for="order in orderList">
                 <div @click="goDetail(order)" class="listWarp">
                                 <h2>
-                                    <span>订单号：{{order.orderNo}}</span>
+                                    <span class="orderCode">订单号：{{order.orderNo}}</span>
                                     <div v-if="order.leftTime!=0 && order.orderStatus==1" :data-leftTime="order.leftTime" class="time" >
                                         请在
                                         <img :src="order.left.m2" alt="">
@@ -37,7 +37,6 @@
                                 </div>
                             </div>
             </template>
-
 
         </div>
     </div>
@@ -213,7 +212,7 @@
                 background-color: #fff;
                 position: fixed;
                 top:.88rem;
-
+                z-index: 1000;
                 li {
                     width: 20%;
                     text-align: center;
@@ -240,19 +239,22 @@
                 margin: .2rem .2rem 0 .2rem;
                 overflow: hidden;
                 h2{
-                    height: .8rem;
-                    line-height: .8rem;
+                    padding: .2rem 0;
+                    overflow: hidden;
                     font-weight: normal;
                     border-bottom: .02rem solid #f0f3fa;
-                    span{
+                    span.orderCode{
                         font-size: .22rem;
                         color: #4c4c4c;
+                        float: left;
+                        width: 3.2rem;
+                        word-wrap: break-word;word-break: break-all;overflow: hidden;
                     }
                     .time{
+                        float: left;
                         font-size:.18rem;
                         -webkit-transform:scale(0.8);
                         color: #4c4c4c;
-                        display: inline-block;
                         img{
                             width: .15rem;
                             height: .24rem;

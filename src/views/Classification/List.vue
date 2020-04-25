@@ -276,6 +276,7 @@
                 background-color: #fff;
                 position: fixed;
                 top:.88rem;
+                z-index: 1000;
                 li{
                     float: left;
                     width: 20%;

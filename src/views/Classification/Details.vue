@@ -67,7 +67,7 @@
                     </template>
                 </div>
                 <div class="foot-fr fr">
-                    <span @click="shopClick">加入推车</span>
+                    <span @click="shopClick">加入购物车</span>
                     <span @click="drawer = true">立即够买</span>
                 </div>
             </div>
@@ -107,7 +107,7 @@
                 </el-drawer>
             </div>
             <!--选择规格-->
-            <van-action-sheet v-model="showSheet" :actions="actions" @select="onSelect" />
+            <van-action-sheet v-model="showSheet" :actions="actions" @select="onSelect" description="请选择规格"/>
             <!-- 选择地址-->
             <van-popup
                     v-model="show"

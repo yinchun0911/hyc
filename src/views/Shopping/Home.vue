@@ -141,7 +141,7 @@
                      };
                  }
                  if(deleteList.length==0){
-                    Dialog({ message: "清先选择商品" })
+                    Dialog({ message: "请先选择商品" })
                     return;
                  }
                  var  num=0;
@@ -177,7 +177,7 @@
                       };
                   }
                   if(goodsParams.length==0){
-                    Dialog({ message: "清先选择商品" });
+                    Dialog({ message: "请先选择商品" });
                     return;
                   }
                 var params={

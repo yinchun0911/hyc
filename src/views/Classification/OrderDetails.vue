@@ -219,6 +219,8 @@
                 span{
                     position: relative;
                     padding-left: .2rem;
+                    font-size: .28rem;
+                    font-weight: bolder;
                     &:before {
                         content: '';
                         position: absolute;

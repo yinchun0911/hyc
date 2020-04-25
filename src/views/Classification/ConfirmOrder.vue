@@ -370,7 +370,8 @@
                     }
                 }
                 p{
-                    font-size: .2rem;
+                    font-size: .28rem;
+                    font-weight: bolder;
                     color: #ff5644;
                     button{
                         float: right;

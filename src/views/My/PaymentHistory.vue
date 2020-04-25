@@ -18,7 +18,7 @@
                         </div>
                         <div class="list-fr">
                             <h3>{{item.productName}}<span>X {{item.productCount}}</span></h3>
-                            <p>共{{item.saleNum}}件商品</p>
+                            <p>共{{item.saleNum}}件商品<label>实付：</label><span>198.00</span></p>
                             <div>订单时间：{{item.orderTime}}</div>
                         </div>
                     </div>
@@ -215,6 +215,27 @@
                                 margin-top: .45rem;
                                 font-size: .22rem;
                                 color: #b2b2b2;
+                                label{
+                                    padding-left: .2rem;
+                                }
+                                span{
+                                    font-size: .22rem;
+                                    color: #ff5644;
+                                    position: relative;
+                                    padding-left: .2rem;
+                                    font-weight: bolder;
+                                    &:before{
+                                        content: '';
+                                        position: absolute;
+                                        left: 0;
+                                        top: 50%;
+                                        margin-top: -.1rem;
+                                        width: .19rem;
+                                        height: .21rem;
+                                        background: url("../../assets/images/classIfication/money.png") no-repeat;
+                                        background-size: 100% 100%;
+                                    }
+                                }
                             }
                             div{
                                 font-size: .22rem;

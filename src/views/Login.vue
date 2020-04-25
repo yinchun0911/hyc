@@ -155,7 +155,7 @@
                             line-height: .8rem;
                             input{
                                 border: 0;
-                                width: 3.8rem;
+                                width: 100%;
                                 height: 100%;
                                 padding-left: .65rem;
                                 color: #4c4c4c;
@@ -171,6 +171,9 @@
                                 background-color: #83b7ff;
                                 border: 0;
                                 border-radius: .4rem;
+                                position: absolute;
+                                right: 0;
+                                
                             }
                         }
                         .pho{
