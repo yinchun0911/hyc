@@ -34,10 +34,10 @@
             </div>
             <div class="select-box">
                 <ul>
-                    <li>
+                    <li @click="drawer = true;buyFlag=false">
                         <label>规格</label>
                         <span>{{product.standrdsName}}</span>
-                        <i class="el-icon-arrow-right" @click="showSheet = true"></i>
+                        <i class="el-icon-arrow-right" ></i>
                     </li>
                     <li>
                         <label>送至</label>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="foot-fr fr">
                     <span @click="shopClick">加入购物车</span>
-                    <span @click="drawer = true">立即够买</span>
+                    <span @click="drawer = true; buyFlag=true">立即够买</span>
                 </div>
             </div>
             <!--返回顶部-->
@@ -94,13 +94,13 @@
                     </div>
                     <div class="specifications">
                         <p>规格</p>
-                        <ul>
+                        <ul :class="!buyFlag?'show':''">
                             <template v-for="item in standrds">
                                 <li @click="clickType" :data-id="item.id" :class="['bottom-btn',{'active':product.goodsid==item.id}]">{{item.standrdsName}}</li>
                             </template>
                         </ul>
                     </div>
-                    <div class="specifications">
+                    <div class="specifications" v-if="buyFlag">
                         <p>数量<van-stepper v-model="num" integer min="1" max="10"/></p>
                         <button class="buyBtn" @click="buy">立即够买</button>
                     </div>
@@ -540,7 +540,7 @@
             }
             .drawer-box{
                 .el-drawer{
-                    height: 6rem !important;
+                    height: 6.2rem !important;
                     overflow-x: hidden;
                     overflow-y: auto;
                     .el-drawer__header{
@@ -603,6 +603,7 @@
                     .specifications{
                         margin-top: .45rem;
                         padding: 0 .2rem;
+
                         p{
                             font-size: .26rem;
                             color: #4c4c4c;
@@ -610,7 +611,11 @@
                                 float: right;
                             }
                         }
-                        ul{
+                        ul.show{
+                            height: 120px;
+                        }
+                        ul{ height: 40px;
+                            overflow: scroll;
                             margin: .2rem 0 .4rem 0;
                             display: flex;
                             flex-wrap:wrap;

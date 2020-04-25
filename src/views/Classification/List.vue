@@ -119,7 +119,7 @@
                     op.goodsList=[];
                    }
                     if(op.current==4){
-                        if(op.priceMin>op.priceMax){
+                        if(Number(op.priceMin)>Number(op.priceMax)){
                             Dialog({message:"请正确设置价格区间"});
                             return;
                         }
