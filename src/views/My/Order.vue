@@ -107,8 +107,9 @@
                     orderNo: order.orderNo,
                     refundRemark:op.refundRemark
                 }
+                var str=op.actionType=='cancel'?'取消原因':'退货原因';
                 if(op.refundRemark.length<3){
-                    Dialog({ message: '请留下您的原因' })
+                    Dialog({ message: '请留下您的'+str })
                     return;
                 }
                 var url="";
