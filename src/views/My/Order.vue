@@ -119,6 +119,7 @@
                     url="/shopOrder/orderRefund"
                 }
                 userRequest(url,postData).then(function (response) {
+                    Dialog({ message: '操作成功' });
                     op.orderList=[];
                     op.loadData(0,op.current);
                     op.causeShow=false;
