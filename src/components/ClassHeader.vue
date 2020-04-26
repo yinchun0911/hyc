@@ -8,7 +8,7 @@
             <el-button type="primary" icon="el-icon-search" circle @click="search(serchTxt)"></el-button>
         </div>
         <div class="head-fr fr" @click="shopClick(badgeNum)">
-            <el-badge :value="badgeNum" class="item">
+            <el-badge :value="badgeNum" class="item" :hidden="badgeNum==0">
                 <img src="../assets/images/header-gw.png" alt="">
             </el-badge>
         </div>

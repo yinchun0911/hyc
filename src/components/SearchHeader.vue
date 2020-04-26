@@ -8,7 +8,7 @@
             <el-button type="primary" icon="el-icon-search" circle @click="search(serchTxt)"></el-button>
         </div>
         <div class="head-fr fr" @click="msgEvent">
-            <el-badge :value="badgeNum" class="item">
+            <el-badge :value="badgeNum" class="item" :hidden="badgeNum ==0">
                 <img src="../assets/images/icon-02.png" alt="">
             </el-badge>
         </div>
@@ -48,9 +48,13 @@
 
 <style lang="less">
     .head{
+        width: 100%;
         height: .88rem;
         background-color: #83b7ff;
         padding: 0 .2rem;
+        position: fixed;
+        top: 0;
+        z-index: 1000;
         .head-fl{
             img{
                 width: .47rem;

@@ -423,10 +423,15 @@
                             border-bottom: .02rem solid #e6e6e6;
                             font-size: .3rem;
                             color: #4c4c4c;
+                            label{
+                                width: 1.5rem;
+                                display: inline-block;
+                            }
                             &:first-child{
                                 margin-bottom: .3rem;
                             }
                             input{
+                                width: 3.2rem;
                                 border: 0;
                                 margin-bottom: .08rem;
                                 height: 100%;
@@ -477,4 +482,5 @@
             }
         }
     }
+    .van-dialog{z-index: 9999 !important;}
 </style>

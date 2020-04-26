@@ -357,12 +357,13 @@
                 background-color: #fff;
                 .my-swipe{
                     display: block;
-                    height: 3.98rem;
+                    height: auto;
                     .van-swipe-item{
-                        height: 3.98rem;
+                        height: auto;
                         img{
+                            display: block;
                             width: 100%;
-                            height: 3.98rem;
+                            height: 100%;
                         }
                     }
                 }

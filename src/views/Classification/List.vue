@@ -4,10 +4,10 @@
         <div class="content">
             <ul class="nav">
                 <li v-for="(item,index) in navList" :class="current==index?'active':''"  @click="liclick(index);">
-                    <span >{{item.value}} 
+                    <span >{{item.value}}
                         <template v-if="current==index">
-                            <i class="el-icon-caret-top" :class="postData.sortMethod=='1'?'ascending':''"></i>
-                            <i class="el-icon-caret-bottom" :class="postData.sortMethod=='0'?'descending':''"></i>
+                            <i class="el-icon-caret-top" :class="postData.sortType=='0'?'ascending':''"></i>
+                            <i class="el-icon-caret-bottom" :class="postData.sortType=='1'?'descending':''"></i>
                         </template>
                     </span>
                 </li>

@@ -82,7 +82,7 @@
                 ],
                 addressSelect:[{name:"添加新地址",id:-1}],
                 selectPost:1,
-                selectPostName:"自提",
+                selectPostName:"快递",
                 addressList:{}
             }
         },methods: {

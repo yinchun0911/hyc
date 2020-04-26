@@ -12,8 +12,9 @@
                     </div>
                 </div>
             </template>
-
-            <button class="save" @click="dialogTableVisible = true">绑定实体点券</button>
+            <div class="saveBtn">
+                <button class="save" @click="dialogTableVisible = true">绑定实体点券</button>
+            </div>
             <!--添加卡片-->
             <el-dialog title="" :visible.sync="dialogTableVisible" top="40vh" :close-on-click-modal="false">
                 <ul>
@@ -190,17 +191,21 @@
                 background: url("../../assets/images/classIfication/cardRoll-04.png") no-repeat !important;
                 background-size: 100% 100%;
             }
-            button.save{
-                width: 100%;
-                height: .8rem;
-                line-height: .8rem;
-                color: #fff;
-                font-size: .3rem;
-                border-radius: .4rem;
-                background-color: #83b7ff;
-                border: 0;
+            .saveBtn{
+                padding: 0 .2rem;
                 margin-top: .7rem;
+                button.save{
+                    width: 100%;
+                    height: .8rem;
+                    line-height: .8rem;
+                    color: #fff;
+                    font-size: .3rem;
+                    border-radius: .4rem;
+                    background-color: #83b7ff;
+                    border: 0;
+                }
             }
+
             .el-dialog{
                 width: 6rem;
                 border-radius: .2rem;
