@@ -3,7 +3,7 @@
         <ul>
             <li v-for="(item,index) in footerNavList" :key='index' @click="liclick(item.path)">
                 <template v-if="index==2">
-                    <el-badge :value="shoppingNum" class="item">
+                    <el-badge :value="shoppingNum" class="item" :hidden="shoppingNum==0">
                         <img :src="$route.path === item.path ? item.icon : item.normal" alt="">
                     </el-badge>
                     <p :class="$route.path === item.path ? 'active' : ''">{{item.value}}</p>

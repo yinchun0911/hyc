@@ -77,34 +77,66 @@
             </div>
             <!--立即够买-->
             <div class="drawer-box" >
-                <el-drawer :visible.sync="drawer" direction="btt" :wrapperClosable="false">
-                    <div class="drawer-warp">
-                        <div class="warp-fl fl">
-                            <div class="img">
-                                 <img  :src="product.headImg" alt="">
+<!--                <el-drawer :visible.sync="drawer" direction="btt" :wrapperClosable="false">-->
+<!--                    <div class="drawer-warp">-->
+<!--                        <div class="warp-fl fl">-->
+<!--                            <div class="img">-->
+<!--                                 <img  :src="product.headImg" alt="">-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="warp-fr">-->
+<!--                            <p>{{product.productName}}</p>-->
+<!--                            <div class="price">-->
+<!--                             <span>{{product.productPrice}}</span>-->
+<!--                              <s v-if="product.productOldPrice!=null">{{product.productOldPrice}}</s>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="specifications">-->
+<!--                        <p>规格</p>-->
+<!--                        <ul :class="!buyFlag?'show':''">-->
+<!--                            <template v-for="item in standrds">-->
+<!--                                <li @click="clickType" :data-id="item.id" :class="['bottom-btn',{'active':product.goodsid==item.id}]">{{item.standrdsName}}</li>-->
+<!--                            </template>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                    <div class="specifications" v-if="buyFlag">-->
+<!--                        <p>数量<van-stepper v-model="num" integer min="1" max="10"/></p>-->
+<!--                        <button class="buyBtn" @click="buy">立即够买</button>-->
+<!--                    </div>-->
+<!--                </el-drawer>-->
+                <van-action-sheet v-model="drawer" :close-on-click-overlay="false" :round="false">
+                    <div class="sheetContent">
+                        <i class="el-icon-close" @click="drawer = false"></i>
+                        <div class="drawer-warp">
+                            <div class="warp-fl fl">
+                                <div class="img">
+                                    <img  :src="product.headImg" alt="">
+                                </div>
+                            </div>
+                            <div class="warp-fr">
+                                <p>{{product.productName}}</p>
+                                <div class="price">
+                                    <span>{{product.productPrice}}</span>
+                                    <s v-if="product.productOldPrice!=null">{{product.productOldPrice}}</s>
+                                </div>
                             </div>
                         </div>
-                        <div class="warp-fr">
-                            <p>{{product.productName}}</p>
-                            <div class="price">
-                             <span>{{product.productPrice}}</span>
-                              <s v-if="product.productOldPrice!=null">{{product.productOldPrice}}</s>
-                            </div>
+                        <div class="specifications">
+                            <p>规格</p>
+                            <ul :class="!buyFlag?'show':''">
+                                <template v-for="item in standrds">
+                                    <li @click="clickType" :data-id="item.id" :class="['bottom-btn',{'active':product.goodsid==item.id}]">{{item.standrdsName}}</li>
+                                </template>
+                            </ul>
                         </div>
+                        <div class="specifications" v-if="buyFlag">
+                            <p>数量<van-stepper v-model="num" integer min="1" max="10"/></p>
+                        </div>
+                        <div style="height: 1.8rem;width:100%;"></div>
+                        <button v-if="buyFlag" class="buyBtn" @click="buy">立即够买</button>
                     </div>
-                    <div class="specifications">
-                        <p>规格</p>
-                        <ul :class="!buyFlag?'show':''">
-                            <template v-for="item in standrds">
-                                <li @click="clickType" :data-id="item.id" :class="['bottom-btn',{'active':product.goodsid==item.id}]">{{item.standrdsName}}</li>
-                            </template>
-                        </ul>
-                    </div>
-                    <div class="specifications" v-if="buyFlag">
-                        <p>数量<van-stepper v-model="num" integer min="1" max="10"/></p>
-                        <button class="buyBtn" @click="buy">立即够买</button>
-                    </div>
-                </el-drawer>
+                </van-action-sheet>
             </div>
             <!--选择规格-->
             <van-action-sheet v-model="showSheet" :actions="actions" @select="onSelect" description="请选择规格"/>
@@ -357,12 +389,13 @@
                 background-color: #fff;
                 .my-swipe{
                     display: block;
-                    height: 3.98rem;
+                    height: auto;
                     .van-swipe-item{
-                        height: 3.98rem;
+                        height: auto;
                         img{
+                            display: block;
                             width: 100%;
-                            height: 3.98rem;
+                            height: 100%;
                         }
                     }
                 }
@@ -539,16 +572,21 @@
                 }
             }
             .drawer-box{
-                .el-drawer{
-                    height: 6.2rem !important;
-                    overflow-x: hidden;
-                    overflow-y: auto;
-                    .el-drawer__header{
-                        padding: .2rem .2rem 0;
-                        margin-bottom: .2rem;
-                    }
-                    .drawer-warp{
-                        padding: 0 .2rem;
+                .van-action-sheet{
+                    .van-action-sheet__content{
+                        padding: .5rem .2rem .2rem .2rem;
+                        position: relative;
+                        .sheetContent{
+
+                        }
+                        i.el-icon-close{
+                            position: absolute;
+                            top: .1rem;
+                            right: .1rem;
+                            font-size: 20px;
+                            color: #000;
+                            font-weight: bolder;
+                        }
                         .warp-fl{
                             width: 2.4rem;
                             height: 1.32rem;
@@ -603,7 +641,6 @@
                     .specifications{
                         margin-top: .45rem;
                         padding: 0 .2rem;
-
                         p{
                             font-size: .26rem;
                             color: #4c4c4c;
@@ -614,8 +651,7 @@
                         ul.show{
                             height: 120px;
                         }
-                        ul{ height: 40px;
-                            overflow: scroll;
+                        ul{
                             margin: .2rem 0 .4rem 0;
                             display: flex;
                             flex-wrap:wrap;
@@ -641,18 +677,20 @@
                                 border-color: #83b7ff;
                             }
                         }
-                        button.buyBtn{
-                            margin-top: .4rem;
-                            width: 100%;
-                            height: .8rem;
-                            line-height: .8rem;
-                            font-size: .3rem;
-                            color: #fff;
-                            text-align: center;
-                            border-radius: .4rem;
-                            background-color: #83b7ff;
-                            border: 0;
-                        }
+                    }
+                    button.buyBtn{
+                        position: fixed;
+                        width: 7rem;
+                        bottom:0;
+                        margin-top: .4rem;
+                        height: .8rem;
+                        line-height: .8rem;
+                        font-size: .3rem;
+                        color: #fff;
+                        text-align: center;
+                        border-radius: .4rem;
+                        background-color: #83b7ff;
+                        border: 0;
                     }
                 }
             }

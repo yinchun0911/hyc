@@ -34,6 +34,12 @@
                                         <p>共<i>{{order.productCount}}</i>件商品<label>实付：</label><span>{{order.realAmount}}</span></p>
                                         <div>订单时间：{{order.orderTime}}</div>
                                     </div>
+                                    <div class="btnBox" v-if="order.orderStarusMsg=='待发货'">
+                                        <button>取消订单</button>
+                                    </div>
+                                    <div class="btnBox" v-if="order.orderStarusMsg=='已完成'">
+                                        <button>申请退货</button>
+                                    </div>
                                 </div>
                             </div>
             </template>
@@ -308,7 +314,7 @@
                             }
                         }
                         p{
-                            margin-top: .45rem;
+                            margin-top: .35rem;
                             font-size: .22rem;
                             color: #4c4c4c;
                             i{
@@ -340,6 +346,18 @@
                             font-size: .22rem;
                             color: #b2b2b2;
                             padding-top: .1rem;
+                        }
+                    }
+                    .btnBox{
+                        margin-top: .1rem;
+                        button{
+                            background-color: #83b7ff;
+                            border: 0;
+                            padding: .05rem .15rem;
+                            color: #fff;
+                            font-size: .22rem;
+                            border-radius: .2rem;
+                            float: right;
                         }
                     }
                 }

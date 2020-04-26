@@ -211,6 +211,7 @@ export default {
       height: 1.82rem;
       background-color: #7fb1f7;
       padding: 0 .2rem;
+        margin-top: .88rem;
       .my-swipe{
         display: block;
         width: 100%;
