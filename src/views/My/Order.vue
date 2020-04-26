@@ -34,10 +34,10 @@
                                         <p>共<i>{{order.productCount}}</i>件商品<label>实付：</label><span>{{order.realAmount}}</span></p>
                                         <div>订单时间：{{order.orderTime}}</div>
                                     </div>
-                                    <div class="btnBox" v-if="order.orderStatus ==2 "  @click="cancelOrder(order)">
+                                    <div class="btnBox" v-if="order.orderStatus ==2 "  @click="causeShow=true;actionType='cancel';opOrder=order">
                                         <button>取消订单</button>
                                     </div>
-                                    <div class="btnBox" v-if="order.orderStatus ==4"  @click="orderRefund(order)">
+                                    <div class="btnBox" v-if="order.orderStatus ==4"  @click="causeShow=true;actionType='refund';opOrder=order">
                                         <button>申请退货</button>
                                     </div>
                                 </div>
@@ -45,13 +45,13 @@
             </template>
 
         </div>
-        <van-overlay :show="causeShow" @click="causeShow = false">
+        <van-overlay :show="causeShow">
             <div class="causeWrapper" @click.stop>
                 <div class="box">
-                    <h4>退货原因</h4>
-                    <textarea class="causeTxt" placeholder="请输入"></textarea>
+                    <h4>{{actionType=='cancel'?'取消原因':'退货原因'}}</h4>
+                    <textarea class="causeTxt" v-model="refundRemark" placeholder="请输入"></textarea>
                     <div class="btnbox">
-                        <button>确  定</button>
+                        <button  @click="refund">确  定</button>
                         <button class="backBtn" @click="causeShow = false">取  消</button>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                 title:'我的订单',
                 current:current,
                 timeShow:false,
-                causeShow:true,
+                causeShow:false,
                 navList:[
                     {value:'全部'},
                     {value:'待支付'},
@@ -89,34 +89,38 @@
                     {value:'待收货'},
                     {value:'已完成'},
                 ],
+                opOrder:{},
                 minute1:require('../../assets/images/time/mini-0.png'),
                 orderList:[],
                 isbottom:-1,
                 lastPage:-1,
+                refundRemark:"",
+                actionType:"",
                 pageNum:0,
             }
         },
         methods:{
-            cancelOrder(order){
+            refund(){
                 var op =this;
+                var order=op.opOrder;
                 var postData={
                     orderNo: order.orderNo,
-                    refundRemark:""
+                    refundRemark:op.refundRemark
                 }
-                userRequest("/shopOrder/orderCancel",postData).then(function (response) {
+                if(op.refundRemark.length<3){
+                    Dialog({ message: '请留下您的原因' })
+                    return;
+                }
+                var url="";
+                if(op.actionType=="cancel"){
+                    url="/shopOrder/orderCancel"
+                }else{
+                    url="/shopOrder/orderRefund"
+                }
+                userRequest(url,postData).then(function (response) {
                     op.orderList=[];
                     op.loadData(0,op.current);
-                })
-            },orderRefund(order){
-                var op =this;
-                var postData={
-                    orderNo: order.orderNo,
-                    refundRemark:""
-                }
-
-                userRequest("/shopOrder/orderRefund",postData).then(function (response) {
-                    op.orderList=[];
-                    op.loadData(0,op.current);
+                    op.causeShow=false;
                 })
             },
             loadData(page,current){

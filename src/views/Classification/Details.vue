@@ -188,6 +188,7 @@
                 areaList: addressData, //可选地址数据列表
                 resAddr:'',
                 showSheet:false,
+                buyFlag:false,
                 actions: [
                 ],
 
