@@ -132,6 +132,9 @@
 
 <style lang="less">
     .classHome{
+        .content{
+            margin-top: 0.88rem;
+        }
         .van-sidebar{
             width: 1.52rem;
             height: calc(100vh - 2.05rem);
