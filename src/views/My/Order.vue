@@ -45,6 +45,19 @@
             </template>
 
         </div>
+        <van-overlay :show="causeShow" @click="causeShow = false">
+            <div class="causeWrapper" @click.stop>
+                <div class="box">
+                    <h4>退货原因</h4>
+                    <textarea class="causeTxt" placeholder="请输入"></textarea>
+                    <div class="btnbox">
+                        <button>确  定</button>
+                        <button class="backBtn" @click="causeShow = false">取  消</button>
+                    </div>
+                </div>
+
+            </div>
+        </van-overlay>
     </div>
 </template>
 
@@ -68,6 +81,7 @@
                 title:'我的订单',
                 current:current,
                 timeShow:false,
+                causeShow:true,
                 navList:[
                     {value:'全部'},
                     {value:'待支付'},
@@ -384,7 +398,57 @@
                     }
                 }
             }
+        }
+        .van-overlay{
+            .causeWrapper{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                .box{
+                    background-color: #fff;
+                    width: 6rem;
+                    height: 5rem;
+                    overflow: hidden;
+                    padding: .2rem .5rem;
+                    border-radius: .2rem;
+                    h4{
+                        font-weight: normal;
+                        font-size: .26rem;
+                        color: #4c4c4c;
+                        margin-bottom: .1rem;
+                    }
+                    textarea.causeTxt{
+                        width: 100%;
+                        height: 2rem;
+                        font-size: .24rem;
+                        color: #4c4c4c;
+                        text-indent: .2rem;
+                    }
+                    .btnbox{
+                        padding: 0 .2rem;
+                        margin-top: 0.25rem;
+                        button{
+                            width: 100%;
+                            height: .8rem;
+                            line-height: .8rem;
+                            text-align: center;
+                            font-size: .3rem;
+                            background-color: #83b7ff;
+                            color: #fff;
+                            border-color: #83b7ff;
+                            border-radius: .4rem;
+                            margin-bottom: .25rem;
+                        }
+                        .backBtn{
+                            background-color: #fff;
+                            color: #b2b2b2;
+                            border-color: #d7d9dd;
+                        }
+                    }
+                }
 
+            }
         }
     }
 </style>
