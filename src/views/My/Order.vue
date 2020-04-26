@@ -9,8 +9,8 @@
             </ul>
             <div style="width: 100%; height: .88rem"></div>
             <template v-for="order in orderList">
-                <div @click="goDetail(order)" class="listWarp">
-                                <h2>
+                <div class="listWarp">
+                                <h2  @click="goDetail(order)">
                                     <span class="orderCode">订单号：{{order.orderNo}}</span>
                                     <div v-if="order.leftTime!=0 && order.orderStatus==1" :data-leftTime="order.leftTime" class="time" >
                                         请在
@@ -24,20 +24,20 @@
                                     <span class="status">{{order.orderStarusMsg}}</span>
                                 </h2>
                                 <div class="listMsg">
-                                    <div class="list-fl fl">
+                                    <div class="list-fl fl"  @click="goDetail(order)">
                                         <div class="img">
                                             <img :src="order.productPic" alt="">
                                         </div>
                                     </div>
-                                    <div class="list-fr">
+                                    <div class="list-fr"  @click="goDetail(order)">
                                         <h3>{{order.productName}}<span>X {{order.saleNum}}</span></h3>
                                         <p>共<i>{{order.productCount}}</i>件商品<label>实付：</label><span>{{order.realAmount}}</span></p>
                                         <div>订单时间：{{order.orderTime}}</div>
                                     </div>
-                                    <div class="btnBox" v-if="order.orderStarusMsg=='待发货'">
+                                    <div class="btnBox" v-if="order.orderStatus ==2 "  @click="cancelOrder(order)">
                                         <button>取消订单</button>
                                     </div>
-                                    <div class="btnBox" v-if="order.orderStarusMsg=='已完成'">
+                                    <div class="btnBox" v-if="order.orderStatus ==4"  @click="orderRefund(order)">
                                         <button>申请退货</button>
                                     </div>
                                 </div>
@@ -83,6 +83,28 @@
             }
         },
         methods:{
+            cancelOrder(order){
+                var op =this;
+                var postData={
+                    orderNo: order.orderNo,
+                    refundRemark:""
+                }
+                userRequest("/shopOrder/orderCancel",postData).then(function (response) {
+                    op.orderList=[];
+                    op.loadData(0,op.current);
+                })
+            },orderRefund(order){
+                var op =this;
+                var postData={
+                    orderNo: order.orderNo,
+                    refundRemark:""
+                }
+
+                userRequest("/shopOrder/orderRefund",postData).then(function (response) {
+                    op.orderList=[];
+                    op.loadData(0,op.current);
+                })
+            },
             loadData(page,current){
                 var op =this;
                 var postData={

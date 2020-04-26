@@ -122,6 +122,23 @@
                 if(!id){
                     id=0;
                 }
+
+                if(!page.address){
+                    Dialog({ message: '请填写地址' })
+                    return;
+                }
+                if(page.address.length<3){
+                    Dialog({ message: '请正确填写地址' })
+                    return;
+                }
+                if(!page.showAddr){
+                    Dialog({ message: '请选择所在省市区' })
+                    return;
+                }
+                if(page.showAddr.length<3){
+                    Dialog({ message: '请选择所在省市区' })
+                    return;
+                }
                 var postData={ address: page.address,
                      fullAddress: page.showAddr+page.address,
                      id: id,
@@ -134,6 +151,19 @@
                       provinceCode  :0,
                       townCode  :0,
                  }
+                var phone=postData.linkPhone;
+                if (!/^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$/.test(phone)){
+                    Dialog({ message: '手机号不正确' })
+                    return;
+                }
+                if(!postData.linkMan){
+                    Dialog({ message: '请填写收货人' })
+                    return;
+                }
+                if(postData.linkMan.length<2){
+                    Dialog({ message: '请正确填写收货人' })
+                    return;
+                }
 
                 userRequest("/userAddress/saveUserAddress",postData).then(function (response) {
                     Dialog({ message: "添加地址成功" })

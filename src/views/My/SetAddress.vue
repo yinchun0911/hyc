@@ -5,7 +5,7 @@
             <div class="top" v-for="address in addressList">
                 <h2>{{address.linkMan}}<span>{{address.linkPhone}}</span><b>{{labels[address.lableId]}}</b><i class="el-icon-edit" @click="goTo('addAddress',{edit:true,address:address})"></i></h2>
                 <p> {{address.fullAddress}}</p>
-                <div><el-checkbox v-model="address.isDefault==1" @change="setDefault(address.id,address.isDefault==1)"   >设为默认</el-checkbox><i class="el-icon-delete"></i></div>
+                <div><el-checkbox v-model="address.isDefault==1" @change="setDefault(address.id,address.isDefault==1)"   >设为默认</el-checkbox> <i @click="deleteAddr(address)" class="el-icon-delete"></i></div>
             </div>
             <div class="btns">
                 <button @click="goTo('addAddress')"><i class="el-icon-plus"></i>添加地址</button>
@@ -45,6 +45,13 @@
                                         }
                                         page. loadAddress();
                           })
+                },
+                deleteAddr(address){
+                    var page=this;
+                    userRequest("/userAddress/deleteUseAddress",{addressId: address.id}).then(function (response) {
+                        page.addressList=[];
+                        page.loadAddress();
+                    });
                 },
               setDefault(id,isDefault){
                  console.log(id);
