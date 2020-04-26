@@ -134,7 +134,7 @@
                             <p>数量<van-stepper v-model="num" integer min="1" max="10"/></p>
                         </div>
                         <div style="height: 1.8rem;width:100%;"></div>
-                        <button v-if="buyFlag" class="buyBtn" @click="buy">立即够买</button>
+                        <button v-if="buyFlag" class="buyBtn" @click="buy">立即购买</button>
                     </div>
                 </van-action-sheet>
             </div>
