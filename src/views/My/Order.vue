@@ -40,6 +40,10 @@
                                     <div class="btnBox" v-if="order.orderStatus ==4"  @click="causeShow=true;actionType='refund';opOrder=order">
                                         <button>申请退货</button>
                                     </div>
+                                    <div class="btnBox" v-if="order.orderStatus == 3"  @click="orderConfirm(order.orderNo)">
+                                        <button>确认收货</button>
+                                    </div>
+
                                 </div>
                             </div>
             </template>
@@ -124,6 +128,25 @@
                     op.loadData(0,op.current);
                     op.causeShow=false;
                 })
+            },
+            orderConfirm(orderNo){
+                var op =this;
+                Dialog.confirm({
+                    title: '提示',
+                    message: '请收到货物后再点击确认收货，避免财物损失',
+                }) .then(() => {
+                        userRequest("/shopOrder/orderConfirm", {orderNo}).then(function (response) {
+                            Dialog({ message: '操作成功' });
+                            op.orderList=[];
+                            op.loadData(0,op.current);
+                            op.causeShow=false;
+                        })
+                    })
+                    .catch(() => {
+                        // on cancel
+                    });
+
+
             },
             loadData(page,current){
                 var op =this;
