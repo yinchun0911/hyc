@@ -1,6 +1,6 @@
 <template>
     <div class="head">
-        <div class="head-fl fl" @click="sweepCode">
+        <div class="head-fl fl" >
             <img src="../assets/images/icon-01.png" alt="">
         </div>
         <div class="head-center fl">

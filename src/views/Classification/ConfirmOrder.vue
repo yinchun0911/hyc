@@ -96,16 +96,24 @@
 
             },onAddressSelect(item){
                 var page =this;
+                if(item.name=="添加新地址"){
+                    page.$router.push({name:"addAddress",params:{from:"confirmOrder",data:page.tempOrder}});
+                    return;
+                }
                 console.log(item)
                 page.address=page.addressList[item.id];
             },
             loadAddress(){
                 var page=this;
                userRequest("/userAddress/queryUserAddressList",{current: 0, pageSize: 0}).then(function (response) {
+                                var addId= page.$route.params. addId;
                                 if(response.length>0){
                                     page.address=response[0];
 
                                     for (var i in response){
+                                        if(addId==response[i].id){
+                                            page.address=response[i];
+                                        }
                                         var str=response[i].linkMan+"   "+response[i].address;
                                         page.addressSelect.push({name:str,id:response[i].id})
                                         page.addressList[response[i].id]=response[i];
@@ -121,7 +129,7 @@
                 var page=this;
                  console.log(page.address.address);
                 if("您未填写地址，请先完善地址信息"===page.address.address){
-                     page.$router.push({name:"setAddress"});
+                    page.$router.push({name:"addAddress",params:{from:"confirmOrder",data:page.$route.params.order}});
                 }
             },
             createTempOrder(){

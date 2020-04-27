@@ -250,6 +250,9 @@ router.beforeEach((to, from, next) => {
      if(to.path=="/classification/confirmOrder"&&(from.path=="/classification/selectCardRoll" || from.path=="/")){
        next("/")
 
+     }  else   if(to.path=="/successPayment"&&(from.path!="/classification/selectCardRoll")){
+       next("/")
+
      }else{
        next();
      }

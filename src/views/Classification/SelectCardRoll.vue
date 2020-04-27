@@ -79,13 +79,18 @@
                             console.log(params);
             this.loadCardList(params.orderNo);
             this.loadOrderInfo(params.orderNo);
+            var checked=false;
+            if(localStorage.getItem("loginCheck")!=null){
+                checked=true;
+            }
+            orderCheck
             return{
                 title:'选择卡卷',
                 minute1:require('../../assets/images/time/0.png'),
                 minute2:require('../../assets/images/time/0.png'),
                 second1:require('../../assets/images/time/0.png'),
                 second2:require('../../assets/images/time/0.png'),
-                checked:false,
+                checked:checked,
                 dialogVisible:false,
                 dialogTableVisible:false,
                 order:params,
@@ -157,7 +162,9 @@
                     cardId:page.selectCard,
                     orderNo:page.order.orderNo
                  }
-                  userRequest("/shopOrder/orderPay",postData).then(function (response) {
+                 localStorage.setItem("orderCheck",true);
+
+                 userRequest("/shopOrder/orderPay",postData).then(function (response) {
                       page.$router.push({name:"successPayment",params:response});
                   });
 

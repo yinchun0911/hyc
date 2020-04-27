@@ -41,11 +41,15 @@
         data(){
             var title="登录"
             this.loadUserProtalInfo();
+            var checked=false;
+            if(localStorage.getItem("loginCheck")!=null){
+                checked=true;
+            }
             return{
                 title:title,
                 text:"获取验证码",
                 phone:"",
-                checked:false,
+                checked:checked,
                 code:"",
                 countDwon:60,
                 hasSend:false,
@@ -82,7 +86,7 @@
                 }
                 op.text=op.countDwon+"s";
                 op.countDown();
-
+                localStorage.setItem("loginCheck",true);
 
                 request("/appUserLogin/getIdentifyingCode",{userPhone :phone}).then(function(response){
                        console.log(response)

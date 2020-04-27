@@ -67,10 +67,11 @@
                 var suggestion=page.textarea
                 var data={suggestion};
                 for(var i in page.fileList){
-                    data["pic"+(i+1)]=page.fileList[i];
+                    data["pic"+parseInt(i+1)]=page.fileList[i];
                 }
 
-                userRequest("/appUserCommon/saveUserSuggestion",{suggestion,pic1:"暂时没有图片"}).then(function(){
+
+                userRequest("/appUserCommon/saveUserSuggestion",data).then(function(){
                           Dialog({ message: "提交成功，感谢您的支持与信任" });
                           page.$router.push("setup");
 

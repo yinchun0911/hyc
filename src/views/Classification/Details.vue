@@ -57,7 +57,7 @@
             </div>
             <div class="detail-foot">
                 <div class="foot-fl fl">
-                    <img src="../../assets/images/classIfication/icon-01.png" alt="">
+                    <img @click="goTo('/')" src="../../assets/images/classIfication/icon-01.png" alt="">
                     <img src="../../assets/images/classIfication/icon-02.png" alt="">
                     <template v-if="!imgShow">
                         <img @click="isActive" src="../../assets/images/classIfication/icon-03.png" alt="">
@@ -68,7 +68,7 @@
                 </div>
                 <div class="foot-fr fr">
                     <span @click="shopClick">加入购物车</span>
-                    <span @click="drawer = true; buyFlag=true">立即够买</span>
+                    <span @click="drawer = true; buyFlag=true">立即购买</span>
                 </div>
             </div>
             <!--返回顶部-->
@@ -329,6 +329,15 @@
                     }
                 }, 16)
             },
+            goTo(path,params){
+                if(params){
+                    this.$router.push({name:path,params:params});
+                }else{
+                    this.$router.push(path);
+                }
+            }
+
+           ,
             queryCollect(){
                  var page=this;
                  var goodsId=page.product.goodsid;

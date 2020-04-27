@@ -56,6 +56,7 @@
             var page=this;
              var isEdit =page.$route.params.edit;
              console.log(page.$route.params);
+
              var linkMan="";
              var phone="";
              var showAddr='请选择您的所在地址'
@@ -167,7 +168,12 @@
 
                 userRequest("/userAddress/saveUserAddress",postData).then(function (response) {
                     Dialog({ message: "添加地址成功" })
-                    page.$router.push("setAddress");
+                    if(page.$route.params.from=="confirmOrder"){
+
+                        page.$router.push({name:"confirmOrder",params:{formCar:true,addId:response,order:page.$route.params.data}});
+                    }else{
+                        page.$router.push("setAddress");
+                    }
                 });
 
             }
