@@ -10,7 +10,7 @@
                     <p>支出 <span>{{sum}}</span></p>
                 </h2>
                 <div class="listWarp"  v-for="item in paymentList">
-                    <div class="listMsg">
+                    <div class="listMsg" @click="goDetail(item.orderNo)">
                         <div class="list-fl fl">
                             <div class="img">
                                 <img :src="item.productPic" alt="">
@@ -71,6 +71,10 @@
                 userRequest("/appUser/queryUserPayCount",postData).then(function (response) {
                     op.sum=response
                 });
+
+            },
+            goDetail(orderNo){
+                this.$router.push({name:'orderDetails',query:{orderNo:orderNo}});
 
             },
              handleScroll() {
