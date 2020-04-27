@@ -66,6 +66,7 @@
     import ListHeader from '@/components/ListHeader.vue'
     import { request, userRequest} from '@/js/request.js'
     import { Dialog } from 'vant'
+    var moment = require('moment');
     import wx from "weixin-js-sdk";
     export default {
         name: "selectCardRoll",
@@ -80,10 +81,9 @@
             this.loadCardList(params.orderNo);
             this.loadOrderInfo(params.orderNo);
             var checked=false;
-            if(localStorage.getItem("loginCheck")!=null){
+            if(localStorage.getItem("orderCheck")!=null){
                 checked=true;
             }
-            orderCheck
             return{
                 title:'选择卡卷',
                 minute1:require('../../assets/images/time/0.png'),
@@ -98,7 +98,9 @@
                 text:"",
                 cardNo :"",
                 cardPWD:"",
-                cardList:[]
+                cardList:[],
+                time:1800,
+                stopTimer:false
             }
         },
         methods:{
@@ -145,6 +147,13 @@
                  var page=this;
                 userRequest("/shopOrder/orderInfo",{orderNo:orderNo}).then(function (response) {
                     page.order=response;
+                    var leftTime=0;
+                    var day = moment(response.orderTime);
+                    var date=new Date();
+                   var  leftTime=date.getTime()-day.valueOf();
+                   var leftTime=1800-leftTime/1000;
+
+                    page.time=leftTime;
                 })
             },
              pay(){
@@ -193,31 +202,41 @@
                 });
 
             },
-             getTime(){
-                 var time=1800;//30分钟换算成1800秒
-                 var that = this
-                 setInterval(function(){
-                     time=time-1;
-                     var minute=parseInt(time/60);
-                     var second=parseInt(time%60);
-                     minute=that.setNum(minute);
-                     second=that.setNum(second)
-                     // 双位数变成单位数
-                     var m1=minute%10;
-                     var m2=parseInt(minute/10);
-                     var s1=second%10;
-                     var s2=parseInt(second/10);
-                     that.minute1=require('../../assets/images/time/'+m2+'.png');
-                     that.minute2=require('../../assets/images/time/'+m1+'.png');
-                     that.second1=require('../../assets/images/time/'+s2+'.png');
-                     that.second2=require('../../assets/images/time/'+s1+'.png');
-                 },1000);
 
+             timmer(){
+                 var time=this.time-1;
+                 if(time<0){
+                     Dialog({ message: '订单已超时' });
+                     this.$router.push({name:"Home"});
+                     return;
+                 }
+                 this.time=time;
+                 var minute=parseInt(time/60);
+                 var second=parseInt(time%60);
+                 minute=this.setNum(minute);
+                 second=this.setNum(second)
+                 // 双位数变成单位数
+                 var m1=minute%10;
+                 var m2=parseInt(minute/10);
+                 var s1=second%10;
+                 var s2=parseInt(second/10);
+                 this.minute1=require('../../assets/images/time/'+m2+'.png');
+                 this.minute2=require('../../assets/images/time/'+m1+'.png');
+                 this.second1=require('../../assets/images/time/'+s2+'.png');
+                 this.second2=require('../../assets/images/time/'+s1+'.png');
+                 var that = this;
+                 setTimeout(function(){
+                     if(!that.stopTimer){
+                         that.timmer()
+                     }
+                 },1000);
              }
         },
         mounted() {
-           this.getTime()
+           this.timmer()
 
+        },destroyed() {
+            this.stopTimer=true;
         },
         components: {
             ListHeader

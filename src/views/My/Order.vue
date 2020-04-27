@@ -101,6 +101,7 @@
                 refundRemark:"",
                 actionType:"",
                 pageNum:0,
+                stopTimer:false
             }
         },
         methods:{
@@ -227,7 +228,9 @@
                        order.left=left;
                 }
                 setTimeout(function(){
-                    op.timeOut()
+                    if(!op.stopTimer){
+                        op.timeOut()
+                    }
                  },1000);
             },
             goDetail(order){
@@ -261,6 +264,7 @@
            this.timeOut();
            window.addEventListener('scroll', this.handleScroll)
          }, destroyed(){
+            this.stopTimer=true;
                         window.removeEventListener('scroll', this.handleScroll)
            },
         components: {
