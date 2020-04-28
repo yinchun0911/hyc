@@ -74,17 +74,18 @@
                         for(var i in list){
                             var data=list[i];
                             var day = moment(data.messageTime);
+
                            if(2>=0-day.diff(date, 'w')){
                                 var passDay=0-parseInt(day.diff(date, 'H')/24);
-                                var min=day.diff(date, 'm');
+                               console.log(data.messageTime,passDay,day.diff(date, 'm'))
                                var passTime="";
                                if(passDay>=7){
                                     passTime=1+"周前";
-                               }else if(passDay>=7){
+                               }else if(passDay>=1){
                                      passTime=passDay+"天前";
-                                }else if (day.diff(date, 'm') >60){
+                                }else if (0-day.diff(date, 'm') >60){
                                     passTime=(0-day.diff(date, 'H'))+"小时前";
-                               }else if(day.diff(date, 'm') >1){
+                               }else if(0-day.diff(date, 'm') >1){
                                     passTime=(0-day.diff(date, 'm'))+"分钟前";
                                }else{
                                     passTime="刚刚"
