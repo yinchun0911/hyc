@@ -76,7 +76,7 @@
                     {value:'销量'},
                     {value:'筛选'},
                 ],
-                isbottom:-1,
+
                 currentPage:0,
                 priceMin:1,priceMax:100,
                 postData:{
@@ -89,6 +89,7 @@
                     token:"",
 
                 },
+                isbottom:-1,
                 lastPage:-1,
                 goodsList:[],
                 show:false

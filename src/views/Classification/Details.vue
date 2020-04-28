@@ -560,6 +560,7 @@
                 }
                 .foot-fr{
                     width: 50%;
+
                     span{
                         display: inline-block;
                         width: 1.8rem;
@@ -690,9 +691,10 @@
                     }
                     button.buyBtn{
                         position: fixed;
+
                         width: 7rem;
                         bottom:0;
-                        margin-top: .4rem;
+                        margin: .4rem auto;
                         height: .8rem;
                         line-height: .8rem;
                         font-size: .3rem;

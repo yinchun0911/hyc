@@ -5,14 +5,14 @@
             <div class="list">
                 <h3><img src="../assets/images/information-03.png" alt="">最新消息</h3>
                 <ul>
-                     <li v-for="item in list" @click="markRead(item.messageID,item.isRead)">
+                     <li v-for="item in list" @click="markRead(item.messageID,item.isRead,item)">
                         <div class="badge fl">
                             <img src="../assets/images/information-01.png" alt="">
                             <i v-if="item.isRead != 1" class="dot"></i>
                         </div>
                         <div class="msg">
                             <h4>{{item.messageTitle}}<span>{{item.messageTime}}</span></h4>
-                            <p>{{item.messageContext}}</p>
+                            <p>{{item.messageContext}}啊手动阀手动阀士大夫撒旦发生发的算法的打发士大夫撒旦</p>
                         </div>
                     </li>
                 </ul>
@@ -20,7 +20,7 @@
             <div class="list" v-if="earlyList.length>0" >
                 <h3><img src="../assets/images/information-04.png" alt="">两周前消息</h3>
                 <ul>
-                     <li v-for="item in earlyList" @click="markRead(item.messageID,item.isRead)">
+                     <li v-for="item in earlyList" @click="markRead(item.messageID,item.isRead,item)">
                         <div class="badge fl">
                             <img src="../assets/images/information-01.png" alt="">
                             <i v-if="item.isRead !=  1" class="dot"></i>
@@ -40,13 +40,16 @@
     import ListHeader from '@/components/ListHeader.vue'
     import { request, userRequest} from '@/js/request.js'
     var moment = require('moment');
+    import { Dialog } from 'vant'
     export default {
         name: "information",
         data(){
             this.loadMsg(0);
 
             return{
-                num:0,
+                pageNo:0,
+                isbottom:-1,
+                lastPage:-1,
                 list:[],
                 earlyList:[],
                 title:'消息'
@@ -54,6 +57,7 @@
         },
         methods:{
             markRead(id,isRead,item){
+                Dialog({ message: item.messageContext });
                 if(isRead==0){
                   userRequest("/shopIndex/indexMessageRead",{messageID:id}).then(function (response) {
                     item.isRead=1;
@@ -66,6 +70,9 @@
                  current: pageNo,
                  pageSize: 20,
                }
+                if(page.isbottom==1){
+                    return;
+                };
                var date=new Date();
                userRequest("/shopIndex/queryIndexMessageList",postData).then(function (response) {
                        var title="消息"+response.totle;
@@ -96,10 +103,32 @@
                               page.earlyList.push(data);
                             }
                         }
+                       page.pageNum=response.pageNum;
+                       page.isbottom=1;
+                       page.lastPage=response.lastPage
+
                });
 
+            },
+            handleScroll() {
+                if(this.isbottom==1&&this.lastPage!=-1 && this.pageNum<this.lastPage){
+                    this.isbottom = -1
+                    this.pageNum++
+                    this.loadData(this.pageNum);
+                }else{
+                    console.log("到底了")
+                }
+
             }
+
         },
+        mounted(){
+            window.addEventListener('scroll', this.handleScroll)
+        },
+        destroyed(){
+            window.removeEventListener('scroll', this.handleScroll)
+        },
+
         components: {
             ListHeader,
         },
@@ -170,6 +199,9 @@
                                 font-size: .24rem;
                                 color: #999;
                                 padding-top: .1rem;
+                                overflow:hidden;
+                                white-space:nowrap;
+                                text-overflow: ellipsis;
                             }
                         }
                     }
