@@ -3,8 +3,8 @@
         <ListHeader :title="title" :showHeadFr="false"></ListHeader>
         <div class="content">
             <div class="list">
-                <h3><img src="../assets/images/information-03.png" alt="">最新消息</h3>
-                <ul>
+                <h3 @click="showNews=!showNews" ><img src="../assets/images/information-03.png" alt="">最新消息</h3>
+                <ul v-if="showNews">
                      <li v-for="item in list" @click="markRead(item.messageID,item.isRead,item)">
                         <div class="badge fl">
                             <img src="../assets/images/information-01.png" alt="">
@@ -18,8 +18,8 @@
                 </ul>
             </div>
             <div class="list" v-if="earlyList.length>0" >
-                <h3><img src="../assets/images/information-04.png" alt="">两周前消息</h3>
-                <ul>
+                <h3 @click="showOlds=!showOlds" ><img src="../assets/images/information-04.png" alt="">两周前消息</h3>
+                <ul v-if="showOlds">
                      <li v-for="item in earlyList" @click="markRead(item.messageID,item.isRead,item)">
                         <div class="badge fl">
                             <img src="../assets/images/information-01.png" alt="">
@@ -47,6 +47,8 @@
             this.loadMsg(0);
 
             return{
+                showOlds:true,
+                showNews:true,
                 pageNo:0,
                 isbottom:-1,
                 lastPage:-1,
@@ -75,7 +77,7 @@
                 };
                var date=new Date();
                userRequest("/shopIndex/queryIndexMessageList",postData).then(function (response) {
-                       var title="消息"+response.totle;
+                       var title="消息("+response.noReadNums+"未读)";
                         page.title=title;
                         var list=response.pageInfo.list;
                         for(var i in list){
@@ -103,9 +105,9 @@
                               page.earlyList.push(data);
                             }
                         }
-                       page.pageNum=response.pageNum;
+                       page.pageNum=response.pageInfo.pageNum;
                        page.isbottom=1;
-                       page.lastPage=response.lastPage
+                       page.lastPage=response.pageInfo.lastPage
 
                });
 
@@ -119,10 +121,11 @@
                 //滚动条到底部的条件
                 console.log(scrollTop,windowHeight,scrollHeight)
                 if(scrollTop+windowHeight==scrollHeight) {
+                    console.log(this.isbottom == 1 , this.lastPage != -1 , this.pageNum < this.lastPage)
                     if (this.isbottom == 1 && this.lastPage != -1 && this.pageNum < this.lastPage) {
                         this.isbottom = -1
                         this.pageNum++
-                        this.loadData(this.pageNum);
+                        this.loadMsg(this.pageNum);
                     } else {
                         console.log("到底了")
                     }
