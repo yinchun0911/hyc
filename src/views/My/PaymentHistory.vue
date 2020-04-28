@@ -64,6 +64,7 @@
                       for(var i in response.list){
                         op.paymentList.push(response.list[i]);
                       }
+                      op.isbottom = 1
                       op.pageNum=response.pageNum;
                       op.lastPage=response.lastPage;
                       op.queryText=postData.orderMonth
@@ -90,7 +91,7 @@
                      if (this.isbottom == 1 && this.lastPage != -1 && this.pageNum < this.lastPage) {
                          this.isbottom = -1
                          this.pageNum++
-                         this.loadData(this, this.queryText);
+                         this.loadData(this.pageNum, this.queryText);
                      } else {
                          console.log("到底了")
                      }

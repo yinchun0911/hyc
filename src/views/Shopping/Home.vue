@@ -88,7 +88,7 @@
                             page.lastPage=-2;
                         }
                         page.isbottom=1;
-                        console.log(page.productNum);
+                       
                  })
             },
            checkAll(){
