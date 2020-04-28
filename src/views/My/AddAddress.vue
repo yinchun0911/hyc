@@ -112,6 +112,11 @@
                 this.show = false
                 //选中地址成功后回显
                 this.showAddr = this.resAddr[0].name + '-' + this.resAddr[1].name + '-' + this.resAddr[2].name
+                if(this.showAddr.indexOf("请选择")>0){
+                    Dialog({ message: '请完整的选择地址' });
+                    this.showAddr =null;
+                    return;
+                }
                 console.log(this.resAddr, '即将传给后端的省市区信息')
             },
             cancelChoose(){

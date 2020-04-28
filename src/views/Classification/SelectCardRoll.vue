@@ -234,7 +234,7 @@
              }
         },
         mounted() {
-         
+
 
         },destroyed() {
             this.stopTimer=true;
