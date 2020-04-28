@@ -154,6 +154,7 @@
                    var leftTime=1800-leftTime/1000;
 
                     page.time=leftTime;
+                    page.timmer();
                 })
             },
              pay(){
@@ -233,7 +234,7 @@
              }
         },
         mounted() {
-           this.timmer()
+         
 
         },destroyed() {
             this.stopTimer=true;
