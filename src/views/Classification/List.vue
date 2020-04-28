@@ -201,17 +201,25 @@
                     this.$router.push(path);
                 }
             },
-            handleScroll() {
+            handleScroll(e) {
 
-                console.log(this.$refs)
-                if(this.isbottom==1&&this.lastPage!=-1 && this.pageNum<this.lastPage){
-                      this.isbottom = -1
-                    this.pageNum++
-                    this.loadData(this,this.pageNum);
-                }else{
+                //变量scrollTop是滚动条滚动时，距离顶部的距离
+                var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+                //变量windowHeight是可视区的高度
+                var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+                //变量scrollHeight是滚动条的总高度
+                var scrollHeight = document.documentElement.scrollHeight||document.body.scrollHeight;
+                //滚动条到底部的条件
+                console.log(scrollTop,windowHeight,scrollHeight)
+                if(scrollTop+windowHeight==scrollHeight){
                     console.log("到底了")
+                    //写后台加载数据的函数
+                    if(this.isbottom==1&&this.lastPage!=-1 && this.pageNum<this.lastPage){
+                        this.isbottom = -1
+                        this.pageNum++
+                        this.loadData(this,this.pageNum);
+                    }
                 }
-
             },
             onSubmit(values) {
                 this.pageNum=0
@@ -223,10 +231,10 @@
         },
         mounted(){
              this.loadData(this,1);
-             window.addEventListener('scroll', this.handleScroll)
+             window.addEventListener('scroll', this.handleScroll,true)
         },
         destroyed(){
-            window.removeEventListener('scroll', this.handleScroll)
+            window.removeEventListener('scroll', this.handleScroll,false)
         },
 
         components: {

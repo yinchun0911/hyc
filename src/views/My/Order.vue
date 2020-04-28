@@ -167,7 +167,8 @@
                             response.list[i].leftTime=leftTime;
                             op.orderList.push(response.list[i])
                         }
-                       op.pageNum=response.pageNum;
+                        op.isbottom = 1;
+                        op.pageNum=response.pageNum;
                        op.lastPage=response.lastPage;
                        op.queryText=postData.orderMonth
                  })
@@ -249,15 +250,23 @@
             }
             ,
              handleScroll() {
-                    console.log(this.isbottom==1,this.lastPage,this.lastPage!=-1,this.pageNum,this.pageNum<this.lastPage)
-                    if(this.isbottom==1&&this.lastPage!=-1 && this.pageNum<this.lastPage){
-                          this.isbottom = -1
-                        this.pageNum++
-                        this.loadData(this,this.queryText);
-                    }else{
-                        console.log("到底了")
-                    }
-
+                 var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+                 //变量windowHeight是可视区的高度
+                 var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+                 //变量scrollHeight是滚动条的总高度
+                 var scrollHeight = document.documentElement.scrollHeight||document.body.scrollHeight;
+                 //滚动条到底部的条件
+                 console.log(scrollTop,windowHeight,scrollHeight)
+                 if(scrollTop+windowHeight==scrollHeight) {
+                     console.log(this.isbottom == 1, this.lastPage, this.lastPage != -1, this.pageNum, this.pageNum < this.lastPage)
+                     if (this.isbottom == 1 && this.lastPage != -1 && this.pageNum < this.lastPage) {
+                         this.isbottom = -1
+                         this.pageNum++
+                         this.loadData(this.pageNum, this.current);
+                     } else {
+                         console.log("到底了")
+                     }
+                 }
             }
         },
         mounted() {
