@@ -73,7 +73,7 @@
                 var page=this;
                 var postData={
                   current: current,
-                  pageSize: 5,
+                  pageSize: 2,
                 }
                 if(page.isbottom==1){
                     return;

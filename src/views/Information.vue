@@ -44,7 +44,7 @@
     export default {
         name: "information",
         data(){
-            this.loadMsg(0);
+            this.loadMsg(1);
 
             return{
                 showOlds:true,
