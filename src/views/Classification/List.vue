@@ -63,6 +63,7 @@
     import ListHeader from '@/components/ListHeader.vue'
     import { request, userRequest} from '@/js/request.js'
     import { Dialog } from 'vant'
+    import { Toast } from 'vant';
     export default {
         name: "List",
         data(){
@@ -157,7 +158,7 @@
                     num: 1
                 };
                 userRequest("/shopCar/addCarGoods",postData).then(function(response){
-                    Dialog({ message: '添加成功' })
+                    Toast( '添加成功')
                 });
             },
             // 购物车按钮
