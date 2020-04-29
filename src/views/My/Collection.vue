@@ -245,8 +245,8 @@
         }
         .collection-foot{
             width: 100%;
-            height: .8rem;
-            line-height: .8rem;
+            height: 1.2rem;
+            line-height: 1.2rem;
             background-color: #fff;
             overflow: hidden;
             padding: 0 .2rem;
@@ -266,13 +266,13 @@
                 button{
                     float: right;
                     width: 2rem;
-                    height: .6rem;
-                    line-height: .6rem;
+                    height: .8rem;
+                    line-height: .8rem;
                     background-color: #83b7ff;
                     color: #fff;
                     font-size: .3rem;
                     border-radius: .4rem;
-                    margin-top: .1rem;
+                    margin-top: .2rem;
                     border: 0;
                 }
             }

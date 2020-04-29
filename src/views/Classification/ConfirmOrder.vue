@@ -356,8 +356,8 @@
             }
             .orderFooter{
                 width: 100%;
-                height: .8rem;
-                line-height: .8rem;
+                height: 1.2rem;
+                line-height: 1.2rem;
                 background-color: #fff;
                 position: fixed;
                 bottom:0;
@@ -384,15 +384,15 @@
                     button{
                         float: right;
                         width: 1.92rem;
-                        height: .6rem;
-                        line-height: .6rem;
+                        height: .8rem;
+                        line-height: .8rem;
                         font-size: .26rem;
                         color: #fff;
                         text-align: center;
                         background-color: #83b7ff;
                         border-radius: 4rem;
                         border: 0;
-                        margin-top: .1rem;
+                        margin-top: .2rem;
                     }
                 }
             }

@@ -332,8 +332,8 @@
             .shopFoot{
                 padding-left: .2rem;
                 width: 100%;
-                height: .7rem;
-                line-height: .7rem;
+                height: 1.05rem;
+                line-height: 1.05rem;
                 position: fixed;
                 bottom:1.1rem;
                 background-color: #fff;
@@ -376,7 +376,7 @@
                     }
                     button{
                         width: 2rem;
-                        height: .7rem;
+                        height: 1.05rem;
                         text-align: center;
                         background-color: #83b7ff;
                         color: #fff;
