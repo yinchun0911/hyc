@@ -28,7 +28,7 @@
 
 <template v-for="(special,index) in specialArea">
     <div class="specialArea" :id="special.activityAreaID">
-            <h3><img src="../assets/images/icon-04.png" alt="">{{ special.activityAreaName }}<span  @click="goTo('list',{areaID:special.activityAreaID})">更多&gt;</span></h3>
+            <h3><img src="../assets/images/icon-04.png" alt="">{{ special.activityAreaName }}<span  @click="goByPathTo('list',{areaID:special.activityAreaID})">更多&gt;</span></h3>
             <div class="areaBanner">
               <img @click="goByPathTo('list',{areaID:special.activityAreaID})" :src="special.activityAreaPic" alt="">
             </div>
@@ -242,17 +242,7 @@ export default {
         font-size: .3rem;
         color: #4c4c4c;
         position: relative;
-        &:before{
-          content: '';
-          position: absolute;
-          left: 1rem;
-          top: 50%;
-          width: .56rem;
-          height: .48rem;
-          margin-top: -.2rem;
-          background: url("../assets/images/icon-03.png") no-repeat;
-          background-size: 100% 100%;
-        }
+       
       }
       .nav{
         background-color: #fff;
