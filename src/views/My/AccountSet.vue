@@ -121,7 +121,7 @@
                                  userAvatar:  op.headPic,
                                  userBrithDay: op.birthday,
                                  userPhone: op.phone,
-                                 userSex: op.radio}
+                                 userSex: op.sex}
 
                 userRequest("/appUser/saveUserSet",postData).then(function(resp){
                         sessionStorage.setItem("phone",postData.userPhone);

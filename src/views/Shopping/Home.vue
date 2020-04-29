@@ -152,15 +152,18 @@
                                                 num++ ;
                                                 if(num==deleteList.length){
                                                      page.productList=[];
-                                                     page.loadData(current);
+                                                    page.isbottom = -1
+                                                     page.loadData(1);
                                                 }
                                        }, num:-1,
                                      };
                      userRequest("/shopCar/delCarGoods",deleteData).then(function (response) {
                         num++;
+                        console.log(num,deleteList.length);
                         if(num==deleteList.length){
                             page.productList=[];
-                            page.loadData(0);
+                            page.isbottom = -1
+                            page.loadData(1);
                             page. countCheckTotal();
                          }
                      });

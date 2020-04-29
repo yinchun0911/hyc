@@ -45,7 +45,7 @@
                 queryText+="0";
             }
             queryText+=""+month;
-            this.loadData(0,queryText)
+            this.loadData(1,queryText)
             return{
                 title:'支付记录',
                 paymentList:[],
@@ -53,7 +53,7 @@
                 queryText:queryText,
                 isbottom:-1,
                 lastPage:-1,
-                pageNum:0,
+                pageNum:1,
             }
         },
         methods:{
@@ -111,7 +111,7 @@
                     },
                  confirm: function(date) {
                      op.paymentList=[];
-                    op.loadData(0,date);
+                    op.loadData(1,date);
                    console.log('确定按钮触发'+date);
                  }
             });

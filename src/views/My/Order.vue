@@ -80,7 +80,7 @@
             if(!current){
                 current=0;
             }
-            this.loadData(0,current);
+            this.loadData(1,current);
             return{
                 title:'我的订单',
                 current:current,
@@ -126,7 +126,7 @@
                 userRequest(url,postData).then(function (response) {
                     Dialog({ message: '操作成功' });
                     op.orderList=[];
-                    op.loadData(0,op.current);
+                    op.loadData(1,op.current);
                     op.causeShow=false;
                 })
             },
@@ -139,7 +139,7 @@
                         userRequest("/shopOrder/orderConfirm", {orderNo}).then(function (response) {
                             Dialog({ message: '操作成功' });
                             op.orderList=[];
-                            op.loadData(0,op.current);
+                            op.loadData(1,op.current);
                             op.causeShow=false;
                         })
                     })
@@ -177,7 +177,9 @@
             liclick(index){
                 this.current = index
                 this.orderList=[];
-                this.loadData(0,this.current);
+                this.isbottom = 1;
+
+                this.loadData(1,this.current);
 
             },
             //添零函数
