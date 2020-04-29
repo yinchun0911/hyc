@@ -58,7 +58,7 @@
             <div class="detail-foot">
                 <div class="foot-fl fl">
                     <img @click="goTo('/')" src="../../assets/images/classIfication/icon-01.png" alt="">
-                    <img src="../../assets/images/classIfication/icon-02.png" alt="">
+                    <img @click="goTo('https://yzf.qq.com/xv/web/static/chat/index.html?sign=37ef9b9781210bc62a449fbf49e9e561dae071fec465f96ceec32f18ee4d32f50b6c35e530e11cb6888ddc6000f87fad1f1b847f')" src="../../assets/images/classIfication/icon-02.png" alt="">
                     <template v-if="!imgShow">
                         <img @click="isActive" src="../../assets/images/classIfication/icon-03.png" alt="">
                     </template>
@@ -330,6 +330,9 @@
                 }, 16)
             },
             goTo(path,params){
+                if(path.indexOf("http")!=-1){
+                    window.location.href=path;
+                }else
                 if(params){
                     this.$router.push({name:path,params:params});
                 }else{

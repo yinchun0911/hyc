@@ -185,6 +185,9 @@ export default {
             }
     },
      goTo(path,params){
+         if(path.indexOf("http")!=-1){
+             window.location.href=path;
+         }else
         if(params){
             this.$router.push({name:path,params:params});
         }else{
