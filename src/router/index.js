@@ -253,7 +253,7 @@ router.beforeEach((to, from, next) => {
      }  else   if(to.path=="/successPayment"&&(from.path!="/classification/selectCardRoll")){
        next("/")
 
-     }else if(to.path=="/classification/selectCardRoll"&&(from.path!="/classification/confirmOrder")){
+     }else if(to.path=="/classification/selectCardRoll"&&(from.path!="/classification/confirmOrder"&&from.path!="/order")){
        next("/")
      }else{
        next();
