@@ -16,19 +16,20 @@
                 <h2>我的订单 <span @click="goTo('order',{status:0})">查看全部订单</span><i @click="goTo('order',{status:0})" class="el-icon-arrow-right"></i> </h2>
                 <ul class="orderNav">
                     <li @click="goTo('order',{status:1})">
-                        <el-badge :value="12" :max="99" class="item" :hidden="false">
+                        <el-badge :value="waitPay" :max="99" class="item" :hidden="waitPay==0">
                             <img src="../../assets/images/my/icon-01.png" alt="">
                         </el-badge>
                         <p>待支付</p>
                     </li>
+
                     <li  @click="goTo('order',{status:2})">
-                        <el-badge :value="100" :max="99" class="item" :hidden="false">
+                        <el-badge :value="waitSend" :max="99" class="item" :hidden="waitSend==0">
                             <img src="../../assets/images/my/icon-02.png" alt="">
                         </el-badge>
                         <p>待发货</p>
                     </li>
                     <li  @click="goTo('order',{status:3})">
-                        <el-badge :value="0" :max="99" class="item" :hidden="true">
+                        <el-badge :value="waitGet" :max="99" class="item" :hidden="waitGet==0">
                             <img src="../../assets/images/my/icon-03.png" alt="">
                         </el-badge>
                         <p>待收货</p>
@@ -82,8 +83,10 @@
             var phone=sessionStorage.getItem("phone");
             var headPic=sessionStorage.getItem("headPic");
             this.loadInfo();
+            this.loadOrderCount();
             return{
-                name:name,phone:phone,headPic:headPic
+                name:name,phone:phone,headPic:headPic,
+                waitPay:0,waitSend:0,waitGet:0
             }
         },
         methods:{
@@ -98,6 +101,15 @@
                         page.headPic=response.headPic;
                        }
                  });
+            },
+            loadOrderCount(){
+                var page=this;
+                userRequest("/shopOrder/getOrderTypeCount",{}).then(function (response) {
+                   console.log(response)
+                    page. waitPay=response. waitPay
+                    page.waitSend=response. waitSend
+                    page.waitGet=response. waitGet
+                });
             },
             goTo(path,params){
                 if(params){
