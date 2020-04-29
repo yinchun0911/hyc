@@ -242,17 +242,7 @@ export default {
         font-size: .3rem;
         color: #4c4c4c;
         position: relative;
-        &:before{
-          content: '';
-          position: absolute;
-          left: 1rem;
-          top: 50%;
-          width: .56rem;
-          height: .48rem;
-          margin-top: -.2rem;
-          background: url("../assets/images/icon-03.png") no-repeat;
-          background-size: 100% 100%;
-        }
+       
       }
       .nav{
         background-color: #fff;
