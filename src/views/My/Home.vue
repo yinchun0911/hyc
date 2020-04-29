@@ -47,7 +47,7 @@
                         <p>我的点券</p>
                     </li>
                     <li class="borderRight borderBot">
-                        <img src="../../assets/images/my/icon-06.png" alt="">
+                        <img @click="goTo('https://yzf.qq.com/xv/web/static/chat/index.html?sign=37ef9b9781210bc62a449fbf49e9e561dae071fec465f96ceec32f18ee4d32f50b6c35e530e11cb6888ddc6000f87fad1f1b847f')" src="../../assets/images/my/icon-06.png" alt="">
                         <p>在线客服</p>
                     </li>
                     <li class="borderBot" @click="goTo('paymentHistory')">
@@ -112,6 +112,10 @@
                 });
             },
             goTo(path,params){
+                if(path.indexOf("http")==0){
+                    window.location.href=path;
+                    return;
+                }
                 if(params){
                     this.$router.push({name:path,params:params});
                 }else{
