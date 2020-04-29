@@ -16,15 +16,21 @@
                 <h2>我的订单 <span @click="goTo('order',{status:0})">查看全部订单</span><i @click="goTo('order',{status:0})" class="el-icon-arrow-right"></i> </h2>
                 <ul class="orderNav">
                     <li @click="goTo('order',{status:1})">
-                        <img src="../../assets/images/my/icon-01.png" alt="">
+                        <el-badge :value="12" :max="99" class="item" :hidden="false">
+                            <img src="../../assets/images/my/icon-01.png" alt="">
+                        </el-badge>
                         <p>待支付</p>
                     </li>
                     <li  @click="goTo('order',{status:2})">
-                        <img src="../../assets/images/my/icon-02.png" alt="">
+                        <el-badge :value="100" :max="99" class="item" :hidden="false">
+                            <img src="../../assets/images/my/icon-02.png" alt="">
+                        </el-badge>
                         <p>待发货</p>
                     </li>
                     <li  @click="goTo('order',{status:3})">
-                        <img src="../../assets/images/my/icon-03.png" alt="">
+                        <el-badge :value="0" :max="99" class="item" :hidden="true">
+                            <img src="../../assets/images/my/icon-03.png" alt="">
+                        </el-badge>
                         <p>待收货</p>
                     </li>
                     <li  @click="goTo('order',{status:4})">
@@ -35,23 +41,23 @@
             </div>
             <div class="nav">
                 <ul>
-                    <li @click="goTo('Ticket')">
-                            <img src="../../assets/images/my/icon-05.png" alt="">
-                            <p>我的点券</p>
+                    <li class="borderRight borderBot" @click="goTo('Ticket')">
+                        <img src="../../assets/images/my/icon-05.png" alt="">
+                        <p>我的点券</p>
                     </li>
-                    <li >
+                    <li class="borderRight borderBot">
                         <img src="../../assets/images/my/icon-06.png" alt="">
                         <p>在线客服</p>
                     </li>
-                    <li @click="goTo('paymentHistory')">
+                    <li class="borderBot" @click="goTo('paymentHistory')">
                         <img src="../../assets/images/my/icon-07.png" alt="">
                         <p>支付记录</p>
                     </li>
-                    <li @click="goTo('collection')">
+                    <li class="borderRight" @click="goTo('collection')">
                         <img src="../../assets/images/my/icon-08.png" alt="">
                         <p>我的收藏</p>
                     </li>
-                    <li @click="goTo('setup')">
+                    <li class="borderRight" @click="goTo('setup')">
                         <img src="../../assets/images/my/icon-09.png" alt="">
                         <p>基本设置</p>
                     </li>
@@ -185,13 +191,18 @@
                 overflow: hidden;
                 display: flex;
                 justify-content: space-between;
-                margin-top: .25rem;
                 padding-bottom: .15rem;
                 border-radius: .15rem;
                 li{
                     width: 25%;
                     text-align: center;
+                    .el-badge__content{
+                        font-size: .16rem;
+                        border: 0;
+                        top:.2rem;
+                    }
                     img{
+                        margin-top: .25rem;
                         width: .5rem;
                         height: .44rem;
                     }
@@ -213,10 +224,8 @@
                     li{
                         width: 33.3%;
                         text-align: center;
-                        margin-top: .6rem;
+                        padding-top: .6rem;
                         padding-bottom: .3rem;
-                        border-left: .02rem solid #f0f3fa;
-                        border-bottom: .02rem solid #f0f3fa;
                         img{
                             width: .5rem;
                             height: .51rem;
@@ -226,6 +235,12 @@
                             font-size: .26rem;
                             color: #4c4c4c;
                         }
+                    }
+                    .borderRight{
+                        border-right: .02rem solid #f0f3fa;
+                    }
+                    .borderBot{
+                        border-bottom: .02rem solid #f0f3fa;
                     }
                 }
             }

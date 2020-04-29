@@ -515,13 +515,13 @@
                     border-bottom: .02rem solid #f0f3fa;
                     font-size: .3rem;
                     color: #4c4c4c;
+                    margin-bottom: .35rem;
                 }
                 .img-box{
                     font-size: 0;
                     display: inline-table;
                     text-align: center;
                     img{
-                        margin-top: .35rem;
                         width: 100%;
                     }
                 }
