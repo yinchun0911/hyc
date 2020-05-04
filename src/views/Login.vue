@@ -12,9 +12,9 @@
                             <el-checkbox v-model="checked"></el-checkbox><span @click="dialogVisible = true">阅读并同意<i>服务协议</i></span>
                         </div>
                     </ul>
-                    <button type="button" @click="loginBtn()"  class="loginBtn">登 录</button>
+                    <button type="button" @click="loginBtn()"  class="loginBtn">{{title}}</button>
                 </form>
-                <div class="bottom-btn">
+                <div class="bottom-btn" v-if="showWechatLogin">
                     <p>一键登录</p>
                     <div  @click="wechatLogin()" class="wechat-login">
                         <img src="../assets/images/wx.png" alt="">
@@ -39,8 +39,11 @@
     export default {
         name: "login",
         data(){
-            var title="登录"
+            var title="登  录"
             this.loadUserProtalInfo();
+
+
+
             var checked=false;
             if(localStorage.getItem("loginCheck")!=null){
                 checked=true;
@@ -55,6 +58,7 @@
                 hasSend:false,
                 dialogVisible:false,
                 agreementText:'',
+                showWechatLogin:true,
             }
         },
         methods:{
@@ -103,8 +107,13 @@
                         smsCode:op.code ,
                         userPhone:op.phone
                  }
+                var url="/appUserLogin/loginVerify";
+                if (!op.showWechatLogin){
+                    postData.openId=op.$route.query.openid
+                    url="/appUserLogin/loginVerifyWeChat"
+                }
 
-               request("/appUserLogin/loginVerify",postData).then(function(response){
+               request(url,postData).then(function(response){
 
                        cookie.setCookie("appUserId",response.id,365);
                        localStorage.setItem("userId", response.id);
@@ -132,6 +141,23 @@
         components: {
             ListHeader,
         },
+        mounted() {
+            var userId=    this.$route.query.id;
+            var phone=this.$route.query.phone;
+            if(userId&&phone){
+                localStorage.setItem("userId", this.$route.query.id);
+                localStorage.setItem("name", this.$route.query.name);
+                localStorage.setItem("phone", this.$route.query.phone);
+                localStorage.setItem("headPic", this.$route.query.headPic);
+                localStorage.setItem("token", this.$route.query.token);
+                this.$router.push({name:"Home",params:response});
+            }
+            if(userId&&!phone){
+                this.title="绑定手机号";
+                this.showWechatLogin=false;
+
+            }
+        }
     }
 </script>
 
