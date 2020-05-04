@@ -544,8 +544,8 @@
             }
             .detail-foot{
                 width: 100%;
-                height: .8rem;
-                line-height: .8rem;
+                height: 1.2rem;
+                line-height: 1.2rem;
                 background-color: #fff;
                 border-top: .02rem solid #f0f3fa;
                 position: fixed;
@@ -558,7 +558,7 @@
                     img{
                         width: .45rem;
                         height: .43rem;
-                        margin-top: .2rem;
+                        margin-top: .4rem;
                     }
                 }
                 .foot-fr{
@@ -567,8 +567,8 @@
                     span{
                         display: inline-block;
                         width: 1.8rem;
-                        height: .6rem;
-                        line-height: .6rem;
+                        height: .8rem;
+                        line-height: .8rem;
                         text-align: center;
                         font-size: .26rem;
                         color: #fff;
