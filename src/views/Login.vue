@@ -59,6 +59,7 @@
                 dialogVisible:false,
                 agreementText:'',
                 showWechatLogin:true,
+                protalInfo:""
             }
         },
         methods:{
@@ -144,13 +145,18 @@
         mounted() {
             var userId=    this.$route.query.id;
             var phone=this.$route.query.phone;
+            if(phone=='null'){
+                this.title="绑定手机号";
+                this.showWechatLogin=false;
+                return;
+            }
             if(userId&&phone){
                 localStorage.setItem("userId", this.$route.query.id);
                 localStorage.setItem("name", this.$route.query.name);
                 localStorage.setItem("phone", this.$route.query.phone);
                 localStorage.setItem("headPic", this.$route.query.headPic);
                 localStorage.setItem("token", this.$route.query.token);
-                this.$router.push({name:"Home",params:response});
+                this.$router.push({name:"Home",params: {}});
             }
             if(userId&&!phone){
                 this.title="绑定手机号";
