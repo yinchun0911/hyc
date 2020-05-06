@@ -451,7 +451,7 @@
                             font-size: .3rem;
                             color: #4c4c4c;
                             label{
-                                width: 1.5rem;
+                                width: 1.75rem;
                                 display: inline-block;
                             }
                             &:first-child{
