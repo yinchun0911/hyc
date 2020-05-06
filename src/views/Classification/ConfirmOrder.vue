@@ -61,6 +61,7 @@
         data(){
             //购物车已创建好订单
             var formCar=this.$route.params.formCar;
+            console.log("1111",this.$route.params);
             var tempOrder={};
             if(formCar){
                   tempOrder=this.$route.params.order;
@@ -102,6 +103,7 @@
                 }
                 console.log(item)
                 page.address=page.addressList[item.id];
+                page.showAddress=false;
             },
             loadAddress(){
                 var page=this;
@@ -129,7 +131,7 @@
                 var page=this;
                  console.log(page.address.address);
                 if("您未填写地址，请先完善地址信息"===page.address.address){
-                    page.$router.push({name:"addAddress",params:{from:"confirmOrder",data:page.$route.params.order}});
+                    page.$router.push({name:"addAddress",params:{from:"confirmOrder",data:page.tempOrder}});
                 }
             },
             createTempOrder(){

@@ -536,7 +536,7 @@
                 text-align: center;
                 position: fixed;
                 right: .3rem;
-                bottom:1rem;
+                bottom:1.5rem;
                 i{
                     color: #fff;
                     font-size: .3rem;

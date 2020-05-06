@@ -173,6 +173,7 @@
 
                 userRequest("/userAddress/saveUserAddress",postData).then(function (response) {
                     Dialog({ message: "添加地址成功" })
+                    console.log(page.$route.params)
                     if(page.$route.params.from=="confirmOrder"){
 
                         page.$router.push({name:"confirmOrder",params:{formCar:true,addId:response,order:page.$route.params.data}});
