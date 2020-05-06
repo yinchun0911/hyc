@@ -128,6 +128,7 @@
                     op.orderList=[];
                     op.loadData(1,op.current);
                     op.causeShow=false;
+                    op.refundRemark="";
                 })
             },
             orderConfirm(orderNo){
