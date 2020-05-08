@@ -189,7 +189,8 @@
                 }
 
                 userRequest("/shopOrder/addTmpOrder",params).then(function (response) {
-                     page.$router.push({name:"confirmOrder",params:{formCar:true,order:response}});
+                    page.goByPathTo("confirmOrder",{orderNo:response.orderNo});
+
                  });
 
             },

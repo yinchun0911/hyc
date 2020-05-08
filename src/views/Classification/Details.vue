@@ -246,6 +246,12 @@
                     });
                 }
 
+            }, goByPathTo(path,params){
+                if(params){
+                    this.$router.push({name:path,query:params});
+                }else{
+                    this.$router.push(path);
+                }
             },
             getProductInfo(){
                 var page=this;
@@ -316,7 +322,17 @@
                var goodsId=page.product.goodsid;
                var productId=page.product.productID;
                var num=page.num;
-                this.$router.push({name:"confirmOrder",query:{productId:productId,goodsid:goodsId,num:num}});
+
+               var  goodsparm=[{ goodsid: goodsId, num: num,token: "string"}];
+               var params={
+                    productCarList:goodsparm
+               }
+
+                userRequest("/shopOrder/addTmpOrder",params).then(function (response) {
+                    page.goByPathTo("confirmOrder",{orderNo:response.orderNo});
+
+                });
+
             },
             // 点击图片回到顶部方法，加计时器是为了过渡顺滑
             backTop () {

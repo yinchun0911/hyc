@@ -61,13 +61,14 @@
         data(){
             //购物车已创建好订单
             var formCar=this.$route.params.formCar;
-            console.log("1111",this.$route.params);
+
             var tempOrder={};
             if(formCar){
                   tempOrder=this.$route.params.order;
             }else{
                 //非购物车需要创建临时订单
-                this.createTempOrder();
+                this.getTempOrder();
+
             }
             this.loadAddress();
             return{
@@ -134,20 +135,16 @@
                     page.$router.push({name:"addAddress",params:{from:"confirmOrder",data:page.tempOrder}});
                 }
             },
-            createTempOrder(){
-                 var page=this;
-                 var productID =page.$route.query.productID+"";
-                 var goodsid=page.$route.query.goodsid;
-                 var num=page.$route.query.num;
-                var  goodsparm=[{ goodsid: goodsid, num: num,token: "string"}];
-                var params={
-                    productCarList:goodsparm
-                }
+            getTempOrder(){
 
-                userRequest("/shopOrder/addTmpOrder",params).then(function (response) {
+                var page=this;
+                var params={
+                    orderNo :page.$route.query.orderNo
+                }
+                userRequest("/shopOrder/getTmpOrder",params).then(function (response) {
                     page.tempOrder=response;
                     console.log(response)
-                 })
+                })
             },
             subOrder(){
                 var page=this;
