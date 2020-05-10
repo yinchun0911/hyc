@@ -37,7 +37,7 @@
                                     <div class="btnBox" v-if="order.orderStatus ==2 "  @click="causeShow=true;actionType='cancel';opOrder=order">
                                         <button>取消订单</button>
                                     </div>
-                                    <div class="btnBox" v-if="order.orderStatus ==4"  @click="causeShow=true;actionType='refund';opOrder=order">
+                                    <div class="btnBox" v-if="order.orderStatus ==4 && order.isBack==1"  @click="causeShow=true;actionType='refund';opOrder=order">
                                         <button>申请退货</button>
                                     </div>
                                     <div class="btnBox" v-if="order.orderStatus == 3"  @click="orderConfirm(order.orderNo)">
