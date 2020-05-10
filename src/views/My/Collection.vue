@@ -1,6 +1,6 @@
 <template>
     <div class="collection">
-        <ListHeader :title="title" :text="text" :showHeadFr="false" :showMyHeadFr="true" @clickBtn="succseClick(text)"></ListHeader>
+        <ListHeader ref="ListHeader" :title="title" :text="text" :showHeadFr="false" :showMyHeadFr="true" @clickBtn="succseClick(text)"></ListHeader>
         <div class="content">
             <div class="listBox" v-for="month in monthArray" >
                 <h2>{{month}} </h2>
@@ -68,6 +68,7 @@
                  };
                  userRequest("/shopCar/addCarGoods",postData).then(function(response){
                      Toast( '添加购物车成功' )
+                     page.$refs.ListHeader.getShoppingCarNum();
                  });
              },
             loadData(pageNo,op){

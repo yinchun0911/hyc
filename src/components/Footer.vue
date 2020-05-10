@@ -57,10 +57,7 @@
         methods:{
             getShoppingCarNum(){
                         var page=this;
-                        if(!page.refeash) {
-                            console.log("stop,load")
-                        }
-                         console.log(" foot  load ")
+
                         var postData={noError:true,defaultFn:function(){
                                          console.log("defaultProcess")
                                          page.shoppingNum=0;
@@ -70,7 +67,7 @@
                               page.shoppingNum=response;
                             if(page.refeash) {
                                 console.log("init getNum");
-                                setTimeout(page.getShoppingCarNum, 1000);
+
                             }
                         });
             },
@@ -80,8 +77,7 @@
 
         },
         destroyed(){
-            this.refeash=false;
-            console.log(" foot reload ")
+
         },
     }
 </script>

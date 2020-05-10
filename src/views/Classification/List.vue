@@ -1,6 +1,6 @@
 <template>
     <div class="list">
-        <ListHeader :title="title" :customerGoback="true" @goHome="goBack()"  @shopClick="shopClick"></ListHeader>
+        <ListHeader  ref="ListHeader" :title="title" :customerGoback="true" @goHome="goBack()"  @shopClick="shopClick"></ListHeader>
         <div class="content">
             <ul class="nav">
                 <li v-for="(item,index) in navList" :class="current==index?'active':''"  @click="liclick(index);">
@@ -168,7 +168,9 @@
                     num: 1
                 };
                 userRequest("/shopCar/addCarGoods",postData).then(function(response){
-                    Toast( '添加成功')
+                    Toast( '添加成功');
+
+                    page.$refs.ListHeader.getShoppingCarNum();
                 });
             },
             // 购物车按钮

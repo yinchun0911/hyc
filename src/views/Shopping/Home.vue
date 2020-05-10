@@ -1,6 +1,6 @@
 <template>
     <div class="shopHome">
-        <ListHeader :title="title" :showHeadFr="false"></ListHeader>
+        <ListHeader ref="ListHeader" :title="title" :showHeadFr="false"></ListHeader>
         <div class="content">
             <div class="list-box">
                 <h2>
@@ -37,7 +37,7 @@
                 </div>
             </div>
         </div>
-        <Footer></Footer>
+        <Footer ref="Footer" ></Footer>
     </div>
 </template>
 
@@ -166,6 +166,9 @@
                             page.loadData(1);
                             page. countCheckTotal();
                          }
+                         page.$refs.ListHeader.getShoppingCarNum();
+                         page.$refs.Footer.getShoppingCarNum();
+
                      });
                  }
             },
