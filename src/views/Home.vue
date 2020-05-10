@@ -18,11 +18,11 @@
         </ul>
       </div>
       <div class="main">
-        <img @click="goByPathTo('list',{areaID:special1.activityAreaID})" :src="special1.activityAreaPic" alt="">
-        <img @click="goByPathTo('list',{areaID:special2.activityAreaID})" :src="special2.activityAreaPic"alt="">
+        <img @click="goByPathTo('list',{areaID:special1.activityAreaID,fromHome:true})" :src="special1.activityAreaPic" alt="">
+        <img @click="goByPathTo('list',{areaID:special2.activityAreaID,fromHome:true})" :src="special2.activityAreaPic"alt="">
       </div>
       <div class="more-box">
-        <img @click="goByPathTo('list',{areaID:special3.activityAreaID})" :src="special3.activityAreaPic" alt="">
+        <img @click="goByPathTo('list',{areaID:special3.activityAreaID,fromHome:true})" :src="special3.activityAreaPic" alt="">
       </div>
 
 
@@ -30,11 +30,11 @@
     <div class="specialArea" :id="special.activityAreaID">
             <h3><img src="../assets/images/icon-04.png" alt="">{{ special.activityAreaName }}<span  @click="goByPathTo('list',{areaID:special.activityAreaID})">更多&gt;</span></h3>
             <div class="areaBanner">
-              <img @click="goByPathTo('list',{areaID:special.activityAreaID})" :src="special.activityAreaPic" alt="">
+              <img @click="goByPathTo('list',{areaID:special.activityAreaID,fromHome:true})" :src="special.activityAreaPic" alt="">
             </div>
             <ul>
             <template v-for="(item,index) in special.indexActivityAreaDataList">
-              <li @click="goByPathTo('detail',{productID:item.productID})">
+              <li @click="goByPathTo('detail',{productID:item.productID,fromHome:true})">
                 <img :src="item.activityAreaProductPic" alt="">
                 <p class="title">{{item.activityAreaProductName}}</p>
                 <p class="introduce">{{item.activityAreaProductRemark}}</p>

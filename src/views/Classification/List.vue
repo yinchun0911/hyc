@@ -101,8 +101,13 @@
             goBack(){
                 var typeId = this.$route.query.typeId;
                 var areaID = this.$route.query.areaID;
+                var fromHome=this.$route.query.fromHome;
+                if(fromHome){
+                    this.$router.push({path:"/"});
+                }else{
+                    this.$router.push({path:"/classification",query: {areaID:areaID,typeId:typeId}});
+                }
 
-                this.$router.push({path:"/classification",query: {areaID:areaID,typeId:typeId}});
             },
             // 加载分类商品
             loadData(op,page){
