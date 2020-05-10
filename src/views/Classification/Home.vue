@@ -42,42 +42,85 @@
     export default {
         name: "home",
         data(){
-            this.initTopList();
+            var typeId = this.$route.query.typeId;
+            var areaID = this.$route.query.areaID;
+
+            this.initTopList(typeId,areaID);
             this.getShoppingCarNum();
             var queryIndex=this.$route.query.index;
             if(!queryIndex){
                 queryIndex=0;
             }
-
-
             return {
                 leftList:[],
                 comtentList:[],
                 activeKey:-1,
                 queryIndex:queryIndex,
-                badgeNum:0
+                badgeNum:0,
+                totalNum:0
             }
         },
         methods:{
             goTo(path,params){
                 this.$router.push({name:path,query:params});
             },
-            loadSubList(data,index){
+            loadSubList(data,index,qtypeId,qareaID){
                 var page=this;
                 var typeID=data.typeID;
+
+                if(typeID==qtypeId){
+
+                    page.queryIndex=index;
+                }
+                if(typeID==qareaID){
+
+                    page.queryIndex=index;
+                }
                 var postData={current:0,pageSize:0,token:"string",typeID:typeID}
                 request("/shopProduct/queryProductTypeLevelOtherList",postData).then(function (response) {
                     page.comtentList[index]=response;
+
+                    for(let it in response){
+                        var ctypeID=response[it].typeID;
+
+                        if(ctypeID==qtypeId){
+
+                            page.queryIndex=parseInt(index);
+                        }
+                        if(ctypeID==qareaID){
+
+                            page.queryIndex=parseInt(index);
+                        }
+                       for(var st in  response[it].subList){
+                           var stypeId= response[it].subList[st].typeID;
+
+                           if(stypeId==qtypeId){
+
+                               page.queryIndex=parseInt(index);
+                           }
+                           if(stypeId==qareaID){
+
+                               page.queryIndex=parseInt(index);
+                           }
+                       }
+                    }
+                    console.log("total",index,typeof page.totalNum,typeof index,page.totalNum==(parseInt(index)+1))
+                    if(page.totalNum==(parseInt(index)+1)){
+                        console.log("check")
+                        page.checkInitEd()
+                    }
               })
 
             },
-            initTopList(){
+            initTopList(typeId,areaID){
               var page=this;
                  request("/shopProduct/queryProductTypeLevelOneList",null).then(function (response) {
                       page.leftList=response;
+                      page.totalNum=response.length;
                       for(let it in response){
-                       page.loadSubList(response[it],it)
+                       page.loadSubList(response[it],it,typeId,areaID)
                       }
+
 
                 })
             },
@@ -113,15 +156,16 @@
                 console.log(val)
             },
             checkInitEd(){
+                console.log("check")
+                var page=this;
+                    setTimeout(function () {
+                        page.activeKey=page.queryIndex;
+                    },200);
 
-                if(this.comtentList.length==0){
-                    setTimeout(this.checkInitEd,300);
-                }else{
-                    this.activeKey=this.queryIndex;
-                }
+
             }
         },mounted() {
-           this.checkInitEd()
+
         },
         components: {
             ClassHeader,

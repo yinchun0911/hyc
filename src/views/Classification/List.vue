@@ -1,6 +1,6 @@
 <template>
     <div class="list">
-        <ListHeader :title="title"  @shopClick="shopClick"></ListHeader>
+        <ListHeader :title="title" :customerGoback="true" @goHome="goBack()"  @shopClick="shopClick"></ListHeader>
         <div class="content">
             <ul class="nav">
                 <li v-for="(item,index) in navList" :class="current==index?'active':''"  @click="liclick(index);">
@@ -98,7 +98,12 @@
             }
         },
         methods:{
+            goBack(){
+                var typeId = this.$route.query.typeId;
+                var areaID = this.$route.query.areaID;
 
+                this.$router.push({path:"/classification",query: {areaID:areaID,typeId:typeId}});
+            },
             // 加载分类商品
             loadData(op,page){
                    var typeId = op.$route.query.typeId;

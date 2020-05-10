@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <div class="header-fl fl">
-            <i class="el-icon-arrow-left" @click="$router.go(-1)"></i>
+            <i class="el-icon-arrow-left" @click="goHome()"></i>
         </div>
         {{title}}
         <div class="header-fr fr" v-if="showHeadFr" @click="shopClick(shoppingNum)">
@@ -21,11 +21,16 @@ import { request, userRequest} from '@/js/request.js'
         name: "listHeader",
         data(){
             this.getShoppingCarNum();
+
             return{
                 shoppingNum:0,refeash:true
             }
         },
         props:{
+            customerGoback:{
+                type:Boolean,
+                default:false
+            },
             title:{
                 type:String,
             },
@@ -61,6 +66,15 @@ import { request, userRequest} from '@/js/request.js'
                     }
 
                 })
+            },
+            goHome(){
+                console.log("ss",this.customerGoback)
+                if(this.customerGoback){
+                    this.$emit('goHome');
+                }else{
+                    this.$router.go(-1)
+                }
+
             },
             shopClick(val){
                 this.$emit('shopClick',val);
