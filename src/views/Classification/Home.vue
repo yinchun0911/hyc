@@ -64,64 +64,60 @@
             goTo(path,params){
                 this.$router.push({name:path,query:params});
             },
-            loadSubList(data,index,qtypeId,qareaID){
-                var page=this;
-                var typeID=data.typeID;
-
-                if(typeID==qtypeId){
-
-                    page.queryIndex=index;
-                }
-                if(typeID==qareaID){
-
-                    page.queryIndex=index;
-                }
-                var postData={current:0,pageSize:0,token:"string",typeID:typeID}
-                request("/shopProduct/queryProductTypeLevelOtherList",postData).then(function (response) {
-                    page.comtentList[index]=response;
-
-                    for(let it in response){
-                        var ctypeID=response[it].typeID;
-
-                        if(ctypeID==qtypeId){
-
-                            page.queryIndex=parseInt(index);
-                        }
-                        if(ctypeID==qareaID){
-
-                            page.queryIndex=parseInt(index);
-                        }
-                       for(var st in  response[it].subList){
-                           var stypeId= response[it].subList[st].typeID;
-
-                           if(stypeId==qtypeId){
-
-                               page.queryIndex=parseInt(index);
-                           }
-                           if(stypeId==qareaID){
-
-                               page.queryIndex=parseInt(index);
-                           }
-                       }
-                    }
-                    console.log("total",index,typeof page.totalNum,typeof index,page.totalNum==(parseInt(index)+1))
-                    if(page.totalNum==(parseInt(index)+1)){
-                        console.log("check")
-                        page.checkInitEd()
-                    }
-              })
-
-            },
-            initTopList(typeId,areaID){
+           initTopList(typeId,areaID){
               var page=this;
-                 request("/shopProduct/queryProductTypeLevelOneList",null).then(function (response) {
+                 request("/shopProduct/queryProductAllTypeList",null).then(function (response) {
                       page.leftList=response;
                       page.totalNum=response.length;
                       for(let it in response){
-                       page.loadSubList(response[it],it,typeId,areaID)
+                          var subList1=response[it]
+                          var  ptypeId=response[it].typeID;
+                          if(ptypeId==typeId){
+
+                              page.queryIndex=parseInt(it);
+                          }
+                          if(ptypeId==areaID){
+                              page.queryIndex=parseInt(it);
+                          }
+                          page.comtentList[it]=subList1.subList
+                          for(let st1 in subList1.subList){
+                              var ctypeID=subList1.subList[st1].typeID;
+                              if(ctypeID==typeId){
+                                  console.log("check ",ctypeID,typeId)
+                                  page.queryIndex=parseInt(it);
+                              }
+                              if(ctypeID==areaID){
+                                  page.queryIndex=parseInt(it);
+                              }
+
+                              for(var st2 in  subList1.subList){
+
+                                  var subList2=subList1.subList[st2];
+                                  var stypeId= subList2.typeID;
+
+                                  if(stypeId==typeId){
+
+                                      page.queryIndex=parseInt(it);
+                                  }
+                                  if(stypeId==areaID){
+                                      page.queryIndex=parseInt(it);
+                                  }
+
+                                  for(var st3 in subList1.subList[st2].subList){
+                                      var sstypeId=subList1.subList[st2].subList[st3].typeID;
+                                      if(sstypeId==typeId){
+
+                                          page.queryIndex=parseInt(it);
+                                      }
+                                      if(sstypeId==areaID){
+                                          page.queryIndex=parseInt(it);
+                                      }
+                                  }
+                              }
+                          }
                       }
 
-
+                     page.checkInitEd();
                 })
             },
 
