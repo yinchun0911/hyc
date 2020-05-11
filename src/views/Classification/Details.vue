@@ -1,6 +1,6 @@
 <template>
     <div class="detail">
-        <ListHeader :title="title" @shopClick="goshopClick" :badgeNum="shoppingNum" ></ListHeader>
+        <ListHeader :title="title"  ref="ListHeader" @shopClick="goshopClick" :badgeNum="shoppingNum" ></ListHeader>
         <div class="content">
             <div class="banner">
 <!--                <div class="swiper-container" id="gallery">-->
@@ -297,6 +297,7 @@
                 };
                 userRequest("/shopCar/addCarGoods",postData).then(function(response){
                     Dialog({ message: '添加购物车成功' })
+                    page.$refs.ListHeader.getShoppingCarNum();
                 });
             },goshopClick(){
                 this.$router.push({path:"/Shopping"});

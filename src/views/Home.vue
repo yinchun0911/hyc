@@ -54,7 +54,7 @@
           <div class="noticeDialog" @click.stop>
               <div class="imgBox">
                   <i class="el-icon-circle-close" @click="dialogVisible=false"></i>
-                  <img src="../assets/images/information-01.png" alt="">
+                  <img @click="goByPathTo(indexImghref)" :src="indexImgSrc" alt="">
               </div>
           </div>
       </van-overlay>
@@ -76,6 +76,7 @@ export default {
     this.getNavData();
     this.getSpecialArea();
     this.getMsgNum();
+    this.getIndexImg();
     return{
       swiperList:[],
       navList:[],
@@ -86,21 +87,42 @@ export default {
       specialTop:[],
       msgNum:0,
       shoppingNum:0,
-        dialogVisible:true
+      dialogVisible:false,
+      indexImghref:"",
+      indexImgSrc:""
+
+
     }
   },
 
   methods:{
-
+      //获取首页 展示大图
+      getIndexImg(){
+          var page=this;
+          var postData={noError:true,defaultFn:function(){ }
+          }
+          userRequest("/shopIndex/queryIndexMessageCount",postData).then(function (response) {
+              page.msgNum=response;
+          })
+      },
     getMsgNum(){
+          var item=sessionStorage.getItem("indexShowAD");
+          if(item){
+           return ;
+          }
         var page=this;
         var postData={noError:true,defaultFn:function(){
                  console.log("defaultProcess")
                  page.msgNum=0;
             }
         }
-        userRequest("/shopIndex/queryIndexMessageCount",postData).then(function (response) {
-              page.msgNum=response;
+        userRequest("/shopIndex/queryIndexAd",postData).then(function (response) {
+            page.indexImgSrc=response.carouselPic;
+            page.indexImghref=response.jumpUrl;
+            if (page.indexImgSrc&&page.indexImghref){
+                sessionStorage.setItem("indexShowAD","true");
+                page.dialogVisible=true;
+            }
         })
     },
 
