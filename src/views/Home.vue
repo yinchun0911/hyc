@@ -50,6 +50,14 @@
 </template>
 </div>
     <Footer :shoppingNum="shoppingNum"></Footer>
+      <van-overlay :show="dialogVisible" :lock-scroll="true" z-index="9999">
+          <div class="noticeDialog" @click.stop>
+              <div class="imgBox">
+                  <i class="el-icon-circle-close" @click="dialogVisible=false"></i>
+                  <img src="../assets/images/information-01.png" alt="">
+              </div>
+          </div>
+      </van-overlay>
   </div>
 </template>
 
@@ -77,7 +85,8 @@ export default {
       specialArea:[],
       specialTop:[],
       msgNum:0,
-      shoppingNum:0
+      shoppingNum:0,
+        dialogVisible:true
     }
   },
 
@@ -368,5 +377,28 @@ export default {
       }
     }
   }
-
+    .noticeDialog{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        .imgBox{
+            position: relative;
+            width: 6rem;
+            height: auto;
+            border-radius: .2rem;
+            .el-icon-circle-close{
+                position: absolute;
+                top: 0;
+                right: 0;
+                font-size: 20px;
+                color: #000;
+                font-weight: bolder;
+            }
+            img{
+                width: 100%;
+                height: auto;
+            }
+        }
+    }
 </style>
