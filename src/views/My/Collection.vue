@@ -40,7 +40,7 @@
     export default {
         name: "collection",
         data(){
-            this.loadData(0,this);
+            this.loadData(1,this);
             return{
                 title:'我的收藏',
                 text:'管理',
@@ -48,6 +48,9 @@
                 showChecked:false,
                 monthArray:[],
                 monthDataArray:{},
+                isbottom:-1,
+                lastPage:-1,
+                pageNum:1,
                 checkIds:{}
             }
         },
@@ -93,7 +96,14 @@
                             }
                             op.monthDataArray[monthStr].push(data);
                         }
-                        console.log(op.monthArray,op.monthDataArray)
+                        op.isbottom = 1;
+                        if (response.length>0){
+                            op.lastPage= pageNo+2
+                        }else{
+                            op.lastPage=-1;
+                        }
+
+                    console.log(op.monthArray,op.monthDataArray)
                  })
             },
             clickAll(){
@@ -133,10 +143,34 @@
                     this.text = '管理'
                 }
 
+            },
+            handleScroll() {
+                var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+                //变量windowHeight是可视区的高度
+                var windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+                //变量scrollHeight是滚动条的总高度
+                var scrollHeight = document.documentElement.scrollHeight||document.body.scrollHeight;
+                //滚动条到底部的条件
+                console.log(scrollTop,windowHeight,scrollHeight)
+                // if(scrollTop+windowHeight==scrollHeight) {
+                console.log(this.isbottom == 1 , this.lastPage != -1 , this.pageNum < this.lastPage)
+                if (this.isbottom == 1 && this.lastPage != -1 && this.pageNum < this.lastPage) {
+                    this.isbottom = -1
+                    this.pageNum++
+                    this.loadData(this.pageNum,this);
+                } else {
+                    console.log("到底了")
+                }
+                // }
             }
+
         },
-         mounted() {
+        mounted(){
+            window.addEventListener('scroll', this.handleScroll)
         },
+    destroyed(){
+        window.removeEventListener('scroll', this.handleScroll)
+    },
         components: {
             ListHeader,
         },

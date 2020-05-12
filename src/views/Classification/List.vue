@@ -224,7 +224,7 @@
                 var scrollHeight = document.documentElement.scrollHeight||document.body.scrollHeight;
                 //滚动条到底部的条件
                 console.log(scrollTop,windowHeight,scrollHeight)
-                if(scrollTop+windowHeight==scrollHeight){
+                // if(scrollTop+windowHeight==scrollHeight){
                     console.log("到底了")
                     //写后台加载数据的函数
                     if(this.isbottom==1&&this.lastPage!=-1 && this.pageNum<this.lastPage){
@@ -232,7 +232,7 @@
                         this.pageNum++
                         this.loadData(this,this.pageNum);
                     }
-                }
+                // }
             },
             onSubmit(values) {
                 this.pageNum=0
