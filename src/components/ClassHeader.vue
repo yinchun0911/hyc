@@ -29,7 +29,7 @@
                 this.$emit('sweepCodeClick');
             },
             search(val){
-              this.$router.push('list',{keyword:val})
+                this.$router.push('/classification/list?keyword='+val)
             },
             shopClick(val){
                 this.$router.push({path:"/Shopping"});

@@ -1,6 +1,6 @@
 <template>
     <div class="classHome">
-        <ClassHeader @sweepCodeClick="sweepCodeClick" :badgeNum="badgeNum" @searchClick="searchClick" @shopClick="shopClick"></ClassHeader>
+        <ClassHeader @sweepCodeClick="sweepCodeClick" :badgeNum="badgeNum"  @shopClick="shopClick"></ClassHeader>
         <div class="content">
             <van-sidebar  v-model="activeKey" @change="onChange">
                 <template v-for="(left,index) in leftList">
@@ -148,8 +148,9 @@
             },
             //搜索按钮
             searchClick(val){
-                this.goTo('list',{keyword:val})
                 console.log(val)
+                this.goTo('list',{keyword:val})
+
             },
             checkInitEd(){
                 console.log("check")

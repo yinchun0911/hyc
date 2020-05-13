@@ -23,7 +23,7 @@
             </div>
             <template v-for="item in cardList">
 
-                <div class="cardRoll" :data-id="item.cardID" @click="selectCard=item.cardID">
+                <div class="cardRoll" :data-id="item.cardID" @click="changeSelect(item)">
                     <div class="list">
                         <img :class="selectCard==item.cardID?'imgActive':''" :src="item.cardPic" alt="">
                         <h2>{{item.cardName}}</h2>
@@ -112,6 +112,9 @@
                 }
                 return num;
              },
+            changeSelect(item){
+                if(this.selectCard!=item.cardID){this.selectCard=item.cardID} else {this.selectCard=-1}
+            },
 
             scan(){
                 var page=this;
@@ -205,6 +208,7 @@
                                  signType: data.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
                                  paySign: data.paySign, // 支付签名
                                  success: function (res) {
+                                     Toast('支付成功');
                                      //跳转到支付成功页面有这个页面
                                      page.$router.push({name:"successPayment",params:response});
 
