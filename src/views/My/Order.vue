@@ -126,6 +126,7 @@
                 userRequest(url,postData).then(function (response) {
                     Dialog({ message: '操作成功' });
                     op.orderList=[];
+                    op.isbottom=-1;
                     op.loadData(1,op.current);
                     op.causeShow=false;
                     op.refundRemark="";
@@ -140,6 +141,7 @@
                         userRequest("/shopOrder/orderConfirm", {orderNo}).then(function (response) {
                             Dialog({ message: '操作成功' });
                             op.orderList=[];
+                            op.isbottom = -1;
                             op.loadData(1,op.current);
                             op.causeShow=false;
                         })
@@ -152,6 +154,12 @@
             },
             loadData(page,current){
                 var op =this;
+                if(op.isbottom != -1){
+                 if(!op.isbottom){
+                 }else{
+                  return;
+                 }
+                }
                 var postData={
                   current: page,
                   orderType: current,
@@ -178,7 +186,7 @@
             liclick(index){
                 this.current = index
                 this.orderList=[];
-                this.isbottom = 1;
+                this.isbottom = -1;
 
                 this.loadData(1,this.current);
 
