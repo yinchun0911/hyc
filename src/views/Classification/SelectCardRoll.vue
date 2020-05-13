@@ -68,6 +68,7 @@
     import { Dialog } from 'vant'
     var moment = require('moment');
     import wx from "weixin-js-sdk";
+    import Toast from "vant/lib/toast";
     export default {
         name: "selectCardRoll",
         data(){
@@ -164,18 +165,59 @@
                     return;
                  }
 
-                 if(page.selectCard==-1){
-                     Dialog({ message: '选择卡券支付' })
-                     return;
-                 }
+
                  var postData={
                     cardId:page.selectCard,
                     orderNo:page.order.orderNo
                  }
                  localStorage.setItem("orderCheck",true);
 
-                 userRequest("/shopOrder/orderPay",postData).then(function (response) {
-                      page.$router.push({name:"successPayment",params:response});
+                 userRequest("/wxPay/wechatPay",postData).then(function (data) {
+                     // {
+                     //     "code": "200",
+                     //     "msg": "处理成功",
+                     //     "data": {
+                     //         "orderNo": "HYC2005132130292093",
+                     //         "package": "prepay_id=wx132137534393792b1919d9dd1708980900",
+                     //         "wxPayMoney": 239.0,
+                     //         "nonceStr": "34673c6760d9475eb3218fbe474577b9",
+                     //         "timeStamp": "1589377073",
+                     //         "orderTime": "2020-05-13 21:37:53",
+                     //         "paySign": "D0F63E52BA9024CE930922C6506339CC",
+                     //         "payMethod": "微信支付",
+                     //         "totleProduct": 239.0,
+                     //         "appId": "wxdbae52aba6b4c938",
+                     //         "cardPayMoney": 0,
+                     //         "signType": "MD5"
+                     // }
+                     // }
+                     if (data.wxPayMoney>0){
+                         wx.ready(function(){
+                             wx.chooseWXPay({
+                                 appId:data.appId,
+                                 timestamp: data.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                                 nonceStr: data.nonceStr, // 支付签名随机串，不长于 32
+                                 package: data.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
+                                 signType: data.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                                 paySign: data.paySign, // 支付签名
+                                 success: function (res) {
+                                     //跳转到支付成功页面有这个页面
+                                     page.$router.push({name:"successPayment",params:response});
+
+
+                                 },
+                                 cancel: function (res) {//提示引用的是mint-UI里toast
+                                     Toast('已取消支付');
+                                 },
+                                 fail: function (res) {
+                                     Toast('支付失败，请重试');
+                                 }
+                             })
+                         });
+                     }else{
+                         page.$router.push({name:"successPayment",params:data});
+                     }
+
                   });
 
              },
