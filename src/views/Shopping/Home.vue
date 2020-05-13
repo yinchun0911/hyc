@@ -211,13 +211,13 @@
                      if(this.lastPage-1){
                          return;
                      }
-                     if(this.isbottom==1&&this.lastPage!=-2 ){
-                         this.isbottom = -1
-                         this.pageNum++
-                         this.loadData(this.pageNum);
-                     }else{
-                         console.log("到底了")
-                     }
+                     // if(this.isbottom==1&&this.lastPage!=-2 ){
+                     //     this.isbottom = -1
+                     //     this.pageNum++
+                     //     this.loadData(this.pageNum);
+                     // }else{
+                     //     console.log("到底了")
+                     // }
                  // }
 
 
