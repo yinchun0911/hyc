@@ -182,9 +182,12 @@
             },
             liclick(index){
                 this.current = index
-                this.orderList=[];
-                this.isbottom = -1;
 
+                if (this.isbottom != 1){
+                    return ;
+                }
+                this.isbottom = -1;
+                this.orderList=[];
                 this.loadData(1,this.current);
 
             },

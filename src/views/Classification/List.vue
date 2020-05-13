@@ -178,6 +178,9 @@
                 this.$router.push({path:"/Shopping"});
             },
             liclick(index){
+                if (this.isbottom !=1){
+                    return;
+                }
                 this.showPrice();
                 console.log(1111,this.current,index,this.postData.sortMethod);
                 if( this.current == index){
@@ -193,11 +196,12 @@
                 }
                 this.showPrice(index);
                 if(index==4&&this.show){
-
                     return;
                 }
+
                 this.pageNum=0
                 this.goodsList=[];
+
                 this.isbottom = -1;
 
                 this.loadData(this,this.pageNum);
