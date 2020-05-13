@@ -164,10 +164,14 @@
                      Dialog({ message: '请 阅读 并 同意 用户协议' })
                     return;
                  }
+                var cardId=page.selectCard;
+                 if (cardId==-1){
+                     cardId=0;
+                 }
 
 
                  var postData={
-                    cardId:page.selectCard,
+                    cardId:cardId,
                     orderNo:page.order.orderNo
                  }
                  localStorage.setItem("orderCheck",true);
