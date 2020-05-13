@@ -154,12 +154,9 @@
             },
             loadData(page,current){
                 var op =this;
-                if(op.isbottom != -1){
-                 if(!op.isbottom){
-                 }else{
-                  return;
-                 }
-                }
+              if(op.isbottom==1){
+                    return;
+                  };
                 var postData={
                   current: page,
                   orderType: current,
