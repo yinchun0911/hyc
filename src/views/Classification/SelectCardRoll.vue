@@ -210,7 +210,7 @@
                                  success: function (res) {
                                      Toast('支付成功');
                                      //跳转到支付成功页面有这个页面
-                                     page.$router.push({name:"successPayment",params:response});
+                                     page.$router.push({name:"successPayment",params:data});
 
 
                                  },
