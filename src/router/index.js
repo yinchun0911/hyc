@@ -246,8 +246,8 @@ router.beforeEach((to, from, next) => {
     if (to.meta.title) {
       document.title = to.meta.title
     }
-    console.log(to.path=="/classification/confirmOrder"&&(from.path=="/classification/selectCardRoll" || from.path=="/"));
-     if(to.path=="/classification/confirmOrder"&&(from.path=="/classification/selectCardRoll" || from.path=="/")){
+    console.log(from.path!="/Shopping" && from.path!="/classification/details");
+     if(to.path=="/classification/confirmOrder"&&(from.path!="/Shopping" && from.path!="/classification/details" &&from.path!="/addAddress")){
        next("/")
 
      }  else   if(to.path=="/successPayment"&&(from.path!="/classification/selectCardRoll")){
