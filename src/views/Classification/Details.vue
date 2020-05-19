@@ -158,6 +158,7 @@
                 showSheet: false,
                 buyFlag: false,
                 actions: [],
+                showAddr:''
 
             }
         },
@@ -610,6 +611,8 @@
                                 width: 100%;
                                 background-color: transparent;
                                 border: 0;
+                                font-size: 0.26rem;
+                                color: #4c4c4c;
                             }
                             .address-arrow{
                                 position: absolute;
