@@ -273,7 +273,7 @@ export default {
         font-size: .3rem;
         color: #4c4c4c;
         position: relative;
-       
+
       }
       .nav{
         background-color: #fff;
