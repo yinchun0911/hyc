@@ -42,7 +42,7 @@
                     <li>
                         <label>送至</label>
                         <div class="addressWarp">
-                            <input type="text" id="address-input" placeholder="添加收货地址">
+                            <input type="text" id="address-input" readonly placeholder="添加收货地址">
                             <i class="el-icon-arrow-right address-arrow"></i>
                         </div>
                         <!--<span>{{showAdds}}</span>-->

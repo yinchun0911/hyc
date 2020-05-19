@@ -6,7 +6,8 @@
                 <ul>
                     <li><label>联 系 人</label><input type="text" v-model="linkMan" placeholder="请输入您的姓名"></li>
                     <li><label>手机号码</label><input type="text" v-model="phone" placeholder="请输入您的手机号码"></li>
-                    <li><label>所在地址</label><input type="text" readonly @click="showPopup" v-model="showAddr"></li>
+                    <!--<li><label>所在地址</label><input type="text" readonly @click="showPopup" v-model="showAddr"></li>-->
+                    <li><label>所在地址</label><input type="text" id="address-input" placeholder="请选择您的所在地址"></li>
                     <li><label>详细地址</label><input type="text" v-model="address" placeholder="例如：10楼108室"></li>
                 </ul>
             </div>
@@ -25,21 +26,22 @@
             <div class="btns">
                 <button @click="save()">保 存</button>
             </div>
-            <van-popup
-                    v-model="show"
-                    position="bottom"
-                    :style="{ height: '50%' ,padding:'16px'}"
-            >
-                <van-area
-                        :area-list="areaList"
-                        :columns-placeholder="['请选择', '请选择', '请选择']"
-                        value="110000"
-                        title="选择地址"
-                        @change="changeAddr"
-                        @cancel="cancelChoose"
-                        @confirm="chooseThis"
-                />
-            </van-popup>
+            <div id="addsBox"></div>
+            <!--<van-popup-->
+                    <!--v-model="show"-->
+                    <!--position="bottom"-->
+                    <!--:style="{ height: '50%' ,padding:'16px'}"-->
+            <!--&gt;-->
+                <!--<van-area-->
+                        <!--:area-list="areaList"-->
+                        <!--:columns-placeholder="['请选择', '请选择', '请选择']"-->
+                        <!--value="110000"-->
+                        <!--title="选择地址"-->
+                        <!--@change="changeAddr"-->
+                        <!--@cancel="cancelChoose"-->
+                        <!--@confirm="chooseThis"-->
+                <!--/>-->
+            <!--</van-popup>-->
         </div>
     </div>
 </template>
@@ -47,6 +49,7 @@
 <script>
     import ListHeader from '@/components/ListHeader.vue'
     import addressData from '@/js/address.js'
+    import AjaxPicker from 'ajax-picker'
     import { request, userRequest} from '@/js/request.js'
     import { Dialog } from 'vant'
     export default {
@@ -182,8 +185,69 @@
                     }
                 });
 
-            }
-            
+            },
+
+
+        },
+        mounted(){
+            // 城市四级联动
+            var picker = new AjaxPicker({
+                title: '配送至', //选择器标题
+                tipText: ['省份', '城市', '区/县','乡镇'],  //选择器提示语（可以一个也可以多个，对应每一栏的选择提示语）
+                input: 'address-input', //点击触发选择器的input的id
+                container: 'addsBox', //选择器的容器的id
+                renderArr: [ //渲染函数数组，第一个函数对应第一个列表，以此类推，该数组中的函数数量和列表的数量一致
+                    function () {
+                        // 在这里写获取第一个列表数据的方法，通常是ajax
+                        // 在成功回调中加入下面这行代码，并将获取的数据传入:
+                        // picker.render(your data)
+                        // 请确保你的获取到的数据是一个对象数组，并符合以下格式，每个对象至少拥有value(name)和id这两个key(将在用户选择完毕后返回)
+                        // 如果data不是一个对象数组，或者不符合格式要求，那么你可能要做一下数据处理，才能保证数据成功渲染出来：
+                        // [
+                        //   {value或name: '北京市', id: '0', other: ...},
+                        //   {value或name: '上海市', id: '1', other: ...},
+                        //   {value: '广东省', id: '2', other: ...}
+                        //   ...
+                        // ]
+                        // example:
+                        // $.ajax({
+                        //   ...
+                        //   success: function (data) {
+                        //     picker.render(data)
+                        //   }
+                        // })
+                    },
+                    function () {
+                        // 在这里写获取第二个列表数据的方法
+                        // 你可以通过picker.result1获取用户在第一列表的选择结果
+                        // picker.result1长这样：
+                        // {
+                        //   value: 'XXX',
+                        //   id:'XXX',
+                        //   index: 'XXX'
+                        // }
+                        // 在成功回调中加入下面这行代码，并将获取到的数据传入:
+                        // picker.render(your data)
+                    },
+                    function () {
+                        // 在这里写获取第三个列表数据的方法
+                        // 你可以通过picker.result2获取用户在第二列表的选择结果
+                        // picker.result2长这样：
+                        // {
+                        //   value: 'XXX',
+                        //   id:'XXX',
+                        //   index: 'XXX'
+                        // }
+                        // 在成功回调中加入下面这行代码，并将获取到的数据传入:
+                        // picker.render(your data)
+                    },
+
+                ],
+                success: function (arr) {
+                    // 用户选择完毕后调用，返回结果数组
+                    console.log(arr)
+                }
+            })
         },
         components: {
             ListHeader,
@@ -215,6 +279,7 @@
                             height: .8rem;
                             line-height: .8rem;
                             border: 0;
+                            background-color: transparent;
                         }
                     }
                 }
