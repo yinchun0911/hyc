@@ -19,7 +19,7 @@
             <el-dialog title="" :visible.sync="dialogTableVisible" top="40vh" :close-on-click-modal="false">
                 <ul>
                     <li><label>您的卡号：</label><span @click="scan()">{{cardNo!=""?cardNo:"点击扫码获得卡号"}}</span></li>
-                    <li><label>激  活  码：</label><input type="text" v-model="cardPWD"  placeholder="请输入激活码"></li>
+                    <li><label>激 活 码：</label><input type="text" v-model="cardPWD" placeholder="请输入激活码"></li>
                 </ul>
                 <div class="footBtn">
                     <button class="backBtn" @click="saveCard()">确 定</button>
@@ -33,67 +33,68 @@
 <script>
     import wx from 'weixin-js-sdk'
     import ListHeader from '@/components/ListHeader.vue'
-     import { getrequest, userRequest} from '@/js/request.js'
-    import { Dialog } from 'vant'
+    import {getrequest, userRequest} from '@/js/request.js'
+    import {Dialog} from 'vant'
+    import Toast from "vant/lib/toast";
+
     export default {
         name: "ticket",
-        data(){
+        data() {
             this.loadData(0);
 
 
-            return{
-                title:'我的点券',
-                cardList:[],
-                dialogTableVisible:false,
-                cardNo :"",
-                cardPWD:"",
-                wechatInit:false
+            return {
+                title: '我的点券',
+                cardList: [],
+                dialogTableVisible: false,
+                cardNo: "",
+                cardPWD: "",
+                wechatInit: false
             }
         },
-         methods:{
-            loadData(current){
-                var page=this;
-                var postData={
-                  current: current,
-                  pageSize: 30,
+        methods: {
+            loadData(current) {
+                var page = this;
+                var postData = {
+                    current: current,
+                    pageSize: 30,
                 }
-                userRequest("/appUser/queryUserCardList",postData).then(function (response) {
-                        for(var i in response){
-                            page.cardList.push(response[i])
-                        }
-                 })
+                userRequest("/appUser/queryUserCardList", postData).then(function (response) {
+                    for (var i in response) {
+                        page.cardList.push(response[i])
+                    }
+                })
             },
 
-            scan(){
-                var page=this;
+            scan() {
+                var page = this;
 
                 wx.scanQRCode({
                     needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
                     scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
                     success: function (res) {
                         console.log(res)
-                        var array=res.resultStr.split("=");
-                        page.cardNo=array[array.length-1];
+                        var array = res.resultStr.split("=");
+                        page.cardNo = array[array.length - 1];
                     }
                 });
 
 
-
             },
-            saveCard(){
-                var page=this;
-                var cardNo=page.cardNo;
-                var cardPWD=page.cardPWD;
-                if(!(cardNo&&cardPWD)){
-                    Dialog({ message: "请扫码获取卡号并输入密码" });
+            saveCard() {
+                var page = this;
+                var cardNo = page.cardNo;
+                var cardPWD = page.cardPWD;
+                if (!(cardNo && cardPWD)) {
+                    Toast("请扫码获取卡号并输入密码");
                     return;
                 }
-                 userRequest("/appUser/saveUserCard",{cardNo,cardPWD}).then(function (response) {
-                        Dialog({ message: "添加成功" });
-                        page.cardList=[];
-                        page.loadData(0)
+                userRequest("/appUser/saveUserCard", {cardNo, cardPWD}).then(function (response) {
+                    Toast("添加成功");
+                    page.cardList = [];
+                    page.loadData(0)
 
-                 });
+                });
             }
         },
         components: {
@@ -103,22 +104,26 @@
 </script>
 
 <style lang="less">
-    .ticket{
-        .content{
+    .ticket {
+        .content {
             margin-top: 1.2rem;
-            .cardRoll{
+
+            .cardRoll {
                 width: 100%;
-                .list{
+
+                .list {
                     position: relative;
                     margin: 0 auto .1rem auto;
                     width: 7.26rem;
                     height: 2.15rem;
-                    img{
+
+                    img {
                         width: 7.26rem;
                         height: 2.15rem;
                         display: block;
                     }
-                    h2{
+
+                    h2 {
                         width: 3.2rem;
                         font-size: .4rem;
                         color: #fff;
@@ -126,28 +131,30 @@
                         position: absolute;
                         top: .55rem;
                         left: 2.1rem;
-                        white-space:nowrap;
-                        overflow:hidden;
+                        white-space: nowrap;
+                        overflow: hidden;
                     }
-                    span{
+
+                    span {
                         width: 3.2rem;
                         position: absolute;
                         bottom: .52rem;
                         left: 2rem;
                         font-size: .28rem;
                         color: #fff;
-                        white-space:nowrap;
-                        overflow:hidden;
+                        white-space: nowrap;
+                        overflow: hidden;
                     }
-                    p{
+
+                    p {
                         width: 1.4rem;
                         font-size: .26rem;
                         color: #fff;
                         position: absolute;
                         right: .2rem;
                         top: .5rem;
-                        white-space:nowrap;
-                        overflow:hidden;
+                        white-space: nowrap;
+                        overflow: hidden;
                     }
                 }
 
@@ -175,26 +182,32 @@
                 /*    }*/
                 /*}*/
             }
-            .blue{
-                background: url("../../assets/images/classIfication/cardRoll-01.png") no-repeat  !important;
+
+            .blue {
+                background: url("../../assets/images/classIfication/cardRoll-01.png") no-repeat !important;
                 background-size: 100% 100%;
             }
-            .red{
+
+            .red {
                 background: url("../../assets/images/classIfication/cardRoll-02.png") no-repeat !important;
                 background-size: 100% 100%;
             }
-            .yellow{
+
+            .yellow {
                 background: url("../../assets/images/classIfication/cardRoll-03.png") no-repeat !important;
                 background-size: 100% 100%;
             }
-            .green{
+
+            .green {
                 background: url("../../assets/images/classIfication/cardRoll-04.png") no-repeat !important;
                 background-size: 100% 100%;
             }
-            .saveBtn{
-                padding: 0 .2rem;
+
+            .saveBtn {
+                padding: 0 .9rem;
                 margin-top: .7rem;
-                button.save{
+
+                button.save {
                     width: 100%;
                     height: .8rem;
                     line-height: .8rem;
@@ -206,26 +219,31 @@
                 }
             }
 
-            .el-dialog{
+            .el-dialog {
                 width: 6rem;
                 border-radius: .2rem;
-                .el-dialog__body{
+
+                .el-dialog__body {
                     padding: .2rem .5rem;
-                    ul{
-                        li{
+
+                    ul {
+                        li {
                             height: .8rem;
                             line-height: .8rem;
                             border-bottom: .02rem solid #e6e6e6;
                             font-size: .3rem;
                             color: #4c4c4c;
-                            label{
+
+                            label {
                                 width: 1.75rem;
                                 display: inline-block;
                             }
-                            &:first-child{
+
+                            &:first-child {
                                 margin-bottom: .3rem;
                             }
-                            input{
+
+                            input {
                                 border: 0;
                                 margin-bottom: .08rem;
                                 width: 3rem;
@@ -235,8 +253,9 @@
                             }
                         }
                     }
-                    .footBtn{
-                        button{
+
+                    .footBtn {
+                        button {
                             width: 100%;
                             height: .8rem;
                             line-height: .8rem;
@@ -247,7 +266,8 @@
                             border-color: #83b7ff;
                             border-radius: .4rem;
                         }
-                        .backBtn{
+
+                        .backBtn {
                             background-color: #83b7ff;
                             color: #fff;
                         }

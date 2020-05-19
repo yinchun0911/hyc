@@ -34,6 +34,7 @@
                     <li>下单时间：<span>{{orderDetail.orderTime}}</span></li>
                     <li>支付方式：<span>{{orderDetail.payMethod}}</span></li>
                     <li>配送方式：<span>{{orderDetail.postMethod}}</span></li>
+                    <li>客户留言：<span>{{orderDetail.remark}}</span></li>
                 </ul>
             </div>
             <div class="userMsg">

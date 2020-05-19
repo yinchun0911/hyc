@@ -30,7 +30,7 @@
                 </div>
             </template>
             <div class="type">
-                <p>配送方式<span @click="showSheet = true">{{selectPostName}}</span><i class="el-icon-arrow-right" ></i></p>
+                <p>配送方式<span @click="showSheet = true">{{selectPostName}}</span><i class="el-icon-arrow-right"></i></p>
             </div>
             <div class="price-box">
                 <ul>
@@ -43,128 +43,131 @@
                 <el-input type="textarea" :rows="2" placeholder="选填：请先和商家协商一致" v-model="textarea"></el-input>
             </div>
             <div class="orderFooter">
-                <p>合计：<span>{{tempOrder.totleMoney}}</span><button @click="subOrder">提 交</button></p>
+                <p>合计：<span>{{tempOrder.totleMoney}}</span>
+                    <button @click="subOrder">提 交</button>
+                </p>
             </div>
             <!--选择规格-->
-            <van-action-sheet v-model="showSheet" :actions="actions" @select="onSelect" />
-            <van-action-sheet v-model="showAddress" :actions="addressSelect" @select="onAddressSelect" />
+            <van-action-sheet v-model="showSheet" :actions="actions" @select="onSelect"/>
+            <van-action-sheet v-model="showAddress" :actions="addressSelect" @select="onAddressSelect"/>
         </div>
     </div>
 </template>
 
 <script>
     import ListHeader from '@/components/ListHeader.vue'
-    import { request, userRequest} from '@/js/request.js'
-    import { Dialog } from 'vant'
+    import {request, userRequest} from '@/js/request.js'
+    import {Dialog} from 'vant'
+
     export default {
         name: "confirmOrder",
-        data(){
+        data() {
             //购物车已创建好订单
-            var formCar=this.$route.params.formCar;
+            var formCar = this.$route.params.formCar;
 
-            var tempOrder={};
-            if(formCar){
-                  tempOrder=this.$route.params.order;
-            }else{
+            var tempOrder = {};
+            if (formCar) {
+                tempOrder = this.$route.params.order;
+            } else {
                 //非购物车需要创建临时订单
                 this.getTempOrder();
 
             }
             this.loadAddress();
-            return{
-                title:'确认订单',
-                textarea:'',
-                tempOrder:tempOrder,
-                address:{linkMan:"",linkPhone:"",address:"您未填写地址，请先完善地址信息"},
-                showSheet:false,
-                showAddress:false,
+            return {
+                title: '确认订单',
+                textarea: '',
+                tempOrder: tempOrder,
+                address: {linkMan: "", linkPhone: "", address: "您未填写地址，请先完善地址信息"},
+                showSheet: false,
+                showAddress: false,
                 actions: [
-                    { name: '快递',id:1 }
+                    {name: '快递', id: 1}
 
                 ],
-                addressSelect:[{name:"添加新地址",id:-1}],
-                selectPost:1,
-                selectPostName:"快递",
-                addressList:{}
+                addressSelect: [{name: "添加新地址", id: -1}],
+                selectPost: 1,
+                selectPostName: "快递",
+                addressList: {}
             }
-        },methods: {
+        }, methods: {
             // 选择规格
             onSelect(item) {
                 // 默认情况下点击选项时不会自动收起
                 // 可以通过 close-on-click-action 属性开启自动收起
                 this.showSheet = false;
-                this.selectPost=item.id;
-                this.selectPostName=item.name;
+                this.selectPost = item.id;
+                this.selectPostName = item.name;
 
-            },onAddressSelect(item){
-                var page =this;
-                if(item.name=="添加新地址"){
-                    page.$router.push({name:"addAddress",params:{from:"confirmOrder",data:page.tempOrder}});
+            }, onAddressSelect(item) {
+                var page = this;
+                if (item.name == "添加新地址") {
+                    page.$router.push({name: "addAddress", params: {from: "confirmOrder", data: page.tempOrder}});
                     return;
                 }
                 console.log(item)
-                page.address=page.addressList[item.id];
-                page.showAddress=false;
+                page.address = page.addressList[item.id];
+                page.showAddress = false;
             },
-            loadAddress(){
-                var page=this;
-               userRequest("/userAddress/queryUserAddressList",{current: 0, pageSize: 0}).then(function (response) {
-                                var addId= page.$route.params. addId;
-                                if(response.length>0){
-                                    page.address=response[0];
+            loadAddress() {
+                var page = this;
+                userRequest("/userAddress/queryUserAddressList", {current: 0, pageSize: 0}).then(function (response) {
+                    var addId = page.$route.params.addId;
+                    if (response.length > 0) {
+                        page.address = response[0];
 
-                                    for (var i in response){
-                                        if(addId==response[i].id){
-                                            page.address=response[i];
-                                        }
-                                        var str=response[i].linkMan+"   "+response[i].address;
-                                        page.addressSelect.push({name:str,id:response[i].id})
-                                        page.addressList[response[i].id]=response[i];
-                                    }
+                        for (var i in response) {
+                            if (addId == response[i].id) {
+                                page.address = response[i];
+                            }
+                            var str = response[i].linkMan + "   " + response[i].address;
+                            page.addressSelect.push({name: str, id: response[i].id})
+                            page.addressList[response[i].id] = response[i];
+                        }
 
-                                }
+                    }
 
-                                console.log(response)
+                    console.log(response)
                 })
 
             },
-            goEdit(){
-                var page=this;
-                 console.log(page.address.address);
-                if("您未填写地址，请先完善地址信息"===page.address.address){
-                    page.$router.push({name:"addAddress",params:{from:"confirmOrder",data:page.tempOrder}});
+            goEdit() {
+                var page = this;
+                console.log(page.address.address);
+                if ("您未填写地址，请先完善地址信息" === page.address.address) {
+                    page.$router.push({name: "addAddress", params: {from: "confirmOrder", data: page.tempOrder}});
                 }
             },
-            getTempOrder(){
+            getTempOrder() {
 
-                var page=this;
-                var params={
-                    orderNo :page.$route.query.orderNo
+                var page = this;
+                var params = {
+                    orderNo: page.$route.query.orderNo
                 }
-                userRequest("/shopOrder/getTmpOrder",params).then(function (response) {
-                    page.tempOrder=response;
+                userRequest("/shopOrder/getTmpOrder", params).then(function (response) {
+                    page.tempOrder = response;
                     console.log(response)
                 })
             },
-            subOrder(){
-                var page=this;
-                if(page.address==null){
-                    Dialog({ message: "清先选择收货地址" });
+            subOrder() {
+                var page = this;
+                if (page.address == null) {
+                    Toast("清先选择收货地址");
                     return;
-                  }
-                  if("您未填写地址，请先完善地址信息"===page.address.address){
-                    Dialog({ message: "请先设置收货地址" });
+                }
+                if ("您未填写地址，请先完善地址信息" === page.address.address) {
+                    Toast("请先完善收货地址");
                     return;
-                  }
-                var postData={
-                  addressId: page.address.id,
-                  orderNo:page.tempOrder.orderNo,
-                  postType:page.selectPost,
-                  remark: page.textarea
+                }
+                var postData = {
+                    addressId: page.address.id,
+                    orderNo: page.tempOrder.orderNo,
+                    postType: page.selectPost,
+                    remark: page.textarea
                 };
-                userRequest("/shopOrder/addOrder",postData).then(function (response) {
-                     page.$router.push({name:"selectCardRoll",params:response});
-                 })
+                userRequest("/shopOrder/addOrder", postData).then(function (response) {
+                    page.$router.push({name: "selectCardRoll", params: response});
+                })
 
             }
 
@@ -177,38 +180,46 @@
 </script>
 
 <style lang="less">
-    .confirmOrder{
+    .confirmOrder {
         height: 100%;
         background-color: #f0f3fa;
-        .content{
+
+        .content {
             margin-top: .88rem;
             margin-bottom: .88rem;
-            .location{
+
+            .location {
                 position: relative;
                 background-color: #fff;
                 padding: .35rem .2rem;
-                .map{
+
+                .map {
                     width: .53rem;
                     height: 100%;
-                    i{
+
+                    i {
                         font-size: .4rem;
                         margin-top: .15rem;
                     }
                 }
-                .msg{
+
+                .msg {
                     margin-left: .6rem;
                     position: relative;
-                    h3{
+
+                    h3 {
                         font-size: .26rem;
                         color: #4c4c4c;
                         font-weight: normal;
                     }
-                    p{
+
+                    p {
                         font-size: .24rem;
                         color: #b2b2b2;
                         padding-top: .05rem;
                     }
-                    i{
+
+                    i {
                         position: absolute;
                         right: 0;
                         top: 50%;
@@ -216,52 +227,62 @@
                         font-size: 20px;
                     }
                 }
-                &:after{
+
+                &:after {
                     content: '';
                     width: 100%;
                     height: .13rem;
                     position: absolute;
-                    bottom:0;
+                    bottom: 0;
                     left: 0;
                     background: url("../../assets/images/classIfication/border.png") no-repeat;
                     background-size: 100% 100%;
                 }
             }
-            .orderMsg{
+
+            .orderMsg {
                 padding: .35rem .2rem;
                 background-color: #fff;
                 margin-top: .2rem;
-                .warp-fl{
+
+                .warp-fl {
                     width: 2.4rem;
                     height: 1.32rem;
-                    font-size:0;
-                    display:table;
-                    .img{
-                        display:table-cell;
+                    font-size: 0;
+                    display: table;
+
+                    .img {
+                        display: table-cell;
                         text-align: center;
-                        vertical-align:middle;
+                        vertical-align: middle;
                         width: 100%;
-                        height:1.32rem;
-                        img{
+                        height: 1.32rem;
+
+                        img {
                             max-width: 2.15rem;
                             max-height: 1.32rem;
                         }
                     }
                 }
+
                 .warp-fr {
                     margin-left: 2.4rem;
+
                     p {
                         color: #4c4c4c;
                         font-size: .3rem;
                     }
+
                     .price {
                         margin-top: .35rem;
+
                         span {
                             font-size: .3rem;
                             color: #ff5644;
                             position: relative;
                             padding-left: .2rem;
                             font-weight: bolder;
+
                             &:before {
                                 content: '';
                                 position: absolute;
@@ -274,7 +295,8 @@
                                 background-size: 100% 100%;
                             }
                         }
-                        i{
+
+                        i {
                             float: right;
                             font-size: .24rem;
                             color: #4c4c4c;
@@ -282,22 +304,26 @@
                     }
                 }
             }
-            .type{
+
+            .type {
                 height: .8rem;
                 line-height: .8rem;
                 background-color: #fff;
                 padding: 0 .2rem;
                 border-top: .02rem solid #f0f3fa;
-                p{
+
+                p {
                     font-size: .26rem;
                     color: #4c4c4c;
                     position: relative;
-                    span{
+
+                    span {
                         float: right;
                         color: #b2b2b2;
                         padding-right: .4rem;
                     }
-                    i{
+
+                    i {
                         font-size: 20px;
                         position: absolute;
                         right: 0;
@@ -307,22 +333,26 @@
                     }
                 }
             }
-            .price-box{
+
+            .price-box {
                 padding: 0 .2rem;
                 background-color: #fff;
                 margin: .2rem 0;
-                ul{
-                    li{
+
+                ul {
+                    li {
                         height: .8rem;
                         line-height: .8rem;
                         font-size: .26rem;
                         color: #4c4c4c;
                         border-bottom: .02rem solid #f0f3fa;
-                        span{
+
+                        span {
                             float: right;
                             color: #ff5644;
                             font-weight: bolder;
                             position: relative;
+
                             &:before {
                                 content: '';
                                 position: absolute;
@@ -338,32 +368,38 @@
                     }
                 }
             }
-            .message{
+
+            .message {
                 background-color: #fff;
                 padding: 0 .2rem .2rem .2rem;
                 margin-bottom: 1rem;
-                p{
+
+                p {
                     height: .8rem;
                     line-height: .8rem;
                     font-size: .26rem;
                     color: #4c4c4c;
                     border-bottom: .02rem solid #f0f3fa;
                 }
-                .el-input{
+
+                .el-input {
                     margin-top: .25rem;
                 }
             }
-            .orderFooter{
+
+            .orderFooter {
                 width: 100%;
                 height: 1.2rem;
                 line-height: 1.2rem;
                 background-color: #fff;
                 position: fixed;
-                bottom:0;
+                bottom: 0;
                 padding: 0 .2rem;
-                span{
+
+                span {
                     position: relative;
                     padding-left: .2rem;
+
                     &:before {
                         content: '';
                         position: absolute;
@@ -376,11 +412,13 @@
                         background-size: 100% 100%;
                     }
                 }
-                p{
+
+                p {
                     font-size: .28rem;
                     font-weight: bolder;
                     color: #ff5644;
-                    button{
+
+                    button {
                         float: right;
                         width: 1.92rem;
                         height: .8rem;

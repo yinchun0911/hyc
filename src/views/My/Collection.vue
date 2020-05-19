@@ -71,7 +71,7 @@
                  };
                  userRequest("/shopCar/addCarGoods",postData).then(function(response){
                      Toast( '添加购物车成功' )
-                     page.$refs.ListHeader.getShoppingCarNum();
+                     page.$refs.ListHeader.getShoppingCarNumNew(response);
                  });
              },
             loadData(pageNo,op){
