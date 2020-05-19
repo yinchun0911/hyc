@@ -41,8 +41,10 @@
                     </li>
                     <li>
                         <label>送至</label>
-                        <span>{{showAdds}}</span>
-                        <i class="el-icon-arrow-right" @click="showPopup"></i>
+                        <div class="addressWarp">
+                            <input type="text" id="address-input" v-model="showAddr" placeholder="添加收货地址">
+                            <i class="el-icon-arrow-right address-arrow"></i>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -78,34 +80,7 @@
             </div>
             <!--立即够买-->
             <div class="drawer-box">
-                <!--                <el-drawer :visible.sync="drawer" direction="btt" :wrapperClosable="false">-->
-                <!--                    <div class="drawer-warp">-->
-                <!--                        <div class="warp-fl fl">-->
-                <!--                            <div class="img">-->
-                <!--                                 <img  :src="product.headImg" alt="">-->
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!--                        <div class="warp-fr">-->
-                <!--                            <p>{{product.productName}}</p>-->
-                <!--                            <div class="price">-->
-                <!--                             <span>{{product.productPrice}}</span>-->
-                <!--                              <s v-if="product.productOldPrice!=null">{{product.productOldPrice}}</s>-->
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
-                <!--                    <div class="specifications">-->
-                <!--                        <p>规格</p>-->
-                <!--                        <ul :class="!buyFlag?'show':''">-->
-                <!--                            <template v-for="item in standrds">-->
-                <!--                                <li @click="clickType" :data-id="item.id" :class="['bottom-btn',{'active':product.goodsid==item.id}]">{{item.standrdsName}}</li>-->
-                <!--                            </template>-->
-                <!--                        </ul>-->
-                <!--                    </div>-->
-                <!--                    <div class="specifications" v-if="buyFlag">-->
-                <!--                        <p>数量<van-stepper v-model="num" integer min="1" max="10"/></p>-->
-                <!--                        <button class="buyBtn" @click="buy">立即够买</button>-->
-                <!--                    </div>-->
-                <!--                </el-drawer>-->
+
                 <van-action-sheet v-model="drawer" :close-on-click-overlay="false" :round="false">
                     <div class="sheetContent">
                         <i class="el-icon-close" @click="drawer = false"></i>
@@ -146,22 +121,7 @@
             </div>
             <!--选择规格-->
             <van-action-sheet v-model="showSheet" :actions="actions" @select="onSelect" description="请选择规格"/>
-            <!-- 选择地址-->
-            <van-popup
-                    v-model="show"
-                    position="bottom"
-                    :style="{ height: '50%' ,padding:'16px'}"
-            >
-                <van-area
-                        :area-list="areaList"
-                        :columns-placeholder="['请选择', '请选择', '请选择']"
-                        value="110000"
-                        title="选择地址"
-                        @change="changeAddr"
-                        @cancel="cancelChoose"
-                        @confirm="chooseThis"
-                />
-            </van-popup>
+            <div id="addsBox"></div>
         </div>
     </div>
 </template>
@@ -173,6 +133,7 @@
     import 'swiper/css/swiper.min.css';
     import {request, userRequest} from '@/js/request.js'
     import {Dialog, Toast} from "vant";
+    import AjaxPicker from "ajax-picker";
 
     export default {
         name: "detail",
@@ -396,6 +357,101 @@
             window.removeEventListener('scroll', this.scrollToTop)
         },
         mounted() {
+            var page=this;
+            // 城市四级联动
+            var picker = new AjaxPicker({
+                title: '配送至', //选择器标题
+                tipText: ['省份', '城市', '区/县','乡镇'],  //选择器提示语（可以一个也可以多个，对应每一栏的选择提示语）
+                input: 'address-input', //点击触发选择器的input的id
+                container: 'addsBox', //选择器的容器的id
+                renderArr: [ //渲染函数数组，第一个函数对应第一个列表，以此类推，该数组中的函数数量和列表的数量一致
+                    function () {
+                        // 在这里写获取第一个列表数据的方法，通常是ajax
+                        // 在成功回调中加入下面这行代码，并将获取的数据传入:
+                        // picker.render(your data)
+                        // 请确保你的获取到的数据是一个对象数组，并符合以下格式，每个对象至少拥有value(name)和id这两个key(将在用户选择完毕后返回)
+                        // 如果data不是一个对象数组，或者不符合格式要求，那么你可能要做一下数据处理，才能保证数据成功渲染出来：
+                        // [
+                        //   {value或name: '北京市', id: '0', other: ...},
+                        //   {value或name: '上海市', id: '1', other: ...},
+                        //   {value: '广东省', id: '2', other: ...}
+                        //   ...
+                        // ]
+                        // example:
+                        userRequest("/userAddress/queryNationAddressList", {
+                            code: "000000"  }).then(function (response) {
+                            for (var i in response){
+                                response[i].id=response[i].code
+                            }
+                            picker.render(response)
+                        })
+
+
+                    },
+                    function () {
+                        // 在这里写获取第二个列表数据的方法
+                        // 你可以通过picker.result1获取用户在第一列表的选择结果
+                        // picker.result1长这样：
+                        // {
+                        //   value: 'XXX',
+                        //   id:'XXX',
+                        //   index: 'XXX'
+                        // }
+                        // 在成功回调中加入下面这行代码，并将获取到的数据传入:
+                        // picker.render(your data)
+                        console.log(picker.result1);
+                        userRequest("/userAddress/queryNationAddressList", {
+                            code: picker.result1.id  }).then(function (response) {
+                            for (var i in response){
+                                response[i].id=response[i].code
+                            }
+                            picker.render(response)
+                        })
+                    },
+                    function () {
+                        // 在这里写获取第三个列表数据的方法
+                        // 你可以通过picker.result2获取用户在第二列表的选择结果
+                        // picker.result2长这样：
+                        // {
+                        //   value: 'XXX',
+                        //   id:'XXX',
+                        //   index: 'XXX'
+                        // }
+                        // 在成功回调中加入下面这行代码，并将获取到的数据传入:
+                        // picker.render(your data)
+                        console.log(picker.result2);
+                        userRequest("/userAddress/queryNationAddressList", {
+                            code: picker.result2.id  }).then(function (response) {
+                            for (var i in response){
+                                response[i].id=response[i].code
+                            }
+                            picker.render(response)
+                        })
+                    },
+                    function () {
+                        console.log(picker.result3);
+                        userRequest("/userAddress/queryNationAddressList", {
+                            code: picker.result3.id  }).then(function (response) {
+                            for (var i in response){
+                                response[i].id=response[i].code
+                            }
+                            picker.render(response)
+                        })
+                    },
+
+                ],
+                success: function (arr) {
+                    var adds=[];
+                    for (var i in arr){
+                        adds.push(arr[i].value);
+                    }
+                    page.showAddr=adds.join(" ");
+
+
+                }
+            })
+
+
             window.addEventListener('scroll', this.scrollToTop)
             var gallerySwiper = new Swiper('#gallery', {
                 spaceBetween: 10,
@@ -545,6 +601,23 @@
                             top: 50%;
                             margin-top: -.12rem;
                             font-size: .3rem;
+                        }
+                        .addressWarp{
+                            position: relative;
+                            margin-left: .75rem;
+                            padding-left: .25rem;
+                            #address-input{
+                                width: 100%;
+                                background-color: transparent;
+                                border: 0;
+                            }
+                            .address-arrow{
+                                position: absolute;
+                                right: 0;
+                                top: 50%;
+                                margin-top: -.12rem;
+                                font-size: .3rem;
+                            }
                         }
                     }
                 }
